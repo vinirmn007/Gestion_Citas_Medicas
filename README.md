@@ -9,6 +9,7 @@
 # Objetivos del proyecto: 
 **General:**  
 - Desarrollar una aplicación web que permita gestionar las actividades de un consultorio médico.  
+  
 **Especificos:**  
  - Permitir al usuario registrarse con sus credenciales  
  - Permitir al usuario generar turnos para citas médicas  
