@@ -1,5 +1,7 @@
 package com.gestionCitas.models;
 
+import com.gestionCitas.list.LinkedList;
+
 public class HistorialMedico {
     private Integer id;
     private String alergias;
@@ -8,7 +10,7 @@ public class HistorialMedico {
     private String medicacionActual;
     private String patologiasPasadas;
     //private Persona paciente;
-    //private LinkedList<CitaMedica> citasMedicas;
+    private LinkedList<CitaMedica> citasMedicas;
 
     public HistorialMedico() {
         this.id = 0;
@@ -18,7 +20,7 @@ public class HistorialMedico {
         this.medicacionActual = "";
         this.patologiasPasadas = "";
         //this.paciente = null;
-        //this.citasMedicas = new LinkedList<>();
+        this.citasMedicas = new LinkedList<>();
     }
 
     public Integer getId() {
@@ -69,7 +71,7 @@ public class HistorialMedico {
         this.patologiasPasadas = patologiasPasadas;
     }
 
-    /*public LinkedList<CitaMedica> getCitasMedicas() {
+    public LinkedList<CitaMedica> getCitasMedicas() {
         return this.citasMedicas;
     }
 
@@ -77,7 +79,7 @@ public class HistorialMedico {
         this.citasMedicas = citasMedicas;
     }
     
-    public Persona getPaciente() {
+    /*public Persona getPaciente() {
         return this.paciente;
     }
 
