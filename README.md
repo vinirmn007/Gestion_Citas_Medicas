@@ -9,8 +9,8 @@
 # Objetivos del proyecto:  
   
 # TDA:  
-![TDA_Arquitectura2](https://github.com/user-attachments/assets/54f5e1bd-7ac1-49ce-a8a5-9292852e89bd)  
-
+![TDA_Arquitecturatrans](https://github.com/user-attachments/assets/27de1cc5-bedc-452a-9d1b-b58c3dd020ac)  
+  
 # Modulos del proyecto:
  - **Módulo de Roles:** Este módulo se encarga de la gestión de los distintos roles dentro del sistema web. Asignado a Estefania Cale  
  - **Módulo de Usuarios:** Este módulo se encarga de la información de los usuarios y su relación con los turnos y citas médicas. Asignado a David Toledo  
