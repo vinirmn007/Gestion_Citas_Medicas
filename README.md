@@ -9,7 +9,7 @@
 # Objetivos del proyecto:  
   
 # TDA:  
-![TDA_Arquitecturatrans](https://github.com/user-attachments/assets/27de1cc5-bedc-452a-9d1b-b58c3dd020ac)  
+![TDA_Arquitectura2](https://github.com/user-attachments/assets/faf759ef-25c9-4e98-876f-4ff492dac86f)  
   
 # Modulos del proyecto:
  - **Módulo de Roles:** Este módulo se encarga de la gestión de los distintos roles dentro del sistema web. Asignado a Estefania Cale  
