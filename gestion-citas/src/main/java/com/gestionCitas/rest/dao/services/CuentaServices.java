@@ -3,11 +3,11 @@ import com.practica1.rest.controller.dao.ProyectoDao;
 import com.practica1.rest.controller.tda.list.LinkedList;
 import com.practica1.rest.models.Proyecto;
 
-public class ProyectoServices {
-    private ProyectoDao obj;
+public class CuentaServices {
+    private CuentaDao obj;
 
-    public ProyectoServices() {
-        obj = new ProyectoDao();
+    public CuentaServices() {
+        obj = new CuentaDao();
     }
     
     public Boolean save() throws Exception {
@@ -18,12 +18,12 @@ public class ProyectoServices {
         return obj.getListAll();
     }
 
-    public Proyecto getProyecto() {
-        return obj.getProyecto();
+    public Proyecto getCuenta() {
+        return obj.getCuenta();
     }
 
-    public void setProyecto(Proyecto proyecto) {
-        obj.setProyecto(proyecto);
+    public void setCuenta(Cuenta cuenta) {
+        obj.setProyecto(cuenta);
     }
 
 }
