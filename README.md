@@ -6,7 +6,16 @@
   - Boris Rengel  
   - David Toledo
 
-# Objetivos del proyecto:  
+# Objetivos del proyecto: 
+**General:**  
+- Desarrollar una aplicación web que permita gestionar las actividades de un consultorio médico.  
+**Especificos:**  
+ - Permitir al usuario registrarse con sus credenciales  
+ - Permitir al usuario generar turnos para citas médicas  
+ - Permitir guardar el Historial Médico después de cada Cita Médica  
+ - Permitir la creación de la Solicitud de Exámenes Médicos por parte del Médico para cada paciente  
+ - Permitir la creación de Recetas Médicas por parte del Médico en base a un diagnóstico  
+ - Permitir la visualización de todos los datos del paciente, por parte de su persona.  
   
 # TDA:  
 ![TDA_Arquitectura2](https://github.com/user-attachments/assets/faf759ef-25c9-4e98-876f-4ff492dac86f)  
