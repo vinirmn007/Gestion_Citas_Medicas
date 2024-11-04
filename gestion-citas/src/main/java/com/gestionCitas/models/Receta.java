@@ -1,6 +1,6 @@
 package com.gestionCitas.models;
 
-import com.gestionCitas.controls.estructures.list.LinkedList;
+import java.util.LinkedList;
 
 public class Receta {
     private int id;
