@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <groupId>com.gestionCitas.rest</groupId>
     <groupId>com.gestionCitas.rest</groupId>
     <artifactId>gestion-citas</artifactId>
     <packaging>jar</packaging>
@@ -22,7 +22,6 @@
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-grizzly2-http</artifactId>
-            <version>${jersey.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -35,34 +34,14 @@
             <version>2.12.2</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.inject</groupId>
-            <artifactId>jersey-hk2</artifactId>
-            <version>${jersey.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-json-binding</artifactId>
-            <version>${jersey.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
-            <version>${jersey.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.ws.rs</groupId>
-            <artifactId>jakarta.ws.rs-api</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.activation</groupId>
-            <artifactId>jakarta.activation-api</artifactId>
-            <version>2.1.0</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.2</version>
+            <version>4.9</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -77,9 +56,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>2.5.1</version>
                 <inherited>true</inherited>
                 <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
@@ -87,7 +68,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>1.2.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -96,11 +77,15 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.example.gestion.citas.rest.Main</mainClass>
+                    <mainClass>com.gestionCitas.rest.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+    <properties>
+        <jersey.version>2.17</jersey.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <properties>
         <jersey.version>2.17</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
