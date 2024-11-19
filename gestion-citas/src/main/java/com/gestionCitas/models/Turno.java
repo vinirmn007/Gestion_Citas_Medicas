@@ -1,6 +1,8 @@
-package models;
+package com.gestionCitas.models;
 
 import java.util.Date;
+
+import com.gestionCitas.models.enums.Estado;
 
 public class Turno {
     private int id;

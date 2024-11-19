@@ -2,14 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.example.gestion.citas.model;
+package com.gestionCitas.models;
 
 /**
  *
  * @author david
  */
-import com.example.gestion.citas.enums.Identificacion;
-import com.example.gestion.citas.enums.Genero;
+import com.gestionCitas.models.enums.*;;
 
 public class Persona {
     private String nombre;

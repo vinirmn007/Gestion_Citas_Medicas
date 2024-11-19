@@ -1,6 +1,6 @@
 package com.gestionCitas.models;
 
-import com.gestionCitas.list.LinkedList;
+import com.gestionCitas.controls.estructures.list.LinkedList;
 
 public class HistorialMedico {
     private Integer id;
