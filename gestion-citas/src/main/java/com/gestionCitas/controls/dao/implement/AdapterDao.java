@@ -25,7 +25,7 @@ public class AdapterDao <T> implements InterfazDao<T> {
             T[] matrix = (T[]) gson.fromJson(data, java.lang.reflect.Array.newInstance(clazz, 0).getClass());
             list.toList(matrix);
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
         return list;
     }
@@ -60,6 +60,56 @@ public class AdapterDao <T> implements InterfazDao<T> {
     public void delete(Integer id) throws Exception {
         LinkedList<T> list = listAll();
         list.delete(id);
+        String info = gson.toJson(list.toArray());
+        saveFile(info);
+    }
+
+    //METODOS PARA ACTUALIZAR, ELIMINAR Y OBTENER MEDIANTE EL ID DE CADA MODELO
+    @Override
+    public void mergeById(T obj, Integer id) throws Exception {
+        LinkedList<T> list = listAll();
+
+        for (int i = 0; i < list.getSize(); i++) {
+            T objActual = list.get(i);
+            Integer objId = (Integer) objActual.getClass().getMethod("getId").invoke(objActual);
+            if (objId.equals(id)) {
+                list.update(obj, i);
+                break;
+            }
+        }
+
+        String info = gson.toJson(list.toArray());
+        saveFile(info);
+    }
+
+    @Override
+    public T getById(Integer id) throws Exception {
+        LinkedList<T> list = listAll();
+        if (!list.isEmpty()) {
+            for (int i = 0; i < list.getSize(); i++) {
+                T obj = list.get(i);
+                Integer objId = (Integer) obj.getClass().getMethod("getId").invoke(obj);
+                if (objId == id) {
+                    return obj;
+                }
+            }
+        } 
+        return null;
+    }
+
+    @Override
+    public void deleteById(Integer id) throws Exception {
+        LinkedList<T> list = listAll();
+        
+        for (int i = 0; i < list.getSize(); i++) {
+            T obj = list.get(i);
+            Integer objId = (Integer) obj.getClass().getMethod("getId").invoke(obj);
+            if (objId == id) {
+                list.delete(i);
+                break;
+            }
+        }
+
         String info = gson.toJson(list.toArray());
         saveFile(info);
     }
