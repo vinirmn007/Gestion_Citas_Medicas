@@ -1,6 +1,6 @@
 package com.gestionCitas.models;
 
-import com.gestionCitas.controls.estructures.list.LinkedList;
+import com.gestionCitas.controls.estructures.stack.Stack;
 
 public class HistorialMedico {
     private Integer id;
@@ -9,8 +9,8 @@ public class HistorialMedico {
     private String antecendentesFamiliares;
     private String medicacionActual;
     private String patologiasPasadas;
-    //private Persona paciente;
-    private LinkedList<CitaMedica> citasMedicas;
+    private Persona paciente;
+    private Stack<CitaMedica> citasMedicas;
 
     public HistorialMedico() {
         this.id = 0;
@@ -19,8 +19,8 @@ public class HistorialMedico {
         this.antecendentesFamiliares = "";
         this.medicacionActual = "";
         this.patologiasPasadas = "";
-        //this.paciente = null;
-        this.citasMedicas = new LinkedList<>();
+        this.paciente = null;
+        this.citasMedicas = new Stack<>(100);
     }
 
     public Integer getId() {
@@ -71,19 +71,19 @@ public class HistorialMedico {
         this.patologiasPasadas = patologiasPasadas;
     }
 
-    public LinkedList<CitaMedica> getCitasMedicas() {
+    public Stack<CitaMedica> getCitasMedicas() {
         return this.citasMedicas;
     }
 
-    public void setCitasMedicas(LinkedList<CitaMedica> citasMedicas) {
+    public void setCitasMedicas(Stack<CitaMedica> citasMedicas) {
         this.citasMedicas = citasMedicas;
     }
     
-    /*public Persona getPaciente() {
+    public Persona getPaciente() {
         return this.paciente;
     }
 
     public void setPaciente(Persona paciente) {
         this.paciente = paciente;
-    }*/
+    }
 }

@@ -6,7 +6,7 @@ public class CitaMedica {
     private String motivo;
     private SignosVitales signosVitales;
     private HistorialMedico historialMedico;
-    //private Turno turno;
+    private Turno turno;
 
     public CitaMedica() {
         this.id = 0;
@@ -14,7 +14,7 @@ public class CitaMedica {
         this.observaciones = "";
         this.signosVitales = null;
         this.historialMedico = null;
-        //this.turno = null;
+        this.turno = null;
     }
 
     public Integer getId() {
@@ -57,11 +57,11 @@ public class CitaMedica {
         this.historialMedico = historialMedico;
     }
 
-    /*public Turno getTurno() {
+    public Turno getTurno() {
         return this.turno;
     }
 
     public void setTurno(Turno turno) {
         this.turno = turno;
-    }*/
+    }
 }
