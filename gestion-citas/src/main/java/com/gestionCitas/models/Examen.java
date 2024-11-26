@@ -4,7 +4,7 @@ import com.gestionCitas.models.enums.TipoExamen;
 
 public class Examen {
     private int id;
-    private Estado tipo;
+    private TipoExamen tipo;
     private String descripcion;
     private Integer idDiagnostico;
 
