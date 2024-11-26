@@ -5,10 +5,11 @@ public class Medicamento {
     private String nombre;
     private String dosis;
     
-    public Medicamento(int id, String nombre, String dosis) {
-        this.id = id;
-        this.nombre = nombre;
-        this.dosis = dosis;
+
+    public Medicamento() {
+        this.id = 0;
+        this.nombre = "";
+        this.dosis = "";
     }
 
     public int getId() {

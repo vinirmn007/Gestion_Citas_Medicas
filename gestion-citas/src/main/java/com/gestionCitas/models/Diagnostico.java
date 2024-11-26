@@ -3,10 +3,10 @@ package com.gestionCitas.models;
 public class Diagnostico {
     private int id;
     private String descripcion;
-
-    public Diagnostico(int id, String descripcion) {
-        this.id = id;
-        this.descripcion = descripcion;
+    
+    public Diagnostico() {
+        this.id = 0;
+        this.descripcion = "";
     }
 
     public Diagnostico(String descripcion) {

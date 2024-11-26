@@ -8,10 +8,10 @@ public class Receta {
     private LinkedList<Medicamento> medicamentos;
 
 
-    public Receta(int id, String prescripcion, LinkedList<Medicamento> medicamentos) {
-        this.id = id;
-        this.prescripcion = prescripcion;
-        this.medicamentos = medicamentos;
+    public Receta (){
+        this.id = 0;
+        this.prescripcion = "";
+        this.medicamentos = new LinkedList<Medicamento>();
     }
 
     public int getId() {
