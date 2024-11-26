@@ -4,15 +4,16 @@ import com.gestionCitas.models.enums.*;
 
 public class Examen {
     private int id;
-    private Estado tipo;
+    private TipoExamen tipo;
     private String descripcion;
 
-    public Examen(int id, Estado tipo, String descripcion) {
-        this.id = id;
-        this.tipo = tipo;
-        this.descripcion = descripcion;
-    }
 
+    public Examen() {
+        this.id = 0;
+        this.tipo = TipoExamen.LABORATORIO;
+        this.descripcion = "";
+    }
+    
     public int getId() {
         return id;
     }
@@ -21,11 +22,11 @@ public class Examen {
         this.id = id;
     }
 
-    public Estado getTipo() {
+    public TipoExamen getTipo() {
         return tipo;
     }
 
-    public void setTipo(Estado tipo) {
+    public void setTipo(TipoExamen tipo) {
         this.tipo = tipo;
     }
 
