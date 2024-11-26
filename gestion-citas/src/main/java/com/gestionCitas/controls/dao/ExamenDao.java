@@ -52,4 +52,14 @@ public class ExamenDao extends AdapterDao<Examen> {
             return false;
         }
     }
+
+    public Boolean delete() throws Exception {
+        try {
+            this.deleteById(this.examen.getId());
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

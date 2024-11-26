@@ -52,4 +52,14 @@ public class DiagnosticoDao extends AdapterDao<Diagnostico> {
             return false;
         }
     }
+
+    public Boolean delete() throws Exception {
+        try {
+            this.deleteById(this.diagnostico.getId());
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

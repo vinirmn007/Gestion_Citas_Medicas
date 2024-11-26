@@ -52,4 +52,14 @@ public class MedicamentoDao extends AdapterDao<Medicamento> {
             return false;
         }
     }
+
+    public Boolean delete() throws Exception {
+        try {
+            this.deleteById(this.medicamento.getId());
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

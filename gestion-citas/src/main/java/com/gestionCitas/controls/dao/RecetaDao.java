@@ -52,4 +52,14 @@ public class RecetaDao extends AdapterDao<Receta> {
             return false;
         }
     }
+
+    public Boolean delete() throws Exception {
+        try {
+            this.deleteById(this.receta.getId());
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
