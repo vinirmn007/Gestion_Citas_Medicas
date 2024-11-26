@@ -16,7 +16,7 @@ import com.gestionCitas.models.Persona;
 import com.gestionCitas.models.Turno;
 import com.gestionCitas.models.enums.Estado;
 
-@Path("citasMedicas")
+@Path("CitaMedicas")
 public class CitaMedicaAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -82,7 +82,7 @@ public class CitaMedicaAPI {
             ts.update();
 
             res.put("msg", "OK");
-            res.put("data", "Cita registrada correctamente");
+            res.put("data", "Famila registrada correctamente");
 
             return Response.ok(res).build();
         } catch (Exception e) {
@@ -96,14 +96,14 @@ public class CitaMedicaAPI {
     @Path("/get/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCita(@PathParam("id") Integer id) throws Exception {
+    public Response getFamily(@PathParam("id") Integer id) throws Exception {
         HashMap map = new HashMap<>();
         CitaMedicaServices cms = new CitaMedicaServices();
         CitaMedica CitaMedica = cms.get(id);
 
         if (CitaMedica == null || CitaMedica.getId() == null) {
             map.put("msg", "Error");
-            map.put("data", "No existe esa Cita");
+            map.put("data", "No existe esa persona");
             return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
         }
 
@@ -210,12 +210,13 @@ public class CitaMedicaAPI {
         try {
             CitaMedicaServices cms = new CitaMedicaServices();
 
-            cms.getCitaMedica().setObservaciones(map.get("observaciones").toString());
-            cms.getCitaMedica().setMotivo(map.get("motivo").toString());
+            cms.setCitaMedica(cms.get(Integer.parseInt(map.get("id").toString())));
+            cms.getCitaMedica().setApellido(map.get("apellido").toString());
+            cms.getCitaMedica().setNroIntegrantes(Integer.parseInt(map.get("nroIntegrantes").toString()));
             cms.update();
 
             res.put("msg", "OK");
-            res.put("data", "Cita actualizada correctamente");
+            res.put("data", "Famila actualizada correctamente");
 
             return Response.ok(res).build();
         } catch (Exception e) {
@@ -241,7 +242,7 @@ public class CitaMedicaAPI {
 
             if (CitaMedica == null || CitaMedica.getId() == null) {
                 res.put("msg", "Error");
-                res.put("data", "No existe esa Cita");
+                res.put("data", "No existe esa persona");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
 
@@ -249,7 +250,7 @@ public class CitaMedicaAPI {
             cms.delete();
 
             res.put("msg", "OK");
-            res.put("data", "Cita eliminada correctamente");
+            res.put("data", "Famila eliminada correctamente");
 
             return Response.ok(res).build();
         } catch (Exception e) {
