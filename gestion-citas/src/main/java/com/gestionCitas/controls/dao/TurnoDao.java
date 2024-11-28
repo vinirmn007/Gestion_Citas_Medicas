@@ -2,25 +2,25 @@ package com.gestionCitas.controls.dao;
 
 import com.gestionCitas.controls.dao.implement.AdapterDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
-import com.gestionCitas.models.Estado;
+import com.gestionCitas.models.Turno;
 
-public class EstadoDao extends AdapterDao<Estado>{
-    private Estado estado;
+public class TurnoDao extends AdapterDao<Turno>{
+    private Turno turno;
     private LinkedList listAll;
 
-    public EstadoDao() {
-        super(Estado.class);
+    public TurnoDao() {
+        super(Turno.class);
     }
 
-    public Estado getEstado() {
-        if (estado == null) {
-            this.estado = new Estado();
+    public Turno getTurno() {
+        if (turno == null) {
+            this.turno = new Turno();
         }
-        return this.estado;
+        return this.turno;
     }
 
-    public void setEstado(Estado estado) {
-        this.estado = estado;
+    public void setturno(Turno turno) {
+        this.turno = turno;
     }
 
     public LinkedList getListAll() {
@@ -34,8 +34,8 @@ public class EstadoDao extends AdapterDao<Estado>{
     public Boolean save() throws Exception {
         Integer id = getListAll().getSize() + 1;
         try {
-            estado.setId(id);
-            this.persist(this.estado);
+            turno.setId(id);
+            this.persist(this.turno);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,7 +45,7 @@ public class EstadoDao extends AdapterDao<Estado>{
 
     public Boolean update() throws Exception {
         try {
-            this.mergeById(this.estado, this.estado.getId());
+            this.mergeById(this.turno, this.turno.getId());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,7 +55,7 @@ public class EstadoDao extends AdapterDao<Estado>{
 
     public Boolean delete() throws Exception {
         try {
-            this.deleteById(this.estado.getId());
+            this.deleteById(this.turno.getId());
             return true;
         } catch (Exception e) {
             e.printStackTrace();
