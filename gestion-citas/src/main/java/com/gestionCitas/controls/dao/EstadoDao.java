@@ -13,13 +13,13 @@ public class EstadoDao extends AdapterDao<Estado>{
     }
 
     public Estado getEstado() {
-        if (cita == null) {
-            this.cita = new Estado();
+        if (estado == null) {
+            this.estado = new Estado();
         }
         return this.estado;
     }
 
-    public void setCita(Estado estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
 
