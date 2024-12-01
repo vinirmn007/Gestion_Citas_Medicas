@@ -1,7 +1,10 @@
 **/target/
 
-/.vscode/
+**/.vscode/
 
 **/.venv/
 
 **/__pychache__/
+
+*.pyc
+
