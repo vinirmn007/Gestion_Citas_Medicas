@@ -2,29 +2,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.example.gestion.citas.model;
+package com.gestionCitas.models;
 
 /**
  *
  * @author david
  */
 
-import com.example.gestion.citas.estructuras.Lista;
-import java.util.List;
+import com.gestionCitas.controls.estructures.list.LinkedList;
 
 public class GestionUsuarios {
-    private Lista<Persona> usuarios;
+    private LinkedList<Persona> usuarios;
 
     public GestionUsuarios() {
-        usuarios = new Lista<>();
+        usuarios = new LinkedList<>();
     }
 
     public Persona agregarUsuario(Persona persona) {
-        usuarios.agregar(persona);
+        usuarios.add(persona);
         return persona;
     }
 
-    public List<Persona> obtenerTodos() {
-        return usuarios.obtenerTodos();
+    public LinkedList<Persona> obtenerTodos() {
+        return usuarios;
     }
 }
