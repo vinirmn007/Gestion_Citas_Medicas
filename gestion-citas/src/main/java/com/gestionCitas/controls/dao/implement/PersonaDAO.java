@@ -3,33 +3,53 @@ package com.gestionCitas.controls.dao.implement;
 import com.gestionCitas.models.Persona;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 
-public class PersonaDAO extends AdapterDao<Persona> {
+public class PersonaDAO {
+    private Persona persona;
+    private LinkedList<Persona> listAll;
 
     public PersonaDAO() {
-        super(Persona.class);
-    }
-    /*
-    public Persona findById(int id) throws Exception {
-        LinkedList<Persona> personas = listAll();
-        for (int i = 0; i < personas.size(); i++) {
-            Persona persona = personas.get(i);
-            if (persona.getId() == id) {
-                return persona;
-            }
-        }
-        return null;
+        this.listAll = new LinkedList<>();
     }
 
-    public LinkedList<Persona> findByName(String nombre) throws Exception {
-        LinkedList<Persona> personas = listAll();
-        LinkedList<Persona> resultado = new LinkedList<>();
-
-        for (int i = 0; i < personas.size(); i++) {
-            Persona persona = personas.get(i);
-            if (persona.getNombre().toLowerCase().contains(nombre.toLowerCase())) {
-                resultado.add(persona);
-            }
+    public Boolean save() throws Exception {
+        try {
+            int id = listAll.size() + 1;
+            persona.setNumeroIdentificacion(String.valueOf(id));
+            listAll.add(persona);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-        return resultado;
-    }*/
+    }
+
+    public Boolean update() throws Exception {
+        try {
+            for (int i = 0; i < listAll.size(); i++) {
+                if (listAll.get(i).getNumeroIdentificacion().equals(persona.getNumeroIdentificacion())) {
+                    listAll.set(i, persona);
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Boolean delete() throws Exception {
+        try {
+            for (int i = 0; i < listAll.size(); i++) {
+                if (listAll.get(i).getNumeroIdentificacion().equals(persona.getNumeroIdentificacion())) {
+                    listAll.remove(i);
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
