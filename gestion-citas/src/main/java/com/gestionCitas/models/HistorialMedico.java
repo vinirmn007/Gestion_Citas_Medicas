@@ -9,8 +9,8 @@ public class HistorialMedico {
     private String antecendentesFamiliares;
     private String medicacionActual;
     private String patologiasPasadas;
-    private Persona paciente;
-    private Stack<CitaMedica> citasMedicas;
+    private Integer pacienteId;
+    private Stack<Integer> citasMedicas;
 
     public HistorialMedico() {
         this.id = 0;
@@ -19,7 +19,7 @@ public class HistorialMedico {
         this.antecendentesFamiliares = "";
         this.medicacionActual = "";
         this.patologiasPasadas = "";
-        this.paciente = null;
+        this.pacienteId = 0;
         this.citasMedicas = new Stack<>(100);
     }
 
@@ -71,19 +71,19 @@ public class HistorialMedico {
         this.patologiasPasadas = patologiasPasadas;
     }
 
-    public Stack<CitaMedica> getCitasMedicas() {
+    public Stack<Integer> getCitasMedicas() {
         return this.citasMedicas;
     }
 
-    public void setCitasMedicas(Stack<CitaMedica> citasMedicas) {
+    public void setCitasMedicas(Stack<Integer> citasMedicas) {
         this.citasMedicas = citasMedicas;
     }
     
-    public Persona getPaciente() {
-        return this.paciente;
+    public Integer getPacienteId() {
+        return this.pacienteId;
     }
 
-    public void setPaciente(Persona paciente) {
-        this.paciente = paciente;
+    public void setPacienteId(Integer pacienteId) {
+        this.pacienteId = pacienteId;
     }
 }

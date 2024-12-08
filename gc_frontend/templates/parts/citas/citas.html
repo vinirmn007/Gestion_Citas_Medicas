@@ -1,0 +1,44 @@
+{% extends "base_site.html" %}
+{% block title %}Histotial de Citas Medicas{% endblock %}
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+            <div class="x_title">
+                <h2>Historial de Citas Medicas</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Observaciones</th>
+                        <th>Motivo</th>
+                        <th>Turno</th>
+                        <th>Detalle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cita in citas %}
+                    <tr>
+                        <th scope="row">{{cita.id}}</th>
+                        <td>{{cita.observaciones}}</td>
+                        <td>{{cita.motivo}}</td>
+                        <td>{{cita.turnoId}}</td>
+                        <td>
+                            <a href="#">Ver</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
