@@ -1,24 +1,27 @@
 package com.gestionCitas.models;
 
 import com.gestionCitas.controls.estructures.stack.Stack;
+import com.gestionCitas.models.enums.TipoSangre;
 
 public class HistorialMedico {
     private Integer id;
     private String alergias;
-    private String tipoSangre;
+    private TipoSangre tipoSangre;
     private String antecendentesFamiliares;
     private String medicacionActual;
     private String patologiasPasadas;
+    private String discapacidad;
     private Integer pacienteId;
     private Stack<Integer> citasMedicas;
 
     public HistorialMedico() {
         this.id = 0;
         this.alergias = "";
-        this.tipoSangre = "";
+        this.tipoSangre = TipoSangre.DESCONOCIDO;
         this.antecendentesFamiliares = "";
         this.medicacionActual = "";
         this.patologiasPasadas = "";
+        this.discapacidad = "Ninguna";
         this.pacienteId = 0;
         this.citasMedicas = new Stack<>(100);
     }
@@ -39,11 +42,11 @@ public class HistorialMedico {
         this.alergias = alergias;
     }
 
-    public String getTipoSangre() {
+    public TipoSangre getTipoSangre() {
         return this.tipoSangre;
     }
 
-    public void setTipoSangre(String tipoSangre) {
+    public void setTipoSangre(TipoSangre tipoSangre) {
         this.tipoSangre = tipoSangre;
     }
 
@@ -69,6 +72,14 @@ public class HistorialMedico {
 
     public void setPatologiasPasadas(String patologiasPasadas) {
         this.patologiasPasadas = patologiasPasadas;
+    }
+
+    public String getDiscapacidad() {
+        return this.discapacidad;
+    }
+
+    public void setDiscapacidad(String discapacidad) {
+        this.discapacidad = discapacidad;
     }
 
     public Stack<Integer> getCitasMedicas() {
