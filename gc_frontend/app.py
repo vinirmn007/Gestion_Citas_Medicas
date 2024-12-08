@@ -4,7 +4,7 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
     with app.app_context():
-        from routes.route import router
-        app.register_blueprint(router)
+        from routes.citasRoute import citas_route
+        app.register_blueprint(citas_route)
 
     return app
