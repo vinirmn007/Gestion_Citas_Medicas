@@ -1,5 +1,5 @@
 {% extends "base_site.html" %}
-{% block title %}Registrar Historial Medico{% endblock %}
+{% block title %}Registrar Signos Vitales{% endblock %}
 {% block content %}
 <div class="right_col" role="main">
     <div class="">
@@ -7,7 +7,7 @@
             <div class="col-md-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Registro de Historial Medico</h2>
+                        <h2>Registro de Signos Vitales</h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -34,51 +34,42 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de Sangre</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Estatura</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <select class="form-control" name="tipo_sangre">
-                                        <option>Choose option</option>
-                                        <option>Option one</option>
-                                        <option>Option two</option>
-                                        <option>Option three</option>
-                                        <option>Option four</option>
-                                    </select>
+                                    <input type="number" class="form-control" name="estatura" step="any"
+                                     required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Discapacidad</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Peso</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control" name="discapacidad" placeholder="Ninguna"
-                                        required>
+                                    <input type="number" class="form-control" name="peso" step="any"
+                                     required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Alergias</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Temperatura</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control" name="alergias" placeholder="Ninguna" required>
+                                    <input type="number" class="form-control" name="temperatura" step="any"
+                                     required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Antecedentes Familiares</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Presion Sistolica</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <textarea class="form-control" rows="3" name="antecendentes"></textarea>
+                                    <input type="number" class="form-control" name="presion_s" step="any"
+                                     required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Medicacion Actual</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Presion Diastolica</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control" name="medicacion" placeholder="Ninguna" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Patologias Pasadas</label>
-                                <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <textarea class="form-control" rows="3" name="patologias"></textarea>
+                                    <input type="number" class="form-control" name="presion_d" step="any"
+                                     required>
                                 </div>
                             </div>
 
