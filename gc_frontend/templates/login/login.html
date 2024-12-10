@@ -1,0 +1,83 @@
+{% extends "base_site.html" %}
+
+{% block title %}Login{% endblock title %}
+
+{% block stylesheets %}
+{{ super() }}
+<!-- Animate.css -->
+<link href="{{ url_for('static', filename='vendors/animate.css/animate.min.css') }}" rel="stylesheet">
+<!-- Alertify -->
+<link href="{{ url_for('static', filename='vendors/alertifyjs/css/alertify.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='vendors/alertifyjs/css/custom.alertify.css') }}" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block body_class %}login{% endblock body_class %}
+
+{% block body %}
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="alert-messages">
+  {% for category, message in messages %}
+  <div class="alert {{ category }}">
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<div>
+  <a class="hiddenanchor" id="signup"></a>
+  <a class="hiddenanchor" id="signin"></a>
+  <div class="login_wrapper">
+    <!-- Login Form -->
+    <div class="animate form login_form">
+      <section class="login_content">
+        <form method="POST" action="/login" class="login-form" data-parsley-validate>
+          <h1>Iniciar Sesión</h1>
+          <div class="form-group">
+            <label for="usuario">Usuario:</label>
+            <input type="text" name="usuario" id="usuario" class="form-control required"
+              placeholder="Ingrese su usuario" required>
+          </div>
+          <div class="form-group">
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" name="contrasena" id="contrasena" class="form-control required"
+              placeholder="Ingrese su contraseña" required>
+          </div>
+          <div>
+            <button type="submit" class="btn btn-default submit" name="login">Iniciar Sesión</button>
+          </div>
+          <div class="clearfix"></div>
+          <div class="separator">
+            <p class="change_link">¿Nuevo en el sitio?
+              <a href="/cuenta/registrar" class="to_register"> Crea una cuenta </a>
+            </p>
+            <div class="clearfix"></div>
+            <br />
+            <div>
+              <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
+              <p>©2024 Todos los derechos reservados. Privacidad y Términos.</p>
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+
+
+
+  </div>
+</div>
+{% endblock body %}
+
+{% block scripts %}
+<!-- jQuery -->
+<script src="{{ url_for('static', filename='vendors/jquery/dist/jquery.min.js') }}"></script>
+<!-- Alertify -->
+<script src="{{ url_for('static', filename='vendors/alertifyjs/alertify.min.js') }}"></script>
+<!-- Parsley -->
+<script src="{{ url_for('static', filename='vendors/parsleyjs/dist/parsley.min.js') }}"></script>
+<!-- Login -->
+<script src="{{ url_for('static', filename='build/js/login.js') }}"></script>
+{% endblock scripts %}
