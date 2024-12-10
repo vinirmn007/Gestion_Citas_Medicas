@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "observaciones": "observacionesprueba",
+        "motivo": "motivoprueba",
+        "signosVitalesId": 1,
+        "historialMedicoId": 1,
+        "turnoId": 1
+    },
+    {
+        "id": 2,
+        "observaciones": "observacionesprueba",
+        "motivo": "motivoprueba",
+        "signosVitalesId": 1,
+        "historialMedicoId": 1,
+        "turnoId": 1
+    },
+    {
+        "id": 3,
+        "observaciones": "observacionesprueba",
+        "motivo": "motivoprueba",
+        "signosVitalesId": 1,
+        "historialMedicoId": 1,
+        "turnoId": 1
+    },
+    {
+        "id": 4,
+        "observaciones": "observacionesprueba",
+        "motivo": "motivoprueba",
+        "signosVitalesId": 1,
+        "historialMedicoId": 1,
+        "turnoId": 1
+    },
+    {
+        "id": 5,
+        "observaciones": "observacionesprueba",
+        "motivo": "motivoprueba",
+        "signosVitalesId": 1,
+        "historialMedicoId": 1,
+        "turnoId": 1
+    },
+    {
+        "id": 6,
+        "observaciones": "observacionesprueba",
+        "motivo": "motivoprueba",
+        "signosVitalesId": 1,
+        "historialMedicoId": 1,
+        "turnoId": 1
+    },
+    {
+        "id": 7,
+        "observaciones": "observaciones prueba",
+        "motivo": "motivo prueba",
+        "signosVitalesId": 1,
+        "historialMedicoId": 1,
+        "turnoId": 1
+    }
+]
