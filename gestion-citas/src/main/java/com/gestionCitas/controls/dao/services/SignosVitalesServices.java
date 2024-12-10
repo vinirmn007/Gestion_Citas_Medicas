@@ -36,6 +36,6 @@ public class SignosVitalesServices {
     }
 
     public SignosVitales get(Integer id) throws Exception {
-        return this.obj.get(id);
+        return this.obj.getById(id);
     }
 }
