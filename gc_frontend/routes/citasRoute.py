@@ -71,6 +71,10 @@ def citas_medicas_save():
         flash(f'Error: {str(e)}', category='error')
         return redirect(request.referrer)        
 
+@citas_route.route('/signosVitales/registro')
+def signos_vitales_registro():
+    return render_template('parts/citas/registrar_signos.html')
+
 #PARA VER LOS RECURSOS DEL TEMPLATE
 @citas_route.route('/tablas')
 def tablas():

@@ -20,7 +20,7 @@ import com.gestionCitas.models.enums.Estado;
 public class CitaMedicaAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response saver() throws Exception {
+    public Response getAllCitas() throws Exception {
         HashMap map = new HashMap<>();
         CitaMedicaServices cms = new CitaMedicaServices();
 
