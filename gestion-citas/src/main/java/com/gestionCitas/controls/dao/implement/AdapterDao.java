@@ -25,7 +25,7 @@ public class AdapterDao <T> implements InterfazDao<T> {
             T[] matrix = (T[]) gson.fromJson(data, java.lang.reflect.Array.newInstance(clazz, 0).getClass());
             list.toList(matrix);
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
         return list;
     }
