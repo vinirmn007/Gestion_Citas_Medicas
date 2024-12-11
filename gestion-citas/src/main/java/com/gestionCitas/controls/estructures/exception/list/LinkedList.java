@@ -1,4 +1,4 @@
-package com.gestionCitas.controls.estructures.list;
+package com.gestionCitas.controls.estructures.exception.list;
 
 import com.gestionCitas.controls.estructures.exception.ListEmptyException;
 
