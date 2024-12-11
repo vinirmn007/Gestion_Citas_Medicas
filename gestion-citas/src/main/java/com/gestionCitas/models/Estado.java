@@ -1,4 +1,4 @@
-package models;
+package com.gestionCitas.models;
 
 public enum Estado {
     RESERVADO,

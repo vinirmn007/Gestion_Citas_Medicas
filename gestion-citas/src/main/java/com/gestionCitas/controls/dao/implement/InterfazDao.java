@@ -1,5 +1,5 @@
 package com.gestionCitas.controls.dao.implement;
-import com.gestionCitas.controls.estructures.list.LinkedList;
+import com.gestionCitas.controls.estructures.exception.list.LinkedList;;
 
 public interface InterfazDao <T> {
     public void persist(T obj) throws Exception;

@@ -1,4 +1,4 @@
-package models;
+package com.gestionCitas.models;
 
 import java.util.Date;
 
@@ -6,8 +6,8 @@ public class Turno {
     private int id;
     private int idMedico;
     private int idPaciente;
-    private Date fecha;
-    private Date hora;
+    private String fecha;
+    private String hora;
     private Estado estado;
 
 
@@ -35,19 +35,19 @@ public class Turno {
         this.idPaciente = idPaciente;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
-    public Date getHora() {
+    public String getHora() {
         return hora;
     }
 
-    public void setHora(Date hora) {
+    public void setHora(String hora) {
         this.hora = hora;
     }
 
@@ -63,11 +63,11 @@ public class Turno {
         this.id = 0;
         this.idMedico = 0;
         this.idPaciente = 0;
-        this.fecha = new Date();
-        this.hora = new Date();
+        this.fecha = "";
+        this.hora = "";	
         this.estado = Estado.RESERVADO;
     }
-    public Turno(int id, int idMedico, int idPaciente, Date fecha, Date hora, Estado estado) {
+    public Turno(int id, int idMedico, int idPaciente, String fecha, String hora, Estado estado) {
         this.id = id;
         this.idMedico = idMedico;
         this.idPaciente = idPaciente;
