@@ -1,4 +1,4 @@
-package com.gestionCitas.controls.estructures.list;
+package com.gestionCitas.controls.estructures.exception.list;
 
 public class Node<E> {
     private E info; 

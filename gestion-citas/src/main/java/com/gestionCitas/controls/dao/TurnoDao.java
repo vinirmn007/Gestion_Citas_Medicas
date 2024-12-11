@@ -5,7 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import com.gestionCitas.controls.dao.implement.AdapterDao;
-import com.gestionCitas.controls.estructures.list.LinkedList;
+import com.gestionCitas.controls.estructures.exception.list.LinkedList;
+import java.util.Iterator;
 import com.gestionCitas.models.Turno;
 import com.gestionCitas.models.enums.Estado;
 public class TurnoDao extends AdapterDao<Turno> {
@@ -27,7 +28,7 @@ public class TurnoDao extends AdapterDao<Turno> {
         this.turno = turno;
     }
 
-    public LinkedList getListAll() {
+    public LinkedList<Turno> getListAll() {
         if (listAll == null) {
             this.listAll = listAll();
         }
