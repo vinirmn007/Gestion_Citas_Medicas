@@ -20,7 +20,7 @@ public class TurnoServices {
         this.obj.setTurno(turno);
     }
 
-    public LinkedList getListAll() {
+    public LinkedList<Turno> getListAll() {
         return this.obj.getListAll();
     }
 
