@@ -118,6 +118,11 @@ def login():
 
     return render_template('login/login.html')
 
+@main_route.route('/logout')
+def logout():
+    session.clear()
+    flash('Has cerrado sesión correctamente', category='info')
+    return redirect('/login')
 
 @main_route.route('/logout')
 def logout():
