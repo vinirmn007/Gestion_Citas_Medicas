@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Turnos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gestión de Turnos</h1>
+    </header>
+    <main>
+        <h2>Crear Turno</h2>
+        <form id="createForm">
+            <div class="form-group">
+                <label for="idMedico">ID Médico</label>
+                <input type="number" id="idMedico" name="idMedico" required>
+            </div>
+            <div class="form-group">
+                <label for="idPaciente">ID Paciente</label>
+                <input type="number" id="idPaciente" name="idPaciente" required>
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado</label>
+                <select id="estado" name="estado">
+                    <option value="RESERVADO">Reservado</option>
+                    <option value="CONFIRMADO">Confirmado</option>
+                    <option value="CANCELADO">Cancelado</option>
+                </select>
+            </div>
+            <button type="submit">Crear Turno</button>
+        </form>
+
+        <h2>Resultados</h2>
+        <div id="results" class="results"></div>
+    </main>
+    <script>
+        document.getElementById('createForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = {
+                idMedico: document.getElementById('idMedico').value,
+                idPaciente: document.getElementById('idPaciente').value,
+                estado: document.getElementById('estado').value
+            };
+
+            try {
+                const response = await fetch('/turno/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                document.getElementById('results').innerHTML = `<p>${result.msg}</p>`;
+            } catch (error) {
+                document.getElementById('results').innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
