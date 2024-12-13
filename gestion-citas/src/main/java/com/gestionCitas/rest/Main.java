@@ -7,8 +7,6 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import com.gestionCitas.controls.dao.services.RecetaServices;
-
 /**
  * Main class.
  *
@@ -47,7 +45,7 @@ public class Main {
         ds.getDiagnostico().setDescripcion("Dolor Neurálgico");
         ds.getDiagnostico().setIdCitaMedica(2);
         ds.save();
-        */
+        
 
         // Crear una receta
         RecetaServices rs = new RecetaServices();
