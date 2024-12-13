@@ -75,6 +75,23 @@ def citas_medicas_save():
 def signos_vitales_registro():
     return render_template('parts/citas/registrar_signos.html')
 
+@citas_route.route('/signosVitales/save', methods=['POST'])
+def signos_vitales_save():
+    headers = {'Content-Type': 'application/json'}
+    form = request.form
+    dataForm = {"motivo": form["motivo"],
+                "observaciones": form["observaciones"],
+                "motivo": form["motivo"],
+                "turnoId": int(form["turnoId"])}
+    r = requests.post(URL + 'citasMedicas/save', data=json.dumps(dataForm), headers=headers)
+    data = r.json()
+
+    if r.status_code == 200:
+        flash('Se ha guardado correctamente', category='info')
+    else:
+        flash('No se ha podido guardar', category='error')
+    return redirect('/cita/registro')    
+
 #PARA VER LOS RECURSOS DEL TEMPLATE
 @citas_route.route('/tablas')
 def tablas():
