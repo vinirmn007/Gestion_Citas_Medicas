@@ -1,4 +1,4 @@
-package com.gestionCitas.rest;
+package com.gestionCitas.rest.APIs;
 
 import java.util.HashMap;
 
