@@ -1,5 +1,6 @@
 {% extends "base_site.html" %}
-{% block title %}Diagnosticos{% endblock %}
+{% block title %}
+<title>Diagnosticos</title>{% endblock %}
 {% block content %}
   <div class="right_col" role="main">
     <div class="">
@@ -15,10 +16,9 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Observaciones</th>
-                        <th>Motivo</th>
-                        <th>Turno</th>
-                        <th>Detalle</th>
+                        <th>descripcion</th>
+                        <th>idCitaMedica</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
