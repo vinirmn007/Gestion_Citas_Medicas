@@ -32,6 +32,17 @@ public class HistorialMedicoAPI {
         return Response.ok(map).build();
     }
 
+    @Path("/bloodType")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getType() {
+        HashMap map = new HashMap<>();
+        HistorialMedicoServices hss = new HistorialMedicoServices();
+        map.put("msg", "OK");
+        map.put("data", hss.getAllTiposSangre());
+        return Response.ok(map).build();
+    }
+
     @Path("/saver")
     @GET
     @Produces(MediaType.APPLICATION_JSON)

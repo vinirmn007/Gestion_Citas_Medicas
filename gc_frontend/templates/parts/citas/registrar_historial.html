@@ -37,11 +37,10 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de Sangre</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
                                     <select class="form-control" name="tipo_sangre">
-                                        <option>Choose option</option>
-                                        <option>Option one</option>
-                                        <option>Option two</option>
-                                        <option>Option three</option>
-                                        <option>Option four</option>
+                                        {% for tipo_sangre in tipos_sangre %}
+                                            <option value="{{ tipo_sangre }}">{{ tipo_sangre }}</option>
+                                        {% endfor %}
+
                                     </select>
                                 </div>
                             </div>
