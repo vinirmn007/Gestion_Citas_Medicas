@@ -28,7 +28,7 @@ public class TurnoDao extends AdapterDao<Turno> {
         this.turno = turno;
     }
 
-    public LinkedList<Turno> getListAll() {
+    public LinkedList getListAll() {
         if (listAll == null) {
             this.listAll = listAll();
         }
