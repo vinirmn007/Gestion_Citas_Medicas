@@ -4,7 +4,6 @@ public class CitaMedica {
     private Integer id;
     private String observaciones;
     private String motivo;
-    private String fecha;
     //RELACIONES
     private Integer signosVitalesId;
     private Integer historialMedicoId;
@@ -43,14 +42,6 @@ public class CitaMedica {
 
     public void setMotivo(String motivo) {
         this.motivo = motivo;
-    }
-
-    public String getFecha() {
-        return this.fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
     }
 
     public Integer getSignosVitalesId() {
