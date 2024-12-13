@@ -3,7 +3,8 @@ package com.gestionCitas.controls.dao;
 import com.gestionCitas.controls.dao.implement.AdapterDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Receta;
-
+//gei
+//curry esta sobrevalorado
 public class RecetaDao extends AdapterDao<Receta> {
     private Receta receta;
     private LinkedList listAll;
@@ -52,7 +53,7 @@ public class RecetaDao extends AdapterDao<Receta> {
             return false;
         }
     }
-
+//nose que hace esto, es de chatgpt
     public Boolean delete() throws Exception {
         try {
             this.deleteById(this.receta.getId());

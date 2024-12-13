@@ -9,4 +9,4 @@ URL = "http://localhost:8080/myapp/"
 def citas_medicas():
     r = requests.get(URL + 'diagnostico/list')
     data = r.json().get('data')
-    return render_template('parts/citas/diagnosticos.html', diagnositcos=data)
+    return render_template('parts/diagnostico/diagnostico.html', diagnosticos=data)

@@ -1,8 +1,8 @@
 package com.gestionCitas.controls.dao.services;
 
 import com.gestionCitas.controls.dao.MedicamentoDao;
-import com.gestionCitas.models.Medicamento;
 import com.gestionCitas.controls.estructures.list.LinkedList;
+import com.gestionCitas.models.Medicamento;
 
 public class MedicamentoServices {
     private MedicamentoDao obj;
@@ -37,5 +37,14 @@ public class MedicamentoServices {
 
     public Medicamento get(Integer id) throws Exception {
         return this.obj.get(id);
+    }
+    //Metodo para seleccionar medicamentos de todos lso existentes.
+    public LinkedList<Medicamento> seleccionMedicamentos() throws Exception {
+        LinkedList<Medicamento> allMedicamentos = this.getListAll();
+        
+        allMedicamentos.toArray();
+
+        
+        return null;
     }
 }

@@ -5,14 +5,14 @@ import com.gestionCitas.controls.estructures.list.LinkedList;
 public class Receta {
     private int id;
     private String prescripcion;
-    private LinkedList<Medicamento> medicamentos;
+    private Integer[] idMedicamentos;
     private Integer idDiagnostico;
 
 
     public Receta (){
         this.id = 0;
         this.prescripcion = "";
-        this.medicamentos = new LinkedList<Medicamento>();
+        this.idMedicamentos = null;
         this.idDiagnostico = null;
     }
 
@@ -24,8 +24,13 @@ public class Receta {
         return prescripcion;
     }
 
-    public LinkedList<Medicamento> getMedicamentos() {
-        return medicamentos;
+    
+    public Integer[] getIdMedicamentos() {
+        return idMedicamentos;
+    }
+
+    public void setIdMedicamentos(Integer[] idMedicamentos) {
+        this.idMedicamentos = idMedicamentos;
     }
 
     public void setId(int id) {
@@ -34,10 +39,6 @@ public class Receta {
 
     public void setPrescripcion(String prescripcion) {
         this.prescripcion = prescripcion;
-    }
-
-    public void setMedicamentos(LinkedList<Medicamento> medicamentos) {
-        this.medicamentos = medicamentos;
     }
 
     public Integer getIdDiagnostico() {

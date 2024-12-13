@@ -8,12 +8,7 @@ public class Examen {
     private String descripcion;
     private Integer idDiagnostico;
 
-    public Examen() {
-        this.id = 0;
-        this.tipo = TipoExamen.LABORATORIO;
-        this.descripcion = "";
-        this.idDiagnostico = null;
-    }
+
     
     public int getId() {
         return id;
