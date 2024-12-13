@@ -1,7 +1,7 @@
-package com.gestionCitas.controls.dao.implement;
+package com.gestionCitas.controls.dao;
 
-import com.gestionCitas.models.Medico;
 import com.gestionCitas.controls.estructures.list.LinkedList;
+import com.gestionCitas.models.Medico;
 
 public class MedicoDAO {
 
@@ -14,7 +14,7 @@ public class MedicoDAO {
 
     public Boolean save() throws Exception {
         try {
-            int id = listAll.size() + 1;
+            int id = listAll.getSize() + 1; // Cambiado size() a getSize()
             medico.setNumeroIdentificacion(String.valueOf(id));
             listAll.add(medico);
             return true;
@@ -26,9 +26,9 @@ public class MedicoDAO {
 
     public Boolean update() throws Exception {
         try {
-            for (int i = 0; i < listAll.size(); i++) {
+            for (int i = 0; i < listAll.getSize(); i++) { // Cambiado size() a getSize()
                 if (listAll.get(i).getNumeroIdentificacion().equals(medico.getNumeroIdentificacion())) {
-                    listAll.set(i, medico);
+                    listAll.update(medico, i); // Cambiado set() a update()
                     return true;
                 }
             }
@@ -41,9 +41,9 @@ public class MedicoDAO {
 
     public Boolean delete() throws Exception {
         try {
-            for (int i = 0; i < listAll.size(); i++) {
+            for (int i = 0; i < listAll.getSize(); i++) { // Cambiado size() a getSize()
                 if (listAll.get(i).getNumeroIdentificacion().equals(medico.getNumeroIdentificacion())) {
-                    listAll.remove(i);
+                    listAll.delete(i); // Cambiado remove() a delete()
                     return true;
                 }
             }

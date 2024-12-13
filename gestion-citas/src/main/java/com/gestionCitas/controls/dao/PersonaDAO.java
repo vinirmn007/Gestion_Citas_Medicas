@@ -1,9 +1,10 @@
-package com.gestionCitas.controls.dao.implement;
+package com.gestionCitas.controls.dao;
 
 import com.gestionCitas.models.Persona;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 
 public class PersonaDAO {
+
     private Persona persona;
     private LinkedList<Persona> listAll;
 
@@ -13,7 +14,7 @@ public class PersonaDAO {
 
     public Boolean save() throws Exception {
         try {
-            int id = listAll.size() + 1;
+            int id = listAll.getSize() + 1;
             persona.setNumeroIdentificacion(String.valueOf(id));
             listAll.add(persona);
             return true;
@@ -25,9 +26,9 @@ public class PersonaDAO {
 
     public Boolean update() throws Exception {
         try {
-            for (int i = 0; i < listAll.size(); i++) {
+            for (int i = 0; i < listAll.getSize(); i++) {
                 if (listAll.get(i).getNumeroIdentificacion().equals(persona.getNumeroIdentificacion())) {
-                    listAll.set(i, persona);
+                    listAll.update(persona, i);
                     return true;
                 }
             }
@@ -40,9 +41,9 @@ public class PersonaDAO {
 
     public Boolean delete() throws Exception {
         try {
-            for (int i = 0; i < listAll.size(); i++) {
+            for (int i = 0; i < listAll.getSize(); i++) {
                 if (listAll.get(i).getNumeroIdentificacion().equals(persona.getNumeroIdentificacion())) {
-                    listAll.remove(i);
+                    listAll.delete(i); // Cambiado de remove a delete
                     return true;
                 }
             }
@@ -52,4 +53,3 @@ public class PersonaDAO {
             return false;
         }
     }
-}
