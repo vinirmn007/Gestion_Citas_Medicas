@@ -3,6 +3,7 @@ package com.gestionCitas.controls.dao;
 import com.gestionCitas.controls.dao.implement.AdapterDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Examen;
+import com.gestionCitas.models.enums.TipoExamen;
 
 public class ExamenDao extends AdapterDao<Examen> {
     private Examen examen;
@@ -61,5 +62,13 @@ public class ExamenDao extends AdapterDao<Examen> {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public TipoExamen getTipoExamen(String tipo){
+        return TipoExamen.valueOf(tipo);
+    }
+
+    public TipoExamen[] getTipos(){
+        return TipoExamen.values();
     }
 }
