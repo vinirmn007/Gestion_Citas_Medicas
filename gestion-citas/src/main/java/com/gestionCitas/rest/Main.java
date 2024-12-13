@@ -7,6 +7,8 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import com.gestionCitas.controls.dao.services.DiagnosticoServices;
+
 /**
  * Main class.
  *
@@ -40,13 +42,13 @@ public class Main {
         final HttpServer server = startServer();
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
-        /*
+        
         DiagnosticoServices ds = new DiagnosticoServices();
-        ds.getDiagnostico().setDescripcion("Dolor Neurálgico");
+        ds.getDiagnostico().setDescripcion("Dolor de Estomago");
         ds.getDiagnostico().setIdCitaMedica(2);
         ds.save();
         
-
+        /* 
         // Crear una receta
         RecetaServices rs = new RecetaServices();
         rs.getReceta().setPrescripcion("Tomar 2 pastillas de acetaminofeno");

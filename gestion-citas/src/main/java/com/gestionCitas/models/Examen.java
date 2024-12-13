@@ -6,6 +6,8 @@ public class Examen {
     private int id;
     private TipoExamen tipo;
     private String descripcion;
+    private Boolean estado;
+    private String directorioResultado;
     private Integer idDiagnostico;
 
 
@@ -32,6 +34,22 @@ public class Examen {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
+    public String getDirectorioResultado() {
+        return directorioResultado;
+    }
+
+    public void setDirectorioResultado(String directorioResultado) {
+        this.directorioResultado = directorioResultado;
     }
 
     public Integer getIdDiagnostico() {
