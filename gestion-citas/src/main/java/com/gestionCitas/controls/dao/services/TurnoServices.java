@@ -26,7 +26,7 @@ public class TurnoServices {
         this.obj.setTurno(turno);
     }
 
-    public LinkedList<Turno> getListAll() {
+    public LinkedList getListAll() {
         return this.obj.getListAll();
     }
 

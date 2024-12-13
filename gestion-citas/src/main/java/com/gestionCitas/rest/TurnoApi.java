@@ -300,5 +300,5 @@ public class TurnoApi {
             map.put("data", e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
         }
-    }
+    }*/
 }
