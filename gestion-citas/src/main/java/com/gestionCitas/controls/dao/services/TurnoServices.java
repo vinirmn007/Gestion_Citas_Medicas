@@ -1,8 +1,8 @@
 package com.gestionCitas.controls.dao.services;
 
-import com.gestionCitas.controls.estructures.exception.list.LinkedList;
+import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.controls.dao.TurnoDao;
-import com.gestionCitas.models.Estado;
+import com.gestionCitas.models.enums.Estado;
 import com.gestionCitas.models.Turno;
 
 public class TurnoServices {
@@ -20,7 +20,7 @@ public class TurnoServices {
         this.obj.setTurno(turno);
     }
 
-    public LinkedList<Turno> getListAll() {
+    public LinkedList getListAll() {
         return this.obj.getListAll();
     }
 
@@ -44,8 +44,8 @@ public class TurnoServices {
      * Obtiene una lista de turnos filtrados por estado.
      * @param estado El estado por el cual se quiere filtrar.
      * @return Una lista de turnos con el estado especificado.
-     */
+     
     public LinkedList<Turno> findByEstado(Estado estado) {
         return this.obj.findByEstado(estado);
-    }
+    }*/
 }

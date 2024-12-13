@@ -1,10 +1,10 @@
 package com.gestionCitas.controls.dao;
 
 import com.gestionCitas.controls.dao.implement.AdapterDao;
-import com.gestionCitas.controls.estructures.exception.list.LinkedList;
+import com.gestionCitas.controls.estructures.list.LinkedList;
 import java.util.Iterator;
 import com.gestionCitas.models.Turno;
-import com.gestionCitas.models.Estado;
+import com.gestionCitas.models.enums.Estado;
 public class TurnoDao extends AdapterDao<Turno> {
     private Turno turno;
     private LinkedList<Turno> listAll;
@@ -24,7 +24,7 @@ public class TurnoDao extends AdapterDao<Turno> {
         this.turno = turno;
     }
 
-    public LinkedList<Turno> getListAll() {
+    public LinkedList getListAll() {
         if (listAll == null) {
             this.listAll = listAll();
         }
@@ -91,7 +91,7 @@ public class TurnoDao extends AdapterDao<Turno> {
      * Filtra los turnos por estado.
      * @param estado El estado por el cual se quiere filtrar.
      * @return Una lista de turnos que coinciden con el estado.
-     */
+     
     public LinkedList<Turno> findByEstado(Estado estado) {
         LinkedList<Turno> result = new LinkedList<>();
         for (Turno t : getListAll().toArray()) {
@@ -100,5 +100,5 @@ public class TurnoDao extends AdapterDao<Turno> {
             }
         }
         return result;
-    }
+    }*/
 }
