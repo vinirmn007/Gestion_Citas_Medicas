@@ -3,6 +3,7 @@ package com.gestionCitas.controls.dao.services;
 import com.gestionCitas.controls.dao.HistorialMedicoDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.HistorialMedico;
+import com.gestionCitas.models.enums.TipoSangre;
 
 public class HistorialMedicoServices {
     private HistorialMedicoDao obj;
@@ -33,5 +34,13 @@ public class HistorialMedicoServices {
 
     public HistorialMedico get(Integer id) throws Exception {
         return this.obj.getById(id);
+    }
+
+    public TipoSangre getTipoSangre(String tipo) {
+        return this.obj.getTipoSangre(tipo);
+    }
+
+    public TipoSangre[] getAllTiposSangre() {
+        return this.obj.getAllTiposSangre();
     }
 }

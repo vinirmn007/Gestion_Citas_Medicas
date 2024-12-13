@@ -38,8 +38,10 @@ public class CitaMedicaAPI {
 
             cms.getCitaMedica().setObservaciones(map.get("observaciones").toString());
             cms.getCitaMedica().setMotivo(map.get("motivo").toString());
-            cms.getCitaMedica().setSignosVitalesId(Integer.parseInt(map.get("signosVitalesId").toString()));
-            cms.getCitaMedica().setHistorialMedicoId(Integer.parseInt(map.get("historialMedicoId").toString()));
+            //cms.getCitaMedica().setSignosVitalesId(Integer.parseInt(map.get("signosVitalesId").toString()));
+            //cms.getCitaMedica().setHistorialMedicoId(Integer.parseInt(map.get("historialMedicoId").toString()));
+            cms.getCitaMedica().setSignosVitalesId(0);
+            cms.getCitaMedica().setHistorialMedicoId(0);
             cms.getCitaMedica().setTurnoId(Integer.parseInt(map.get("turnoId").toString()));
             cms.save();
 
