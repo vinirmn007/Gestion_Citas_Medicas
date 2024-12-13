@@ -1,0 +1,43 @@
+{% extends "base_site.html" %}
+{% block title %}Diagnosticos{% endblock %}
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+            <div class="x_title">
+                <h2>Diagnosticos</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Observaciones</th>
+                        <th>Motivo</th>
+                        <th>Turno</th>
+                        <th>Detalle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for diagnostico in diagnosticos %}
+                    <tr>
+                        <th scope="row">{{diagnostico.id}}</th>
+                        <td>{{diagnostico.descripcion}}</td>
+                        <td>{{diagnostico.idCitaMedica}}</td>
+                        <td>
+                            <a href="#">Ver</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

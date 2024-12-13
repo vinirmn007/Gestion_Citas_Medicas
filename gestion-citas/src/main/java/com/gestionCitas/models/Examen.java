@@ -1,18 +1,20 @@
 package com.gestionCitas.models;
 
-import com.gestionCitas.models.enums.*;
+import com.gestionCitas.models.enums.TipoExamen;
 
 public class Examen {
     private int id;
-    private Estado tipo;
+    private TipoExamen tipo;
     private String descripcion;
+    private Integer idDiagnostico;
 
-    public Examen(int id, Estado tipo, String descripcion) {
-        this.id = id;
-        this.tipo = tipo;
-        this.descripcion = descripcion;
+    public Examen() {
+        this.id = 0;
+        this.tipo = TipoExamen.LABORATORIO;
+        this.descripcion = "";
+        this.idDiagnostico = null;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -21,11 +23,11 @@ public class Examen {
         this.id = id;
     }
 
-    public Estado getTipo() {
+    public TipoExamen getTipo() {
         return tipo;
     }
 
-    public void setTipo(Estado tipo) {
+    public void setTipo(TipoExamen tipo) {
         this.tipo = tipo;
     }
 
@@ -36,5 +38,14 @@ public class Examen {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    public Integer getIdDiagnostico() {
+        return idDiagnostico;
+    }   
+
+    public void setIdDiagnostico(Integer idDiagnostico) {
+        this.idDiagnostico = idDiagnostico;
+    }
+    
 }
 

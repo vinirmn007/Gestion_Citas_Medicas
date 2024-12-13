@@ -3,10 +3,21 @@ package com.gestionCitas.models;
 public class Diagnostico {
     private int id;
     private String descripcion;
+    private Integer idCitaMedica;
 
-    public Diagnostico(int id, String descripcion) {
-        this.id = id;
-        this.descripcion = descripcion;
+
+    public Integer getIdCitaMedica() {
+        return idCitaMedica;
+    }
+
+    public void setIdCitaMedica(Integer idCitaMedica) {
+        this.idCitaMedica = idCitaMedica;
+    }
+    
+    public Diagnostico() {
+        this.id = 0;
+        this.descripcion = "";
+        this.idCitaMedica = null;
     }
 
     public Diagnostico(String descripcion) {

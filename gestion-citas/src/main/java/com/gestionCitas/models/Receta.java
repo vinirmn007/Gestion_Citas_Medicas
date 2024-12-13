@@ -6,12 +6,14 @@ public class Receta {
     private int id;
     private String prescripcion;
     private LinkedList<Medicamento> medicamentos;
+    private Integer idDiagnostico;
 
 
-    public Receta(int id, String prescripcion, LinkedList<Medicamento> medicamentos) {
-        this.id = id;
-        this.prescripcion = prescripcion;
-        this.medicamentos = medicamentos;
+    public Receta (){
+        this.id = 0;
+        this.prescripcion = "";
+        this.medicamentos = new LinkedList<Medicamento>();
+        this.idDiagnostico = null;
     }
 
     public int getId() {
@@ -36,6 +38,14 @@ public class Receta {
 
     public void setMedicamentos(LinkedList<Medicamento> medicamentos) {
         this.medicamentos = medicamentos;
+    }
+
+    public Integer getIdDiagnostico() {
+        return idDiagnostico;
+    }
+
+    public void setIdDiagnostico(Integer idDiagnostico) {
+        this.idDiagnostico = idDiagnostico;
     }
 }
 
