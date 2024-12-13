@@ -7,9 +7,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.gestionCitas.controls.dao.services.TurnoServices;
-import com.gestionCitas.models.Estado;
+import com.gestionCitas.models.enums.Estado;
 import com.gestionCitas.models.Turno;
-import com.gestionCitas.controls.estructures.exception.list.LinkedList;
+import com.gestionCitas.controls.estructures.list.LinkedList;
 
 @Path("/turno")
 public class TurnoApi {
@@ -116,7 +116,7 @@ public class TurnoApi {
         }
     }
 
-    @Path("/filterByEstado/{estado}")
+    /*@Path("/filterByEstado/{estado}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response filterTurnosByEstado(@PathParam("estado") String estado) {
@@ -132,5 +132,5 @@ public class TurnoApi {
             map.put("data", e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
         }
-    }
+    }*/
 }

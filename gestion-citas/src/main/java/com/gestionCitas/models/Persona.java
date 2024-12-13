@@ -7,7 +7,7 @@ import com.gestionCitas.models.enums.Genero;
 import com.gestionCitas.models.enums.Identificacion;
 
 public class Persona {
-    private String id; 
+    private Integer id; 
     private String nombre;
     private String email;
     private String numeroIdentificacion;
@@ -16,7 +16,7 @@ public class Persona {
 
     public Persona() {}
 
-    public Persona(String id, String nombre, String email, String numeroIdentificacion, 
+    public Persona(Integer id, String nombre, String email, String numeroIdentificacion, 
                    Identificacion tipoIdentificacion, Genero genero) {
         this.id = id;
         this.nombre = nombre;
@@ -26,8 +26,8 @@ public class Persona {
         this.genero = genero;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }

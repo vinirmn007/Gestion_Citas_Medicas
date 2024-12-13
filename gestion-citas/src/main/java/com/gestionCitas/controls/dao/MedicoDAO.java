@@ -3,20 +3,35 @@ package com.gestionCitas.controls.dao.implement;
 import com.gestionCitas.models.Medico;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 
-public class MedicoDAO {
+public class MedicoDAO extends AdapterDao<Medico> {
 
     private Medico medico;
     private LinkedList<Medico> listAll;
 
     public MedicoDAO() {
-        this.listAll = new LinkedList<>();
+        super(Medico.class);
+    }
+
+    public Medico getMedico() {
+        return this.medico;
+    }
+
+    public void setMedico(Medico medico) {
+        this.medico = medico;
+    }
+
+    public LinkedList<Medico> getListAll() {
+        if (this.listAll == null) {
+            this.listAll = listAll();
+        }
+        return this.listAll;
     }
 
     public Boolean save() throws Exception {
+        Integer id = getListAll().getSize() + 1;
         try {
-            int id = listAll.size() + 1;
-            medico.setNumeroIdentificacion(String.valueOf(id));
-            listAll.add(medico);
+            medico.setId(id);
+            this.persist(this.medico);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -26,13 +41,8 @@ public class MedicoDAO {
 
     public Boolean update() throws Exception {
         try {
-            for (int i = 0; i < listAll.size(); i++) {
-                if (listAll.get(i).getNumeroIdentificacion().equals(medico.getNumeroIdentificacion())) {
-                    listAll.set(i, medico);
-                    return true;
-                }
-            }
-            return false;
+            this.mergeById(this.medico, this.medico.getId());
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -41,13 +51,8 @@ public class MedicoDAO {
 
     public Boolean delete() throws Exception {
         try {
-            for (int i = 0; i < listAll.size(); i++) {
-                if (listAll.get(i).getNumeroIdentificacion().equals(medico.getNumeroIdentificacion())) {
-                    listAll.remove(i);
-                    return true;
-                }
-            }
-            return false;
+            this.deleteById(this.medico.getId());
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

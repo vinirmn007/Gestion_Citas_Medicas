@@ -9,7 +9,7 @@ import com.gestionCitas.models.enums.Identificacion;
 
 public class Medico {
 
-    private String id;
+    private Integer id;
     private String nombre;
     private String email;
     private String numeroIdentificacion;
@@ -21,7 +21,7 @@ public class Medico {
     public Medico() {
     }
 
-    public Medico(String id, String nombre, String email, String numeroIdentificacion,
+    public Medico(Integer id, String nombre, String email, String numeroIdentificacion,
             Identificacion tipoIdentificacion, Genero genero,
             String especialidad, String numeroLicencia) {
         this.id = id;
@@ -34,11 +34,11 @@ public class Medico {
         this.numeroLicencia = numeroLicencia;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
