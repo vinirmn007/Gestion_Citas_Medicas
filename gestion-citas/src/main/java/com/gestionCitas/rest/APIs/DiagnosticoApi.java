@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 
 import com.gestionCitas.controls.dao.services.CitaMedicaServices;
 import com.gestionCitas.controls.dao.services.DiagnosticoServices;
+import com.gestionCitas.models.Diagnostico;
 import com.google.gson.Gson;
 
 @Path("/diagnostico")
@@ -73,6 +74,88 @@ public class DiagnosticoApi {
         }
         
     }
+
+    @Path("/update")
+    @POST
+    @Consumes (MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateDiagnostico (HashMap map) {
+        HashMap res = new HashMap();
+        try {
+            if (map.get("id") == null) {
+                res.put("msg", "ERROR");
+                res.put("data", "El ID de la inversión es requerido");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
+            DiagnosticoServices ds = new DiagnosticoServices();
+            ds.getDiagnostico().setId(Integer.parseInt(map.get("id").toString()));
+
+            if (ds.getDiagnostico() == null || ds.get(ds.getDiagnostico().getId()) == null) {
+                res.put("msg", "ERROR");
+                res.put("data", "No existe la inversión con el ID proporcionado");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
+            if (map.get("citaM") != null) {
+                CitaMedicaServices cms = new CitaMedicaServices();
+                
+                
+                cms.setCitaMedica(cms.get(Integer.parseInt(map.get("citaM").toString())));
+
+                if (cms.getCitaMedica() == null) {
+                    res.put("msg", "ERROR");
+                    res.put("data", "No existe la citaMedica con el ID proporcionado");
+                    return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                }
+
+                ds.getDiagnostico().setIdCitaMedica(cms.getCitaMedica().getId());
+                ds.getDiagnostico().setDescripcion(map.get("descripcion").toString());
+                ds.update();
+
+                res.put("msg", "OK");
+                res.put("data", "Inversión actualizada");
+                return Response.ok(res).build();
+            } else {
+                res.put("msg", "ERROR");
+                res.put("data", "Faltan los parámetros 'investor' o 'project'");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            res.put("msg", "ERROR");
+            res.put("data", e.toString());
+            return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+        }
+    }
+
+    @Path("/delete")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response delete(HashMap map) {
+        HashMap res = new HashMap();
+
+        try {
+            DiagnosticoServices ds = new DiagnosticoServices();
+            ds.getDiagnostico().setId(Integer.parseInt(map.get("id").toString()));
+            Diagnostico d = ds.get(ds.getDiagnostico().getId());
+            ds.setDiagnostico(d);
+            ds.delete();
+
+            res.put("msg", "OK");
+            res.put("data", "Diagnóstico eliminado");
+            return Response.ok(res).build();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            res.put("msg", "ERROR");
+            res.put("data", e.toString());
+            return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+        }
+    }    
+
+        
 
 
 
