@@ -12,34 +12,10 @@ import com.gestionCitas.models.CitaMedica;
 public class CitaMedicaAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response saver() throws Exception {
-        HashMap map = new HashMap<>();
-        CitaMedicaServices cms = new CitaMedicaServices();
-
-        map.put("msg", "OK");
-        map.put("data", cms.getListAll().toArray());
-
-        if (cms.getListAll().isEmpty()) {
-            map.put("data", new Object[]{});
-        }
-
-        return Response.ok(map).build();
-    }
-
-    @Path("/saver")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllCitas() throws Exception {
         HashMap map = new HashMap<>();
         CitaMedicaServices cms = new CitaMedicaServices();
 
-        cms.getCitaMedica().setObservaciones("observaciones prueba");
-        cms.getCitaMedica().setMotivo("motivo prueba");
-        cms.getCitaMedica().setSignosVitalesId(1);
-        cms.getCitaMedica().setHistorialMedicoId(1);
-        cms.getCitaMedica().setTurnoId(1);
-        cms.save();
-
         map.put("msg", "OK");
         map.put("data", cms.getListAll().toArray());
 
@@ -50,8 +26,6 @@ public class CitaMedicaAPI {
         return Response.ok(map).build();
     }
 
-
-    /* 
     @Path("/save")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -64,8 +38,10 @@ public class CitaMedicaAPI {
 
             cms.getCitaMedica().setObservaciones(map.get("observaciones").toString());
             cms.getCitaMedica().setMotivo(map.get("motivo").toString());
-            cms.getCitaMedica().setSignosVitalesId(Integer.parseInt(map.get("signosVitalesId").toString()));
-            cms.getCitaMedica().setHistorialMedicoId(Integer.parseInt(map.get("historialMedicoId").toString()));
+            //cms.getCitaMedica().setSignosVitalesId(Integer.parseInt(map.get("signosVitalesId").toString()));
+            //cms.getCitaMedica().setHistorialMedicoId(Integer.parseInt(map.get("historialMedicoId").toString()));
+            cms.getCitaMedica().setSignosVitalesId(0);
+            cms.getCitaMedica().setHistorialMedicoId(0);
             cms.getCitaMedica().setTurnoId(Integer.parseInt(map.get("turnoId").toString()));
             cms.save();
 
@@ -100,7 +76,7 @@ public class CitaMedicaAPI {
 
         return Response.ok(map).build();
     }
-
+    /* 
     @Path("/update")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

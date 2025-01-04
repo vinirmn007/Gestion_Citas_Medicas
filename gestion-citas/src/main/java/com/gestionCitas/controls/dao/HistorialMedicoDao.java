@@ -3,6 +3,7 @@ package com.gestionCitas.controls.dao;
 import com.gestionCitas.controls.dao.implement.AdapterDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.HistorialMedico;
+import com.gestionCitas.models.enums.TipoSangre;
 
 public class HistorialMedicoDao extends AdapterDao<HistorialMedico> {
     private HistorialMedico historial;
@@ -62,4 +63,12 @@ public class HistorialMedicoDao extends AdapterDao<HistorialMedico> {
             return false;
         }
     }*/
+
+    public TipoSangre getTipoSangre(String tipo) {
+        return TipoSangre.valueOf(tipo);
+    }
+
+    public TipoSangre[] getAllTiposSangre() {
+        return TipoSangre.values();
+    }
 }
