@@ -1,8 +1,8 @@
-package com.gestionCitas.controls.dao.implement;
+package com.gestionCitas.controls.dao;
 
-import com.gestionCitas.models.Persona;
+import com.gestionCitas.controls.dao.implement.AdapterDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
-import com.gestionCitas.controls.dao.implement.*;
+import com.gestionCitas.models.Persona;
 
 public class PersonaDAO extends AdapterDao<Persona> {
     private Persona persona;
