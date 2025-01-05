@@ -15,7 +15,7 @@ public class Receta {
         this.idDiagnostico = null;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

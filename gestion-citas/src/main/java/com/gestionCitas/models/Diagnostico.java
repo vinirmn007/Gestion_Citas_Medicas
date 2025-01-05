@@ -24,8 +24,8 @@ public class Diagnostico {
         this.descripcion = descripcion;
     }
 
-    public int getId() {
-        return id;
+    public Integer getId() {
+        return this.id;
     }
 
     public String getDescripcion() {
