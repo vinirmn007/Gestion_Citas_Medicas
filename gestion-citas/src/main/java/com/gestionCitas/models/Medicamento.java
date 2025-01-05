@@ -1,7 +1,7 @@
 package com.gestionCitas.models;
 
 public class Medicamento {
-    private int id;
+    private Integer id;
     private String nombre;
     private String dosis;
     
@@ -12,7 +12,7 @@ public class Medicamento {
         this.dosis = "";
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

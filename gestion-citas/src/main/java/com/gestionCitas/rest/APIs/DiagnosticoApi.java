@@ -6,12 +6,14 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.gestionCitas.controls.dao.services.CitaMedicaServices;
 import com.gestionCitas.controls.dao.services.DiagnosticoServices;
+import com.gestionCitas.models.CitaMedica;
 import com.gestionCitas.models.Diagnostico;
 import com.google.gson.Gson;
 
@@ -37,42 +39,70 @@ public class DiagnosticoApi {
 
     @Path("save")
     @POST
-    @Consumes (MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response saveDiagnostico (HashMap map) {
+    public Response saveDiagnostico(HashMap map) {
         HashMap res = new HashMap();
         Gson g = new Gson();
-        
+    
         try {
             if (map.get("citaM") != null) {
                 CitaMedicaServices cms = new CitaMedicaServices();
                 cms.getCitaMedica().setId(Integer.parseInt(map.get("citaM").toString()));
-                if (cms.get(cms.getCitaMedica().getId()) == null) {
-                    DiagnosticoServices ds = new DiagnosticoServices();
-                    ds.getDiagnostico().setDescripcion(map.get("descripcion").toString());
-                    ds.getDiagnostico().setIdCitaMedica(cms.getCitaMedica().getId());
-                    ds.save();
+                CitaMedica citaMedica = cms.get(cms.getCitaMedica().getId());
 
-                    res.put("msg", "OK");
-                    res.put("data", "Diagnostico creado");
-                    
-                    return Response.ok(res).build();
+                if (citaMedica != null) {
+                    if (citaMedica.getDiagnosticoId() != null && 
+                        citaMedica.getDiagnosticoId().equals(map.get("id"))) {
+                        
+                        DiagnosticoServices ds = new DiagnosticoServices();
+                        ds.getDiagnostico().setDescripcion(map.get("descripcion").toString());
+                        ds.getDiagnostico().setIdCitaMedica(citaMedica.getId());
+                        ds.save();
+
+                        res.put("msg", "OK");
+                        res.put("data", "Diagnostico creado");
+                        
+                        return Response.ok(res).build();
+                    } else {
+                        res.put("msg", "Error al guardar");
+                        res.put("data", "El ID del diagnóstico no coincide con el de la cita médica seleccionada");
+                        return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                    }
                 } else {
                     res.put("msg", "Error al guardar");
-                    res.put("data", "Cita medica no encontrada");
+                    res.put("data", "Cita médica no encontrada");
                     return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
                 }
             } else {
                 res.put("msg", "Error al guardar");
-                res.put("data", "Cita medica no encontrada");
+                res.put("data", "Cita médica no especificada");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
-        }  catch (Exception e) {
+        } catch (Exception e) {
             res.put("msg", "Error al guardar");
             res.put("data", e.toString());
             return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
         }
-        
+    }
+
+    @Path("/get/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getDiagnostico (@PathParam("id") Integer id) throws Exception {
+        HashMap map = new HashMap();
+        DiagnosticoServices ds = new DiagnosticoServices();
+        Diagnostico d = ds.get(id);
+
+        if (d == null || d.getId() == null) {
+            map.put("msg", "Error");
+            map.put("data", "Diagnostico no encontrado");
+            return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+        }
+
+        map.put("msg", "OK");
+        map.put("data", d);
+        return Response.ok(map).build();
     }
 
     @Path("/update")
@@ -118,7 +148,7 @@ public class DiagnosticoApi {
                 return Response.ok(res).build();
             } else {
                 res.put("msg", "ERROR");
-                res.put("data", "Faltan los parámetros 'investor' o 'project'");
+                res.put("data", "Faltan los parámetros 'citaM'");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
 

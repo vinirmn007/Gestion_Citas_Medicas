@@ -22,5 +22,29 @@
         "fecha": "2025-03-20",
         "hora": "16:02",
         "estado": "CANCELADO"
+    },
+    {
+        "id": 4,
+        "idMedico": 6,
+        "idPaciente": 3,
+        "fecha": "2025-03-20",
+        "hora": "16:02",
+        "estado": "CANCELADO"
+    },
+    {
+        "id": 5,
+        "idMedico": 2,
+        "idPaciente": 1,
+        "fecha": "2026-03-20",
+        "hora": "16:02",
+        "estado": "RESERVADO"
+    },
+    {
+        "id": 6,
+        "idMedico": 1,
+        "idPaciente": 2,
+        "fecha": "2026-03-20",
+        "hora": "16:02",
+        "estado": "RESERVADO"
     }
 ]

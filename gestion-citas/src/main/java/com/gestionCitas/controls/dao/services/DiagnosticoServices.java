@@ -1,8 +1,8 @@
 package com.gestionCitas.controls.dao.services;
 
 import com.gestionCitas.controls.dao.DiagnosticoDao;
-import com.gestionCitas.models.Diagnostico;
 import com.gestionCitas.controls.estructures.list.LinkedList;
+import com.gestionCitas.models.Diagnostico;
 
 public class DiagnosticoServices {
     private DiagnosticoDao obj;
@@ -36,7 +36,7 @@ public class DiagnosticoServices {
     }
 
     public Diagnostico get(Integer id) throws Exception {
-        return this.obj.get(id);
+        return this.obj.getById(id);
     }
     
 }

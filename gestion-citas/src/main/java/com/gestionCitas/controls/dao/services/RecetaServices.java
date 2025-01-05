@@ -1,8 +1,8 @@
 package com.gestionCitas.controls.dao.services;
 
 import com.gestionCitas.controls.dao.RecetaDao;
-import com.gestionCitas.models.Receta;
 import com.gestionCitas.controls.estructures.list.LinkedList;
+import com.gestionCitas.models.Receta;
 
 public class RecetaServices {
     private RecetaDao obj;
@@ -36,7 +36,7 @@ public class RecetaServices {
     }
 
     public Receta get(Integer id) throws Exception {
-        return this.obj.get(id);
+        return this.obj.getById(id);
     }
     
 }

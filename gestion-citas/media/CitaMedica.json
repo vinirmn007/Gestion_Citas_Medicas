@@ -1,1 +1,47 @@
-[{"id":1,"observaciones":"observacionesprueba","motivo":"motivoprueba","signosVitalesId":1,"historialMedicoId":1,"turnoId":1,"diagnosticoId":0},{"id":2,"observaciones":"observacionesprueba","motivo":"motivoprueba","signosVitalesId":1,"historialMedicoId":1,"turnoId":1,"diagnosticoId":0},{"id":3,"observaciones":"observacionesprueba","motivo":"motivoprueba","signosVitalesId":1,"historialMedicoId":1,"turnoId":1,"diagnosticoId":0},{"id":4,"observaciones":"observacionesprueba","motivo":"motivoprueba","signosVitalesId":1,"historialMedicoId":1,"turnoId":1,"diagnosticoId":0},{"id":5,"observaciones":"observacionesprueba","motivo":"motivoprueba","signosVitalesId":1,"historialMedicoId":1,"turnoId":1,"diagnosticoId":0},{"id":6,"observaciones":"observacionesprueba","motivo":"motivoprueba","signosVitalesId":1,"historialMedicoId":1,"turnoId":1,"diagnosticoId":0},{"id":7,"observaciones":"observacionesprueba","motivo":"motivoprueba","signosVitalesId":1,"historialMedicoId":1,"turnoId":1,"diagnosticoId":0},{"id":8,"observaciones":"observaciones prueba","motivo":"motivo prueba","signosVitalesId":1,"historialMedicoId":1,"turnoId":1,"diagnosticoId":0}]
+[
+    {
+        "id": 1,
+        "observaciones": "Dolor de cabeza constante",
+        "motivo": "Consulta general",
+        "signosVitalesId": 1,
+        "historialMedicoId": 1,
+        "turnoId": 1,
+        "diagnosticoId": 1
+    },
+    {
+        "id": 2,
+        "observaciones": "Dolor abdominal intermitente",
+        "motivo": "Dolor abdominal",
+        "signosVitalesId": 2,
+        "historialMedicoId": 2,
+        "turnoId": 2,
+        "diagnosticoId": 2
+    },
+    {
+        "id": 3,
+        "observaciones": "Fatiga general",
+        "motivo": "Cansancio extremo",
+        "signosVitalesId": 3,
+        "historialMedicoId": 3,
+        "turnoId": 5,
+        "diagnosticoId": 3
+    },
+    {
+        "id": 4,
+        "observaciones": "Dolor lumbar",
+        "motivo": "Dolor de espalda",
+        "signosVitalesId": 4,
+        "historialMedicoId": 4,
+        "turnoId": 6,
+        "diagnosticoId": 4
+    },
+    {
+        "id": 5,
+        "observaciones": "Dolor lumbar",
+        "motivo": "Dolor de espalda",
+        "signosVitalesId": 4,
+        "historialMedicoId": 4,
+        "turnoId": 6,
+        "diagnosticoId": 5
+    }
+]

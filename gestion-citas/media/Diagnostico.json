@@ -1,1 +1,22 @@
-[{"id":1,"descripcion":"Dolordecabeza","idCitaMedica":1},{"id":2,"descripcion":"DolorNeurálgico","idCitaMedica":2},{"id":3,"descripcion":"DolorNeurálgico","idCitaMedica":2},{"id":4,"descripcion":"DolordeEstomago","idCitaMedica":2},{"id":5,"descripcion":"Dolor de Estomago","idCitaMedica":2}]
+[
+    {
+        "id": 1,
+        "descripcion": "Migraña crónica",
+        "idCitaMedica": 1
+    },
+    {
+        "id": 2,
+        "descripcion": "Gastritis",
+        "idCitaMedica": 2
+    },
+    {
+        "id": 3,
+        "descripcion": "Síndrome de fatiga crónica",
+        "idCitaMedica": 3
+    },
+    {
+        "id": 4,
+        "descripcion": "Lumbalgia",
+        "idCitaMedica": 4
+    }
+]

@@ -3,7 +3,7 @@ package com.gestionCitas.models;
 import com.gestionCitas.models.enums.TipoExamen;
 
 public class Examen {
-    private int id;
+    private Integer id;
     private TipoExamen tipo;
     private String descripcion;
     private Boolean estado;
@@ -12,7 +12,7 @@ public class Examen {
 
 
     
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
