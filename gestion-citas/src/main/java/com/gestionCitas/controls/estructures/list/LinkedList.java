@@ -1,5 +1,7 @@
 package com.gestionCitas.controls.estructures.list;
 
+import java.lang.reflect.Method;
+
 import com.gestionCitas.controls.estructures.exception.ListEmptyException;
 
 public class LinkedList<E> {
@@ -234,5 +236,201 @@ public class LinkedList<E> {
             this.add(matrix[i]);
         }
         return this;
+    }
+    
+    //QUICKSORT
+    public LinkedList<E> orderByQuickSort(String attribute, Integer type) throws Exception {
+        if (!isEmpty()) {
+            E data = this.header.getInfo();
+            if (data instanceof Object) {
+                E[] lista = this.toArray();
+                reset();
+                this.toList(quickSort(lista, 0, lista.length-1, attribute, type));
+            }
+        }
+        return this;
+    }
+
+    //METODOS AUXILIARES PARA QUICK SORT
+    private E[] quickSort(E[] lista, int first, int last, String attribute, Integer type) throws Exception {
+        if (first < last) {
+            int pivote = particionLista(lista, first, last, attribute, type);
+
+            quickSort(lista, first, pivote - 1, attribute, type);
+            quickSort(lista, pivote + 1, last, attribute, type);
+        } 
+        return lista;
+    }
+
+    private int particionLista(E[] lista, int first, int last, String attribute, Integer type) throws Exception {
+        E pivote = lista[last];
+        //System.out.println((Familia) pivote);
+        int i = first - 1;
+
+        for (int j = first; j < last; j++) {
+            if (atrribute_compare(attribute, pivote, lista[j], type)) {
+                i++;
+                E aux = lista[i];
+                lista[i] = lista[j];
+                lista[j] = aux;
+            }
+        }
+
+        E aux = lista[i + 1];
+        lista[i + 1] = lista[last];
+        lista[last] = aux;
+        
+        return i + 1;
+    }
+
+    //BUSQUEDA LINEAL
+    public LinkedList<E> multipleLinealSearch(String attribute, Object value) throws Exception {
+        LinkedList<E> lista = new LinkedList<>();
+        if (!this.isEmpty()) {
+            E[] aux = this.toArray();
+            for (int i = 0; i < aux.length; i++) {
+                Object attrValue = exist_attribute(aux[i], attribute);
+                if (attrValue != null) {
+                    String attrValueStr = attrValue.toString().toLowerCase();
+                    String valueStr = value.toString().toLowerCase();
+                    if (attrValueStr.equals(valueStr) || attrValueStr.startsWith(valueStr)) {
+                        lista.add(aux[i]);
+                    }
+                }
+            }
+        }
+        return lista;
+    }
+
+    public E atomicLinealSearch(String attribute, Object value) throws Exception {
+        E obj = null;
+        if (!this.isEmpty()) {
+            E[] aux = this.toArray();
+            for (int i = 0; i < aux.length; i++) {
+                Object attrValue = exist_attribute(aux[i], attribute);
+                if (attrValue != null) {
+                    String attrValueStr = attrValue.toString().toLowerCase();
+                    String valueStr = value.toString().toLowerCase();
+                    if (attrValueStr.equals(valueStr)) {
+                        obj = aux[i];
+                    }
+                }
+            }
+        }
+        return obj;
+    }
+
+    //BUSQUEDA LINEAR BINARIA
+    public E binarySearch(String attribute, Object value) throws Exception {
+        E obj = null;
+        if (!this.isEmpty()) {
+            E[] aux = this.orderByQuickSort(attribute, 0).toArray();
+            int first = 0;
+            int last = aux.length - 1;
+             
+            while (first <= last) {
+                int mid = first + (last - first) / 2;
+                Object attrValue = exist_attribute(aux[mid], attribute);
+            
+                if (attrValue != null) {
+                    String attrValueStr = attrValue.toString().toLowerCase();
+                    String valueStr = value.toString().toLowerCase();
+                    //System.out.println("mid: " + attrValueStr);
+                    //System.out.println("value: " + valueStr);
+
+                    Integer valueInt = -1; //numeros
+
+                    try {
+                        valueInt = Integer.parseInt(valueStr);
+                    } catch (Exception e) {
+                    }
+
+                    if (attrValueStr.equals(valueStr) ||
+                        attrValue.equals(valueInt)) {
+                        obj = aux[mid];
+                        break;
+                    } else if (attrValue instanceof Number) {
+                        if (compare(attrValue, valueInt, 0)) {
+                            last = mid - 1;
+                        } else {
+                            first = mid + 1;
+                        }  
+                    } else if (compare(attrValueStr, valueStr, 0)) {
+                        last = mid - 1;
+                    } else {
+                        first = mid + 1;
+                    } 
+                } 
+            }
+        }
+        return obj;
+    }
+
+    //METODOS AUXILIARES PARA ORDENAMIENTO Y BUSQUEDA
+    private Boolean compare(Object a, Object b, Integer type) {
+        switch (type) {
+            case 0:
+                if (a instanceof Number) {
+                    Number a1 = (Number) a;
+                    Number b1 = (Number) b;
+                    return a1.doubleValue() > b1.doubleValue();
+                } else {
+                    // a > b
+                    return (a.toString()).compareTo(b.toString()) > 0;
+                }
+                // break;
+
+            default:
+                // mayor a menor
+                if (a instanceof Number) {
+                    Number a1 = (Number) a;
+                    Number b1 = (Number) b;
+                    return a1.doubleValue() < b1.doubleValue();
+                } else {
+                    // a < b
+                    return (a.toString()).compareTo(b.toString()) < 0;
+                }
+                // break;
+        }
+
+    }
+
+    // compare class
+    private Boolean atrribute_compare(String attribute, E a, E b, Integer type) throws Exception {
+        return compare(exist_attribute(a, attribute), exist_attribute(b, attribute), type);
+    }
+
+    private Object exist_attribute(E a, String attribute) throws Exception {
+        Method method = null;
+        attribute = attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
+        attribute = "get" + attribute;
+        //OBLIGATORIO QUE EXISTA UN GET EN LE OBJETO
+        for (Method aux : a.getClass().getMethods()) {           
+            if (aux.getName().contains(attribute)) {
+                method = aux;
+                break;
+            }
+        }
+        if (method == null) {
+            for (Method aux : a.getClass().getSuperclass().getMethods()) {              
+                if (aux.getName().contains(attribute)) {
+                    method = aux;
+                    break;
+                }
+            }
+        }
+        if (method != null) {            
+            return method.invoke(a);
+        }
+        
+        return null;
+    }
+
+    public LinkedList<E> clone() {
+        LinkedList<E> clonedList = new LinkedList<>();
+        for (int i = 0; i < this.size; i++) {
+            clonedList.add(this.toArray()[i]);
+        }
+        return clonedList;
     }
 }
