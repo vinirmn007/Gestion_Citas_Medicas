@@ -18,9 +18,11 @@ public class Cuenta {
     this.personaId = personaId;
   }
 
+
   public Integer getId() {
     return this.id;
   }
+
 
   public void setId(Integer value) {
     this.id = value;
@@ -30,6 +32,7 @@ public class Cuenta {
     return this.usuario;
   }
 
+
   public void setUsuario(String value) {
     this.usuario = value;
   }
@@ -38,6 +41,7 @@ public class Cuenta {
     return this.contrasena;
   }
 
+
   public void setContrasena(String value) {
     this.contrasena = value;
   }
@@ -45,6 +49,7 @@ public class Cuenta {
   public Integer getId_rol() {
     return this.id_rol;
   }
+
 
   public void setId_rol(Integer value) {
     this.id_rol = value;
