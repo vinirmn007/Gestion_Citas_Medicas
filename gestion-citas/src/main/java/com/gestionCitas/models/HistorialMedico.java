@@ -1,6 +1,5 @@
 package com.gestionCitas.models;
 
-import com.gestionCitas.controls.estructures.stack.Stack;
 import com.gestionCitas.models.enums.TipoSangre;
 
 public class HistorialMedico {
@@ -12,7 +11,6 @@ public class HistorialMedico {
     private String patologiasPasadas;
     private String discapacidad;
     private Integer pacienteId;
-    private Stack<Integer> citasMedicas;
 
     public HistorialMedico() {
         this.id = 0;
@@ -23,7 +21,6 @@ public class HistorialMedico {
         this.patologiasPasadas = "";
         this.discapacidad = "Ninguna";
         this.pacienteId = 0;
-        this.citasMedicas = new Stack<>(100);
     }
 
     public Integer getId() {
@@ -80,14 +77,6 @@ public class HistorialMedico {
 
     public void setDiscapacidad(String discapacidad) {
         this.discapacidad = discapacidad;
-    }
-
-    public Stack<Integer> getCitasMedicas() {
-        return this.citasMedicas;
-    }
-
-    public void setCitasMedicas(Stack<Integer> citasMedicas) {
-        this.citasMedicas = citasMedicas;
     }
     
     public Integer getPacienteId() {
