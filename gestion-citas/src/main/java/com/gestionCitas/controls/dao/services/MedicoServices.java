@@ -79,4 +79,20 @@ public class MedicoServices {
         LocalDate today = LocalDate.now();
         return (int) ChronoUnit.YEARS.between(birthDate, today);
     }
+
+    public Identificacion getIdentificacion(String tipo) {
+        return this.obj.getTipoIdent(tipo);
+    }
+
+    public Identificacion[] getAllIdentificaciones() {
+        return this.obj.getAllTiposIdent();
+    }
+
+    public Genero[] getAllGeneros() {
+        return this.obj.getAllGeneros();
+    }
+
+    public Genero getGenero(String genero) {
+        return this.obj.getGenero(genero);
+    }
 }

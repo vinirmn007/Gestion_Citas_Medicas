@@ -124,4 +124,20 @@ public class PersonaServices {
         }
         return new Object[] {};
     }
+
+    public Identificacion getIdentificacion(String tipo) {
+        return this.obj.getTipoIdent(tipo);
+    }
+
+    public Identificacion[] getAllIdentificaciones() {
+        return this.obj.getAllTiposIdent();
+    }
+
+    public Genero getGenero(String genero) {
+        return this.obj.getGenero(genero);
+    }
+
+    public Genero[] getAllGeneros() {
+        return this.obj.getAllGeneros();
+    }
 }
