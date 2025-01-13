@@ -3,6 +3,8 @@ package com.gestionCitas.controls.dao.services;
 import com.gestionCitas.controls.dao.PersonaDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Persona;
+import com.gestionCitas.models.enums.Genero;
+import com.gestionCitas.models.enums.Identificacion;
 
 public class PersonaServices {
     private PersonaDao obj;
@@ -37,5 +39,21 @@ public class PersonaServices {
 
     public Persona get(Integer id) throws Exception {
         return this.obj.get(id);
+    }
+
+    public Identificacion getIdentificacion(String tipo) {
+        return this.obj.getTipoIdent(tipo);
+    }
+
+    public Identificacion[] getAllIdentificaciones() {
+        return this.obj.getAllTiposIdent();
+    }
+
+    public Genero getGenero(String genero) {
+        return this.obj.getGenero(genero);
+    }
+
+    public Genero[] getAllGeneros() {
+        return this.obj.getAllGeneros();
     }
 }

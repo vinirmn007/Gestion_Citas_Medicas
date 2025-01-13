@@ -3,6 +3,8 @@ package com.gestionCitas.controls.dao;
 import com.gestionCitas.controls.dao.implement.AdapterDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Medico;
+import com.gestionCitas.models.enums.Genero;
+import com.gestionCitas.models.enums.Identificacion;
 
 public class MedicoDao extends AdapterDao<Medico> {
     private Medico medico;
@@ -63,4 +65,19 @@ public class MedicoDao extends AdapterDao<Medico> {
         }
     }
     
+    public Identificacion getTipoIdent(String tipo) {
+        return Identificacion.valueOf(tipo);
+    }
+
+    public Identificacion[] getAllTiposIdent() {
+        return Identificacion.values();
+    }
+
+    public Genero getGenero(String tipo) {
+        return Genero.valueOf(tipo);
+    }
+
+    public Genero[] getAllGeneros() {
+        return Genero.values();
+    }
 }
