@@ -3,6 +3,8 @@ package com.gestionCitas.controls.dao.services;
 import com.gestionCitas.controls.dao.MedicoDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Medico;
+import com.gestionCitas.models.enums.Genero;
+import com.gestionCitas.models.enums.Identificacion;
 
 public class MedicoServices {
     private MedicoDao obj;
@@ -37,5 +39,21 @@ public class MedicoServices {
 
     public Medico get(Integer id) throws Exception {
         return this.obj.get(id);
+    }
+
+    public Identificacion getIdentificacion(String tipo) {
+        return this.obj.getTipoIdent(tipo);
+    }
+
+    public Identificacion[] getAllIdentificaciones() {
+        return this.obj.getAllTiposIdent();
+    }
+
+    public Genero[] getAllGeneros() {
+        return this.obj.getAllGeneros();
+    }
+
+    public Genero getGenero(String genero) {
+        return this.obj.getGenero(genero);
     }
 }

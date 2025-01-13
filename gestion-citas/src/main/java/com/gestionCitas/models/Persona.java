@@ -10,6 +10,9 @@ public class Persona {
     private Integer id;
     private String nombre;
     private String email;
+    private String direccion;
+    private String telefono;
+    private Date fechaNacimiento;
     private String numeroIdentificacion;
     private Identificacion tipoIdentificacion;
     private Genero genero;
@@ -19,11 +22,15 @@ public class Persona {
     public Persona() {
     }
 
-    public Persona(Integer id, String nombre, String email, String numeroIdentificacion,
-            Identificacion tipoIdentificacion, Genero genero, Integer historialMedicoId, Integer cuentaId) {
+    public Persona(Integer id, String nombre, String email, String direccion, String telefono, Date fechaNacimiento,
+            String numeroIdentificacion, Identificacion tipoIdentificacion, Genero genero, Integer historialMedicoId,
+            Integer cuentaId) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.fechaNacimiento = fechaNacimiento;
         this.numeroIdentificacion = numeroIdentificacion;
         this.tipoIdentificacion = tipoIdentificacion;
         this.genero = genero;
@@ -93,5 +100,29 @@ public class Persona {
 
     public void setCuentaId(Integer cuentaId) {
         this.cuentaId = cuentaId;
+    }
+
+    public String getDireccion() {
+        return this.direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getTelefono() {
+        return this.telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public Date getFechaNacimiento() {
+        return this.fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 }

@@ -2,12 +2,12 @@ package com.gestionCitas.models;
 
 public class Medico extends Persona{
     private String especialidad;
-    private String codigoLicencia;
+    private String matricula;
 
     public Medico() {
         super();
         this.especialidad = "";
-        this.codigoLicencia = "";
+        this.matricula = "";
     }
 
     public String getEspecialidad() {
@@ -18,11 +18,11 @@ public class Medico extends Persona{
         this.especialidad = especialidad;
     }
 
-    public String getCodigoLicencia() {
-        return this.codigoLicencia;
+    public String getMatricula() {
+        return this.matricula;
     }
 
-    public void setCodigoLicencia(String codigoLicencia) {
-        this.codigoLicencia = codigoLicencia;
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
     }
 }
