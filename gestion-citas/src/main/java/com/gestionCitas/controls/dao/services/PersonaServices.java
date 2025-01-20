@@ -140,4 +140,16 @@ public class PersonaServices {
     public Genero[] getAllGeneros() {
         return this.obj.getAllGeneros();
     }
+
+    public LinkedList order(String attribute, Integer type) throws Exception {
+        return this.obj.getListAll().order(attribute, type);
+    }
+
+    public LinkedList linealSearch(String attribute, Object value) throws Exception {
+        return this.obj.getListAll().linealSearch(attribute, value);
+    }
+
+    public Object binarySearch(String attribute, Object value) throws Exception {
+        return this.obj.getListAll().binarySearch(attribute, value);
+    }
 }
