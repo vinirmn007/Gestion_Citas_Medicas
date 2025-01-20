@@ -6,6 +6,7 @@ import java.util.HashMap;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
+import com.gestionCitas.controls.dao.services.CuentaServices;
 import com.gestionCitas.controls.dao.services.PersonaServices;
 import com.gestionCitas.models.Persona;
 
@@ -27,6 +28,28 @@ public class PersonaAPI {
         return Response.ok(map).build();
     }
 
+    @Path("/idens")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getIden() {
+        HashMap map = new HashMap<>();
+        PersonaServices ps = new PersonaServices();
+        map.put("msg", "OK");
+        map.put("data", ps.getAllIdentificaciones());
+        return Response.ok(map).build();
+    }
+
+    @Path("/generos")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getGenre() {
+        HashMap map = new HashMap<>();
+        PersonaServices ps = new PersonaServices();
+        map.put("msg", "OK");
+        map.put("data", ps.getAllGeneros());
+        return Response.ok(map).build();
+    }
+
     @Path("/save")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -36,17 +59,50 @@ public class PersonaAPI {
 
         try {
             PersonaServices ps = new PersonaServices();
+            CuentaServices cs = new CuentaServices();
 
+            //VALIDACIONES
+            if (cs.get(Integer.parseInt(map.get("cuentaId").toString())) == null) {
+                res.put("msg", "Error");
+                res.put("data", "No existe esa Cuenta");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            } 
+            
+            if (ps.getListAll().binarySearch("cuentaId", map.get("cuentaId").toString()) != null) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe una Persona con esa Cuenta");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
+            if (ps.getListAll().binarySearch("numeroIdentificacion", map.get("numeroIdentificacion").toString()) != null) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe una Persona con ese numero de identificacion");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                
+            }
+
+            if (ps.getListAll().binarySearch("email", map.get("email").toString()) != null) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe una Persona con ese email");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                
+            }
+
+            if (ps.getListAll().binarySearch("telefono", map.get("telefono").toString()) != null) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe una Persona con ese telefono");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build(); 
+            }
+
+            //GUARDADO
             ps.getPersona().setNombre(map.get("nombre").toString());
             ps.getPersona().setEmail(map.get("email").toString());
             ps.getPersona().setDireccion(map.get("direccion").toString());
             ps.getPersona().setTelefono(map.get("telefono").toString());
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            ps.getPersona().setFechaNacimiento(sdf.parse(map.get("fechaNacimiento").toString()));
+            ps.getPersona().setFechaNacimiento(map.get("fechaNacimiento").toString());
             ps.getPersona().setNumeroIdentificacion(map.get("numeroIdentificacion").toString());
             ps.getPersona().setTipoIdentificacion(ps.getIdentificacion(map.get("tipoIdentificacion").toString()));
             ps.getPersona().setGenero(ps.getGenero(map.get("genero").toString()));
-            ps.getPersona().setHistorialMedicoId(Integer.parseInt(map.get("historialMedicoId").toString()));
             ps.getPersona().setCuentaId(Integer.parseInt(map.get("cuentaId").toString()));
             ps.save();
 
@@ -92,6 +148,23 @@ public class PersonaAPI {
         try {
             PersonaServices ps = new PersonaServices();
 
+            //VALIDACIONES
+            if (ps.getListAll().binarySearch("email", map.get("email").toString()) != null 
+            && !ps.get(Integer.parseInt(map.get("id").toString())).getEmail().equals(map.get("email").toString())) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe una Persona con ese email");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
+            if (ps.getListAll().binarySearch("telefono", map.get("telefono").toString()) != null 
+            && !ps.get(Integer.parseInt(map.get("id").toString())).getTelefono().equals(map.get("telefono").toString())) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe una Persona con ese telefono");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build(); 
+            }
+
+            //ACTUALIZACION
+            ps.setPersona(ps.get(Integer.parseInt(map.get("id").toString())));
             ps.getPersona().setEmail(map.get("email").toString());
             ps.getPersona().setDireccion(map.get("direccion").toString());
             ps.getPersona().setTelefono(map.get("telefono").toString());

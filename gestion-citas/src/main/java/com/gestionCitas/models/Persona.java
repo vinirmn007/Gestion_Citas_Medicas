@@ -1,7 +1,5 @@
 package com.gestionCitas.models;
 
-import java.util.Date;
-
 import com.gestionCitas.models.enums.*;;
 
 public class Persona {
@@ -10,7 +8,7 @@ public class Persona {
     private String email;
     private String direccion;
     private String telefono;
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
     private String numeroIdentificacion;
     private Identificacion tipoIdentificacion;
     private Genero genero;
@@ -20,7 +18,7 @@ public class Persona {
     public Persona() {
     }
 
-    public Persona(Integer id, String nombre, String email, String direccion, String telefono, Date fechaNacimiento,
+    public Persona(Integer id, String nombre, String email, String direccion, String telefono, String fechaNacimiento,
             String numeroIdentificacion, Identificacion tipoIdentificacion, Genero genero, Integer historialMedicoId,
             Integer cuentaId) {
         this.id = id;
@@ -116,11 +114,11 @@ public class Persona {
         this.telefono = telefono;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return this.fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 }

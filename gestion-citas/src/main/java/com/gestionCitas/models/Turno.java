@@ -8,6 +8,7 @@ public class Turno {
     private int id;
     private int idMedico;
     private int idPaciente;
+    private int idSignosVitales;
     private String fecha;
     private String hora;
     private Estado estado;
@@ -59,6 +60,14 @@ public class Turno {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public int getIdSignosVitales() {
+        return idSignosVitales;
+    }
+
+    public void setIdSignosVitales(int idSignosVitales) {
+        this.idSignosVitales = idSignosVitales;
     }
 
     public Turno() {

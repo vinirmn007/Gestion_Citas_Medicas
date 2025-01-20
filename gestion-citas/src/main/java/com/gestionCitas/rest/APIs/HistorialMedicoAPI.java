@@ -55,16 +55,26 @@ public class HistorialMedicoAPI {
             HistorialMedicoServices hss = new HistorialMedicoServices();
             PersonaServices ps = new PersonaServices();
 
+            //VALIDACIONES
+            if (ps.get(Integer.parseInt(map.get("pacienteId").toString())) == null) {
+                res.put("msg", "Error");
+                res.put("data", "No existe ese Paciente");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
+            //GUARDADO DE DATOS
             hss.getHistorialMedico().setAlergias(map.get("alergias").toString());
             hss.getHistorialMedico().setAntecendentesFamiliares(map.get("antecedentes").toString());
             hss.getHistorialMedico().setDiscapacidad(map.get("discapacidad").toString());
             hss.getHistorialMedico().setMedicacionActual(map.get("medicacion").toString());
             hss.getHistorialMedico().setPatologiasPasadas(map.get("patologias").toString());
-            //hss.getHistorialMedico().setTipoSangre(map.get("tipo_sangre").toString());
+            hss.getHistorialMedico().setTipoSangre(hss.getTipoSangre(map.get("tipo_sangre").toString()));            
             hss.getHistorialMedico().setPacienteId(Integer.parseInt(map.get("pacienteId").toString()));
             hss.save();
 
-            ps.get(Integer.parseInt(map.get("pacienteId").toString())).setHistorialMedicoId(hss.getHistorialMedico().getId());
+            //ACTUALIZACION DE PACIENTE
+            ps.setPersona(ps.get(Integer.parseInt(map.get("pacienteId").toString())));
+            ps.getPersona().setHistorialMedicoId(hss.getHistorialMedico().getId());
             ps.update();
 
             res.put("msg", "OK");
@@ -109,6 +119,7 @@ public class HistorialMedicoAPI {
         try {
             HistorialMedicoServices hss = new HistorialMedicoServices();
 
+            hss.setHistorialMedico(hss.get(Integer.parseInt(map.get("id").toString())));
             hss.getHistorialMedico().setAlergias(map.get("alergias").toString());
             hss.getHistorialMedico().setAntecendentesFamiliares(map.get("antecedentes").toString());
             hss.getHistorialMedico().setMedicacionActual(map.get("medicacion").toString());

@@ -1,11 +1,11 @@
 package com.gestionCitas.rest.APIs;
 
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
+import com.gestionCitas.controls.dao.services.CuentaServices;
 import com.gestionCitas.controls.dao.services.MedicoServices;
 import com.gestionCitas.models.Medico;
 
@@ -15,15 +15,37 @@ public class MedicoAPI {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllMeds() throws Exception {
         HashMap map = new HashMap<>();
-        MedicoServices ps = new MedicoServices();
+        MedicoServices ms = new MedicoServices();
 
         map.put("msg", "OK");
-        map.put("data", ps.getListAll().toArray());
+        map.put("data", ms.getListAll().toArray());
 
-        if (ps.getListAll().isEmpty()) {
+        if (ms.getListAll().isEmpty()) {
             map.put("data", new Object[]{});
         }
 
+        return Response.ok(map).build();
+    }
+
+    @Path("/idens")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getIden() {
+        HashMap map = new HashMap<>();
+        MedicoServices ms = new MedicoServices();
+        map.put("msg", "OK");
+        map.put("data", ms.getAllIdentificaciones());
+        return Response.ok(map).build();
+    }
+
+    @Path("/generos")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getGenre() {
+        HashMap map = new HashMap<>();
+        MedicoServices ms = new MedicoServices();
+        map.put("msg", "OK");
+        map.put("data", ms.getAllGeneros());
         return Response.ok(map).build();
     }
 
@@ -35,22 +57,54 @@ public class MedicoAPI {
         HashMap res = new HashMap<>();
 
         try {
-            MedicoServices ps = new MedicoServices();
+            MedicoServices ms = new MedicoServices();
+            CuentaServices cs = new CuentaServices();
 
-            ps.getMedico().setNombre(map.get("nombre").toString());
-            ps.getMedico().setEmail(map.get("email").toString());
-            ps.getMedico().setDireccion(map.get("direccion").toString());
-            ps.getMedico().setTelefono(map.get("telefono").toString());
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            ps.getMedico().setFechaNacimiento(sdf.parse(map.get("fechaNacimiento").toString()));
-            ps.getMedico().setNumeroIdentificacion(map.get("numeroIdentificacion").toString());
-            ps.getMedico().setTipoIdentificacion(ps.getIdentificacion(map.get("tipoIdentificacion").toString()));
-            ps.getMedico().setGenero(ps.getGenero(map.get("genero").toString()));
-            ps.getMedico().setHistorialMedicoId(Integer.parseInt(map.get("historialMedicoId").toString()));
-            ps.getMedico().setCuentaId(Integer.parseInt(map.get("cuentaId").toString()));
-            ps.getMedico().setEspecialidad(map.get("especialidad").toString());
-            ps.getMedico().setMatricula(map.get("matricula").toString());
-            ps.save();
+            //VALIDACIONES
+            if (cs.get(Integer.parseInt(map.get("cuentaId").toString())) == null) {
+                res.put("msg", "Error");
+                res.put("data", "No existe esa Cuenta");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
+            if (ms.getListAll().binarySearch("cuentaId", map.get("cuentaId").toString()) != null) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe una Persona con esa Cuenta");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
+            if (ms.getListAll().binarySearch("numeroIdentificacion", map.get("numeroIdentificacion").toString()) != null) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe una Persona con ese numero de identificacion");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                
+            }
+
+            if (ms.getListAll().binarySearch("email", map.get("email").toString()) != null) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe una Persona con ese email");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                
+            }
+
+            if (ms.getListAll().binarySearch("telefono", map.get("telefono").toString()) != null) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe una Persona con ese telefono");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build(); 
+            }
+
+            ms.getMedico().setNombre(map.get("nombre").toString());
+            ms.getMedico().setEmail(map.get("email").toString());
+            ms.getMedico().setDireccion(map.get("direccion").toString());
+            ms.getMedico().setTelefono(map.get("telefono").toString());
+            ms.getMedico().setFechaNacimiento(map.get("fechaNacimiento").toString());
+            ms.getMedico().setNumeroIdentificacion(map.get("numeroIdentificacion").toString());
+            ms.getMedico().setTipoIdentificacion(ms.getIdentificacion(map.get("tipoIdentificacion").toString()));
+            ms.getMedico().setGenero(ms.getGenero(map.get("genero").toString()));
+            ms.getMedico().setCuentaId(Integer.parseInt(map.get("cuentaId").toString()));
+            ms.getMedico().setEspecialidad(map.get("especialidad").toString());
+            ms.getMedico().setMatricula(map.get("matricula").toString());
+            ms.save();
 
             res.put("msg", "OK");
             res.put("data", "Medico registrado correctamente");
@@ -69,8 +123,8 @@ public class MedicoAPI {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCita(@PathParam("id") Integer id) throws Exception {
         HashMap map = new HashMap<>();
-        MedicoServices ps = new MedicoServices();
-        Medico medico = ps.get(id);
+        MedicoServices ms = new MedicoServices();
+        Medico medico = ms.get(id);
 
         if (medico == null || medico.getId() == null) {
             map.put("msg", "Error");
@@ -92,15 +146,31 @@ public class MedicoAPI {
         HashMap res = new HashMap<>();
 
         try {
-            MedicoServices ps = new MedicoServices();
+            MedicoServices ms = new MedicoServices();
 
-            ps.getMedico().setEmail(map.get("email").toString());
-            ps.getMedico().setDireccion(map.get("direccion").toString());
-            ps.getMedico().setTelefono(map.get("telefono").toString());
-            ps.update();
+            //VALIDACIONES
+            if (ms.getListAll().binarySearch("email", map.get("email").toString()) != null 
+            && !ms.get(Integer.parseInt(map.get("id").toString())).getEmail().equals(map.get("email").toString())) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe una Persona con ese email");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
+            if (ms.getListAll().binarySearch("telefono", map.get("telefono").toString()) != null 
+            && !ms.get(Integer.parseInt(map.get("id").toString())).getTelefono().equals(map.get("telefono").toString())) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe una Persona con ese telefono");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build(); 
+            }
+
+            ms.setMedico(ms.get(Integer.parseInt(map.get("id").toString())));
+            ms.getMedico().setEmail(map.get("email").toString());
+            ms.getMedico().setDireccion(map.get("direccion").toString());
+            ms.getMedico().setTelefono(map.get("telefono").toString());
+            ms.update();
 
             res.put("msg", "OK");
-            res.put("data", "Medico actualizada correctamente");
+            res.put("data", "Medico actualizado correctamente");
 
             return Response.ok(res).build();
         } catch (Exception e) {
@@ -119,10 +189,10 @@ public class MedicoAPI {
         HashMap res = new HashMap<>();
 
         try {
-            MedicoServices ps = new MedicoServices();
+            MedicoServices ms = new MedicoServices();
             
             Integer id = Integer.parseInt(map.get("id").toString());
-            Medico Medico = ps.get(id);
+            Medico Medico = ms.get(id);
 
             if (Medico == null || Medico.getId() == null) {
                 res.put("msg", "Error");
@@ -130,8 +200,8 @@ public class MedicoAPI {
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
 
-            ps.setMedico(Medico);
-            ps.delete();
+            ms.setMedico(Medico);
+            ms.delete();
 
             res.put("msg", "OK");
             res.put("data", "Medico eliminado correctamente");

@@ -7,7 +7,7 @@ public class SignosVitales {
     private Float temperatura;
     private Float presionSistolica;
     private Float presionDiastolica;
-    private Integer citaMedicaId;
+    private Integer turnoId;
 
     public SignosVitales() {
         this.id = 0;
@@ -16,7 +16,7 @@ public class SignosVitales {
         this.temperatura = 0.0F;
         this.presionSistolica = 0.0F;
         this.presionDiastolica = 0.0F;
-        this.citaMedicaId = 0;
+        this.turnoId = 0;
     }
 
     public Integer getId() {
@@ -67,11 +67,11 @@ public class SignosVitales {
         this.presionDiastolica = presionDiastolica;
     }
 
-    public Integer getCitaMedica() {
-        return this.citaMedicaId;
+    public Integer getTurnoId() {
+        return this.turnoId;
     }
 
-    public void setCitaMedica(Integer citaMedicaId) {
-        this.citaMedicaId = citaMedicaId;
+    public void setTurnoId(Integer turnoId) {
+        this.turnoId = turnoId;
     }
 }
