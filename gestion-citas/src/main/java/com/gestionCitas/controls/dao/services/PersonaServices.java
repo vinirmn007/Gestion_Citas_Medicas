@@ -36,6 +36,6 @@ public class PersonaServices {
     }
 
     public Persona get(Integer id) throws Exception {
-        return this.obj.get(id);
+        return this.obj.getById(id);
     }
 }
