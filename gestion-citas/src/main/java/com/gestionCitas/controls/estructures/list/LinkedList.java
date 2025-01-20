@@ -239,7 +239,7 @@ public class LinkedList<E> {
     }
     
     //QUICKSORT
-    public LinkedList<E> orderByQuickSort(String attribute, Integer type) throws Exception {
+    public LinkedList<E> order(String attribute, Integer type) throws Exception {
         if (!isEmpty()) {
             E data = this.header.getInfo();
             if (data instanceof Object) {
@@ -284,7 +284,7 @@ public class LinkedList<E> {
     }
 
     //BUSQUEDA LINEAL
-    public LinkedList<E> multipleLinealSearch(String attribute, Object value) throws Exception {
+    public LinkedList<E> linealSearch(String attribute, Object value) throws Exception {
         LinkedList<E> lista = new LinkedList<>();
         if (!this.isEmpty()) {
             E[] aux = this.toArray();
@@ -302,29 +302,11 @@ public class LinkedList<E> {
         return lista;
     }
 
-    public E atomicLinealSearch(String attribute, Object value) throws Exception {
-        E obj = null;
-        if (!this.isEmpty()) {
-            E[] aux = this.toArray();
-            for (int i = 0; i < aux.length; i++) {
-                Object attrValue = exist_attribute(aux[i], attribute);
-                if (attrValue != null) {
-                    String attrValueStr = attrValue.toString().toLowerCase();
-                    String valueStr = value.toString().toLowerCase();
-                    if (attrValueStr.equals(valueStr)) {
-                        obj = aux[i];
-                    }
-                }
-            }
-        }
-        return obj;
-    }
-
     //BUSQUEDA LINEAR BINARIA
     public E binarySearch(String attribute, Object value) throws Exception {
         E obj = null;
         if (!this.isEmpty()) {
-            E[] aux = this.orderByQuickSort(attribute, 0).toArray();
+            E[] aux = this.order(attribute, 0).toArray();
             int first = 0;
             int last = aux.length - 1;
              
