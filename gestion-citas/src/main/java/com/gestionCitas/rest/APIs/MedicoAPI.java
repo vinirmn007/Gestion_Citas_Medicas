@@ -93,7 +93,8 @@ public class MedicoAPI {
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build(); 
             }
 
-            ms.getMedico().setNombre(map.get("nombre").toString());
+            ms.getMedico().setNombres(map.get("nombres").toString());
+            ms.getMedico().setApellidos(map.get("apellidos").toString());
             ms.getMedico().setEmail(map.get("email").toString());
             ms.getMedico().setDireccion(map.get("direccion").toString());
             ms.getMedico().setTelefono(map.get("telefono").toString());

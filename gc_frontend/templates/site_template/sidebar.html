@@ -8,45 +8,36 @@
   <!-- menu profile quick info -->
   <div class="profile clearfix">
     <div class="profile_pic">
-      <img src="/static/build/images/img.png" alt="..." class="img-circle profile_img">
+      <img src="/static/build/images/img.png" alt="Imagen de Perfil" class="img-circle profile_img">
     </div>
-  </div>
-  <!-- /menu profile quick info -->
+    <div class="profile_info">
+      <span>Bienvenido,</span>
+      <h2>Usuario</h2>
+    </div>
+  </div>  
 
   <br />
 
   <!-- sidebar menu -->
   <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
     <div class="menu_section">
-      <h3>General</h3>
       <ul class="nav side-menu">
         <li>
-          <a href="/home"><i class="fa fa-home"></i> Inicio </a>
+          <a href="/home"><i class="fa fa-home"></i></i> Inicio </a>
         </li>
-        <li><a><i class="fa fa-edit"></i> Citas Medicas <span class="fa fa-chevron-down"></span></a>
-          <ul class="nav child_menu">
-            <li><a href="#">Tunos Medicos Reservados</a></li>
-            <li><a href="/citas">Historial de Citas Medicas</a></li>
-            <li><a href="/turno/registrar">Agendar Turno</a></li>
-          </ul>
-        </li>
-        <li><a><i class="fa fa-file"></i> Examenes Medicos <span class="fa fa-chevron-down"></span></a>
-          <ul class="nav child_menu">
-            <li><a href="#">Ver Examenes Medicos</a></li>
-            <li><a href="#"> Registrar Examen </a></li>
-          </ul>
-        </li>
-        <li><a><i class="fa fa-h-square"></i> Historial Medico <span class="fa fa-chevron-down"></span></a>
-          <ul class="nav child_menu">
-            <li><a href="#">Ver Historial</a></li>
-            <li><a href="#">Editar</a></li>
-          </ul>
-        </li>
-        <li><a><i class="fa fa-stethoscope"></i> Diagnosticos </a></li>
-        <li><a href="/signosVitales/registro"><i class="fa fa-stethoscope"></i> Registrar Signos Vitales </a></li>
         <li>
-          <a><i class="fa fa-calendar"></i> Calendario </span></a>
+          <a href="/agenda"><i class="fa fa-calendar"></i> Agenda </a>
         </li>
+        <li><a><i class="fa fa-edit"></i> Turnos Médicos <span class="fa fa-chevron-down"></span></a>
+          <ul class="nav child_menu">
+            <li><a href="/turno/registrar">Agendar Turno</a></li>
+            <li><a href="/turno/ver">Cancelar Turno</a></li>
+            <li><a href="/turno/ver">Modificar Turnos</a></li>
+          </ul>
+        </li>
+        <li><a href="/pacientes"><i class="fa fa-users"></i> Pacientes </a></li>
+        <li><a href="/citas"><i class="fa fa-file-text-o"></i> Historial de Citas Medicas </a></li>
+        <li><a href="signos/registro"><i class="fa fa-heartbeat"></i> Registrar Signos Vitales </a></li>
       </ul>
     </div>
   </div>

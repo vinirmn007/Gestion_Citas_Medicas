@@ -6,6 +6,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.gestionCitas.controls.dao.services.MedicoServices;
+import com.gestionCitas.controls.dao.services.PersonaServices;
 import com.gestionCitas.controls.dao.services.TurnoServices;
 import com.gestionCitas.models.enums.Estado;
 import com.gestionCitas.models.Turno;
@@ -34,6 +36,30 @@ public class TurnoApi {
         HashMap<String, Object> res = new HashMap<>();
         try {
             TurnoServices turnoServices = new TurnoServices();
+            PersonaServices personaServices = new PersonaServices();
+            MedicoServices medicoServices = new MedicoServices();
+
+            if (personaServices.get(Integer.parseInt(map.get("idPaciente").toString())) == null) {
+                res.put("msg", "Error");
+                res.put("data", "El paciente no existe");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (medicoServices.get(Integer.parseInt(map.get("idMedico").toString())) == null) {
+                res.put("msg", "Error");
+                res.put("data", "El médico no existe");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (turnoServices.getListAll().binarySearch("fecha", map.get("fecha").toString()) != null) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe un turno para esa fecha");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (turnoServices.getListAll().binarySearch("hora", map.get("hora").toString()) != null) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe un turno para esa hora");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
             turnoServices.getTurno().setIdMedico(Integer.parseInt(map.get("idMedico").toString()));
             turnoServices.getTurno().setIdPaciente(Integer.parseInt(map.get("idPaciente").toString()));
             turnoServices.getTurno().setFecha(map.get("fecha").toString());

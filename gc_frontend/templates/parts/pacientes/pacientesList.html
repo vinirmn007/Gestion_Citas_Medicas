@@ -1,0 +1,88 @@
+{% extends "base_site.html" %}
+{% block title %}Historial de Citas Medicas{% endblock %}
+{% block content %}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>Lista de Pacientes</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Buscar Paciente -->
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <form class="form-inline">
+                    <label for="search" class="mr-2">Buscar Paciente</label>
+                    <select class="form-control mr-2" name="search" id="search">
+                        <option value="nombres">Nombres</option>
+                        <option value="apellidos">Apellidos</option>
+                    </select>
+                    <input type="text" class="form-control mr-2" id="name" name="name" placeholder="Nombre o Apellido"
+                        required>
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </form>
+            </div>
+            <!-- Ordenar -->
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <form class="form-inline">
+                    <label for="order" class="mr-2">Ordenar</label>
+                    <select class="form-control mr-2" name="order" id="order">
+                        <option value="nombres">Nombres</option>
+                        <option value="apellidos">Apellidos</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary mr-1">Asc</button>
+                    <button type="submit" class="btn btn-primary">Desc</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content">
+
+                        <div class="table-responsive">
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                    <tr class="headings">
+                                        <th class="column-title">Nombres </th>
+                                        <th class="column-title">Apellidos </th>
+                                        <th class="column-title">Edad </th>
+                                        <th class="column-title">Identificación </th>
+                                        <th class="column-title">Email </th>
+                                        <th class="column-title">Teléfono </th>
+                                        <th class="column-title">Dirección </th>
+                                        <th class="column-title">Detalle </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for paciente in pacientes %}
+                                    <tr>
+                                        <td class=" ">{{paciente.nombres}}</td>
+                                        <td class=" ">{{paciente.apellidos}}</td>
+                                        <td class=" "></td>
+                                        <td class=" ">{{paciente.numeroIdentificacion}}</td>
+                                        <td class=" ">{{paciente.email}}</td>
+                                        <td class="">{{paciente.telefono}}</td>
+                                        <td class="">{{paciente.direccion}}</td>
+                                        <td class=" last"><a href="#">Ver</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
