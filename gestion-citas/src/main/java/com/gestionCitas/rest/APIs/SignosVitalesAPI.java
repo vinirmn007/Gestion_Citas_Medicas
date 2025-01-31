@@ -9,6 +9,7 @@ import com.gestionCitas.controls.dao.services.SignosVitalesServices;
 import com.gestionCitas.controls.dao.services.HistorialMedicoServices;
 import com.gestionCitas.controls.dao.services.TurnoServices;
 import com.gestionCitas.models.SignosVitales;
+import com.gestionCitas.models.enums.Estado;
 
 @Path("signosVitales")
 public class SignosVitalesAPI {
@@ -45,6 +46,42 @@ public class SignosVitalesAPI {
                 res.put("data", "No existe ese Turno");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
+            if (svs.getListAll().binarySearch("turnoId", map.get("turnoId").toString()) != null) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existen signos para ese turno");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (ts.get(Integer.parseInt(map.get("turnoId").toString())).getEstado() != Estado.RESERVADO) {
+                res.put("msg", "Error");
+                res.put("data", "El turno no esta en estado RESERVADO");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                
+            }
+            if (Float.parseFloat(map.get("altura").toString()) <= 0 || Float.parseFloat(map.get("altura").toString()) > 5) {
+                res.put("msg", "Error");
+                res.put("data", "La altura debe ser mayor a 0 o no puede ser tan elevada");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (Float.parseFloat(map.get("peso").toString()) <= 0 || Float.parseFloat(map.get("peso").toString()) > 600) {
+                res.put("msg", "Error");
+                res.put("data", "El peso debe ser mayor a 0 o no puede ser tan elevado");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (Float.parseFloat(map.get("temperatura").toString()) <= 0 || Float.parseFloat(map.get("temperatura").toString()) > 50) {
+                res.put("msg", "Error");
+                res.put("data", "La temperatura debe ser mayor a 0 o no puede ser tan elevada");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (Float.parseFloat(map.get("presionSistolica").toString()) <= 0 || Float.parseFloat(map.get("presionSistolica").toString()) > 200) {
+                res.put("msg", "Error");
+                res.put("data", "La presión sistólica debe ser mayor a 0 o no puede ser tan elevada");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (Float.parseFloat(map.get("presionDiastolica").toString()) <= 0 || Float.parseFloat(map.get("presionDiastolica").toString()) > 200) {
+                res.put("msg", "Error");
+                res.put("data", "La presión diastólica debe ser mayor a 0 o no puede ser tan elevada");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
 
             //GUARDADO DE DATOS
             svs.getSignosVitales().setAltura(Float.parseFloat(map.get("altura").toString()));
@@ -58,6 +95,7 @@ public class SignosVitalesAPI {
             //AGREGAR SIGNOS VITALES AL TURNO
             ts.setTurno(ts.get(Integer.parseInt(map.get("turnoId").toString())));
             ts.getTurno().setIdSignosVitales(svs.getSignosVitales().getId());
+            ts.getTurno().setEstado(Estado.EN_ESPERA);
             ts.update();
 
             res.put("msg", "OK");

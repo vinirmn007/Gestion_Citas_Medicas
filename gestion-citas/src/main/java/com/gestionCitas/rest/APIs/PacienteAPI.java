@@ -10,8 +10,8 @@ import com.gestionCitas.controls.dao.services.CuentaServices;
 import com.gestionCitas.controls.dao.services.PersonaServices;
 import com.gestionCitas.models.Persona;
 
-@Path("personas")
-public class PersonaAPI {
+@Path("pacientes")
+public class PacienteAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllPersons() throws Exception {
@@ -95,7 +95,8 @@ public class PersonaAPI {
             }
 
             //GUARDADO
-            ps.getPersona().setNombre(map.get("nombre").toString());
+            ps.getPersona().setNombres(map.get("nombres").toString());
+            ps.getPersona().setApellidos(map.get("apellidos").toString());
             ps.getPersona().setEmail(map.get("email").toString());
             ps.getPersona().setDireccion(map.get("direccion").toString());
             ps.getPersona().setTelefono(map.get("telefono").toString());

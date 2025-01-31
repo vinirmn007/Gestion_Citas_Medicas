@@ -4,7 +4,8 @@ import com.gestionCitas.models.enums.*;;
 
 public class Persona {
     private Integer id;
-    private String nombre;
+    private String nombres;
+    private String apellidos;
     private String email;
     private String direccion;
     private String telefono;
@@ -18,11 +19,11 @@ public class Persona {
     public Persona() {
     }
 
-    public Persona(Integer id, String nombre, String email, String direccion, String telefono, String fechaNacimiento,
+    public Persona(Integer id, String nombres, String email, String direccion, String telefono, String fechaNacimiento,
             String numeroIdentificacion, Identificacion tipoIdentificacion, Genero genero, Integer historialMedicoId,
             Integer cuentaId) {
         this.id = id;
-        this.nombre = nombre;
+        this.nombres = nombres;
         this.email = email;
         this.direccion = direccion;
         this.telefono = telefono;
@@ -42,12 +43,20 @@ public class Persona {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombres() {
+        return nombres;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
     public String getEmail() {

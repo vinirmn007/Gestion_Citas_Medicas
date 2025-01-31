@@ -68,12 +68,7 @@ public class TurnoDao extends AdapterDao<Turno> {
             throw e;
         }
     }
-
-    /**
-     * Elimina un turno existente por su ID.
-     * @return true si se elimina correctamente, false en caso de error.
-     * @throws Exception en caso de error durante la eliminación.
-     */
+    
     public Boolean delete() throws Exception {
         try {
             if (turno.getId() == 0) {
@@ -86,19 +81,4 @@ public class TurnoDao extends AdapterDao<Turno> {
             throw e;
         }
     }
-
-    /**
-     * Filtra los turnos por estado.
-     * @param estado El estado por el cual se quiere filtrar.
-     * @return Una lista de turnos que coinciden con el estado.
-     
-    public LinkedList<Turno> findByEstado(Estado estado) {
-        LinkedList<Turno> result = new LinkedList<>();
-        for (Turno t : getListAll().toArray()) {
-            if (t.getEstado() == estado) {
-                result.add(t);
-            }
-        }
-        return result;
-    }*/
 }
