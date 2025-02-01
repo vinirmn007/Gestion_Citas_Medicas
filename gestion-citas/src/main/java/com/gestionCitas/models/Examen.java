@@ -3,16 +3,19 @@ package com.gestionCitas.models;
 import com.gestionCitas.models.enums.TipoExamen;
 
 public class Examen {
-    private Integer id;
+    private int id;
     private TipoExamen tipo;
     private String descripcion;
-    private Boolean estado;
-    private String directorioResultado;
     private Integer idDiagnostico;
 
-
+    public Examen() {
+        this.id = 0;
+        this.tipo = TipoExamen.LABORATORIO;
+        this.descripcion = "";
+        this.idDiagnostico = null;
+    }
     
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -34,22 +37,6 @@ public class Examen {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public Boolean getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
-    }
-
-    public String getDirectorioResultado() {
-        return directorioResultado;
-    }
-
-    public void setDirectorioResultado(String directorioResultado) {
-        this.directorioResultado = directorioResultado;
     }
 
     public Integer getIdDiagnostico() {

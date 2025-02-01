@@ -1,22 +1,24 @@
 package com.gestionCitas.controls.dao.services;
 
-import com.gestionCitas.controls.dao.CitaMedicaDao;
+import com.gestionCitas.controls.dao.MedicoDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
-import com.gestionCitas.models.CitaMedica;
+import com.gestionCitas.models.Medico;
+import com.gestionCitas.models.enums.Genero;
+import com.gestionCitas.models.enums.Identificacion;
 
-public class CitaMedicaServices {
-    private CitaMedicaDao obj;
+public class MedicoServices {
+    private MedicoDao obj;
 
-    public CitaMedicaServices() {
-        this.obj = new CitaMedicaDao();
+    public MedicoServices() {
+        this.obj = new MedicoDao();
     }
 
-    public CitaMedica getCitaMedica() {
-        return this.obj.getCita();
+    public Medico getMedico() {
+        return this.obj.getMedico();
     }
 
-    public void setCitaMedica(CitaMedica CitaMedica) {
-        this.obj.setCita(CitaMedica);
+    public void setMedico(Medico Medico) {
+        this.obj.setMedico(Medico);
     }
 
     public LinkedList getListAll() {
@@ -35,8 +37,24 @@ public class CitaMedicaServices {
         return this.obj.delete();
     }
 
-    public CitaMedica get(Integer id) throws Exception {
+    public Medico get(Integer id) throws Exception {
         return this.obj.getById(id);
+    }
+
+    public Identificacion getIdentificacion(String tipo) {
+        return this.obj.getTipoIdent(tipo);
+    }
+
+    public Identificacion[] getAllIdentificaciones() {
+        return this.obj.getAllTiposIdent();
+    }
+
+    public Genero[] getAllGeneros() {
+        return this.obj.getAllGeneros();
+    }
+
+    public Genero getGenero(String genero) {
+        return this.obj.getGenero(genero);
     }
 
     public LinkedList order(String attribute, Integer type) throws Exception {

@@ -7,6 +7,10 @@ URL = "http://localhost:8080/myapp/"
 
 @main_route.route('/')
 def presentation():
+    return render_template('presentation.html')
+
+@main_route.route('/login')
+def load_login():
     return render_template('login/login.html')
 
 @main_route.route('/home')
@@ -36,7 +40,7 @@ def login():
 
             if usuario_encontrado and usuario_encontrado['contrasena'] == contrasena:
                 session['usuario'] = usuario_encontrado['usuario']
-                session['rol'] = usuario_encontrado.get('rol')  # Opcional
+                session['rol'] = usuario_encontrado.get('rol')
                 flash('Login exitoso', category='info')
                 return redirect('/home')
             else:

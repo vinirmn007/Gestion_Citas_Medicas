@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Scanner;
 
+import com.gestionCitas.controls.dao.implement.InterfazDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.google.gson.Gson;
 

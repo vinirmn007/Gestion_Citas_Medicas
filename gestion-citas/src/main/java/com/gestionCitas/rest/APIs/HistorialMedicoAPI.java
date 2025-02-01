@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.gestionCitas.controls.dao.services.HistorialMedicoServices;
+import com.gestionCitas.controls.dao.services.PersonaServices;
 import com.gestionCitas.models.HistorialMedico;
 
 @Path("historialMedico")
@@ -43,32 +44,6 @@ public class HistorialMedicoAPI {
         return Response.ok(map).build();
     }
 
-    @Path("/saver")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response saver() throws Exception {
-        HashMap map = new HashMap<>();
-        HistorialMedicoServices hss = new HistorialMedicoServices();
-
-        hss.getHistorialMedico().setAlergias("Ninguna");
-        hss.getHistorialMedico().setAntecendentesFamiliares("Ninguna");
-        hss.getHistorialMedico().setDiscapacidad("Ninguna");
-        hss.getHistorialMedico().setMedicacionActual("Ninguna");
-        hss.getHistorialMedico().setPatologiasPasadas("Ninguna");
-        //hss.getHistorialMedico().setTipoSangre(map.get("tipo_sangre").toString());
-        hss.getHistorialMedico().setPacienteId(1);
-        hss.save();
-
-        map.put("msg", "OK");
-        map.put("data", hss.getListAll().toArray());
-
-        if (hss.getListAll().isEmpty()) {
-            map.put("data", new Object[]{});
-        }
-
-        return Response.ok(map).build();
-    }
-
     @Path("/save")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -78,15 +53,29 @@ public class HistorialMedicoAPI {
 
         try {
             HistorialMedicoServices hss = new HistorialMedicoServices();
+            PersonaServices ps = new PersonaServices();
 
+            //VALIDACIONES
+            if (ps.get(Integer.parseInt(map.get("pacienteId").toString())) == null) {
+                res.put("msg", "Error");
+                res.put("data", "No existe ese Paciente");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
+            //GUARDADO DE DATOS
             hss.getHistorialMedico().setAlergias(map.get("alergias").toString());
             hss.getHistorialMedico().setAntecendentesFamiliares(map.get("antecedentes").toString());
             hss.getHistorialMedico().setDiscapacidad(map.get("discapacidad").toString());
             hss.getHistorialMedico().setMedicacionActual(map.get("medicacion").toString());
             hss.getHistorialMedico().setPatologiasPasadas(map.get("patologias").toString());
-            //hss.getHistorialMedico().setTipoSangre(map.get("tipo_sangre").toString());
+            hss.getHistorialMedico().setTipoSangre(hss.getTipoSangre(map.get("tipo_sangre").toString()));            
             hss.getHistorialMedico().setPacienteId(Integer.parseInt(map.get("pacienteId").toString()));
             hss.save();
+
+            //ACTUALIZACION DE PACIENTE
+            ps.setPersona(ps.get(Integer.parseInt(map.get("pacienteId").toString())));
+            ps.getPersona().setHistorialMedicoId(hss.getHistorialMedico().getId());
+            ps.update();
 
             res.put("msg", "OK");
             res.put("data", "Historial registrada correctamente");
@@ -130,6 +119,7 @@ public class HistorialMedicoAPI {
         try {
             HistorialMedicoServices hss = new HistorialMedicoServices();
 
+            hss.setHistorialMedico(hss.get(Integer.parseInt(map.get("id").toString())));
             hss.getHistorialMedico().setAlergias(map.get("alergias").toString());
             hss.getHistorialMedico().setAntecendentesFamiliares(map.get("antecedentes").toString());
             hss.getHistorialMedico().setMedicacionActual(map.get("medicacion").toString());
