@@ -44,7 +44,7 @@ public class DiagnosticoApi {
     public Response saveDiagnostico(HashMap map) {
         HashMap res = new HashMap();
         Gson g = new Gson();
-    
+
         try {
             if (map.get("citaM") != null) {
                 CitaMedicaServices cms = new CitaMedicaServices();
@@ -52,21 +52,72 @@ public class DiagnosticoApi {
                 CitaMedica citaMedica = cms.get(cms.getCitaMedica().getId());
 
                 if (citaMedica != null) {
-                    if (citaMedica.getDiagnosticoId() != null && 
-                        citaMedica.getDiagnosticoId().equals(map.get("id"))) {
-                        
+                    DiagnosticoServices ds = new DiagnosticoServices();
+                    ds.getDiagnostico().setDescripcion(map.get("descripcion").toString());
+                    ds.getDiagnostico().setIdCitaMedica(citaMedica.getId());
+                    ds.save();
+
+                    res.put("msg", "OK");
+                    res.put("data", "Diagnostico creado");
+
+                    return Response.ok(res).build();
+                } else {
+                    res.put("msg", "Error al guardar");
+                    res.put("data", "Cita médica no encontrada");
+                    return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                }
+            } else {
+                res.put("msg", "Error al guardar");
+                res.put("data", "Cita médica no especificada");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+        } catch (Exception e) {
+            res.put("msg", "Error al guardar");
+            res.put("data", e.toString());
+            return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+        }
+    }
+    /*
+    @Path("save")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response saveDiagnostico(HashMap map) {
+        HashMap res = new HashMap();
+        Gson g = new Gson();
+
+        try {
+            if (map.get("citaM") != null) {
+                CitaMedicaServices cms = new CitaMedicaServices();
+                cms.getCitaMedica().setId(Integer.parseInt(map.get("citaM").toString()));
+                CitaMedica citaMedica = cms.get(cms.getCitaMedica().getId());
+
+                if (citaMedica != null) {
+                    if (citaMedica.getDiagnosticoId() == null) {
+                        // Calcular el siguiente ID disponible para Diagnóstico
                         DiagnosticoServices ds = new DiagnosticoServices();
-                        ds.getDiagnostico().setDescripcion(map.get("descripcion").toString());
-                        ds.getDiagnostico().setIdCitaMedica(citaMedica.getId());
-                        ds.save();
+                        int nextDiagnosticoId = ds.getAll().stream()
+                            .mapToInt(Diagnostico::getId)
+                            .max()
+                            .orElse(0) + 1;
+
+                        // Crear y asignar el nuevo diagnóstico
+                        Diagnostico nuevoDiagnostico = new Diagnostico();
+                        nuevoDiagnostico.setId(nextDiagnosticoId);
+                        nuevoDiagnostico.setDescripcion(map.get("descripcion").toString());
+                        nuevoDiagnostico.setIdCitaMedica(citaMedica.getId());
+                        ds.save(nuevoDiagnostico);
+
+                        // Actualizar la cita médica con el nuevo diagnóstico
+                        citaMedica.setDiagnosticoId(nextDiagnosticoId);
+                        cms.update(citaMedica);
 
                         res.put("msg", "OK");
-                        res.put("data", "Diagnostico creado");
-                        
+                        res.put("data", "Diagnostico creado con ID: " + nextDiagnosticoId);
                         return Response.ok(res).build();
                     } else {
                         res.put("msg", "Error al guardar");
-                        res.put("data", "El ID del diagnóstico no coincide con el de la cita médica seleccionada");
+                        res.put("data", "La cita médica ya tiene un diagnóstico asignado");
                         return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
                     }
                 } else {
@@ -85,6 +136,8 @@ public class DiagnosticoApi {
             return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
         }
     }
+    */
+
 
     @Path("/get/{id}")
     @GET

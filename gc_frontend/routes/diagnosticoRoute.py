@@ -14,8 +14,15 @@ def diagnosticoList():
 @diagnostico_route.route('/diagnostico/<id>')
 def diagnostico(id):
     r = requests.get(URL + 'diagnostico/get/' + id)
+    recetas = requests.get(URL + 'receta/list')
     data = r.json().get('data')
-    return render_template('parts/diagnostico/diagnosticoDetalle.html', diagnostico=data)
+    rdata = recetas.json().get('data')
+    recetas_filtradas = [receta for receta in rdata if receta.get('idDiagnostico') == int(id)]
+    print("Recetas")
+    print(rdata)
+    print("Recetas filtradas")
+    print(recetas_filtradas)
+    return render_template('parts/diagnostico/diagnosticoDetalle.html', diagnostico=data, recetas=recetas_filtradas)
 
 @diagnostico_route.route('/diagnostico/registro')
 def registrarDiagnostico():
@@ -32,7 +39,7 @@ def saveDiagnostico():
 
     if r.status_code == 200:
         flash('Se guardo correctamente el diagnostico', category = 'info')
-        return redirect (url_for('router.diagnosticoList'))
+        return redirect (url_for('diagnostico_route.diagnosticoList'))
     else:
         print("Error al guardar el diagnostico")
         flash(str(data["data"]), category = 'error')

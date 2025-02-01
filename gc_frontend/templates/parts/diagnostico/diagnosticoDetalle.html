@@ -26,6 +26,21 @@
                         </div>
                     {% endif %}
                 </div>
+                {% if recetas %}
+                    <h3 class="card-title mt-3">Recetas Relacionadas</h3>
+                    <ul class="list-group">
+                        {% for receta in recetas %}
+                            <li class="list-group-item">
+                                <a href="#  ">
+                                    Receta ID: {{ receta.id }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">No hay recetas asociadas a este diagnóstico.</p>
+                {% endif %} 
+
             </div>
         </div>
     </div>
