@@ -15,7 +15,6 @@ import com.gestionCitas.controls.dao.services.DiagnosticoServices;
 import com.gestionCitas.controls.dao.services.MedicamentoServices;
 import com.gestionCitas.controls.dao.services.RecetaServices;
 import com.gestionCitas.models.Receta;
-import com.google.gson.Gson;
 
 
 @Path("/receta")
@@ -40,57 +39,76 @@ public class RecetaApi {
 
     @Path("save")
     @POST
-    @Consumes (MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response savereceta (HashMap map) {
-        HashMap res = new HashMap();
-        Gson g = new Gson();
-        MedicamentoServices medicamentos = new MedicamentoServices();
-        medicamentos.getListAll().toArray();
-        
+    public Response saveReceta(HashMap<String, Object> map) {
+        HashMap<String, Object> res = new HashMap<>();
+        MedicamentoServices medicamentoService = new MedicamentoServices();
+        DiagnosticoServices diagnosticoService = new DiagnosticoServices();
+        RecetaServices recetaService = new RecetaServices();
+    
         try {
-            if (map.get("diagnosticoC") != null) {
-                DiagnosticoServices cms = new DiagnosticoServices();
-                cms.getDiagnostico().setId(Integer.parseInt(map.get("diagnosticoC").toString()));
-                if (cms.get(cms.getDiagnostico().getId()) == null) {
-                    Integer[] medicamentoRecetados = new Integer[map.size() - 2];   
-                    RecetaServices ds = new RecetaServices();
-                    ds.getReceta().setPrescripcion(map.get("prescripcion").toString());
-                    ds.getReceta().setIdMedicamentos(medicamentoRecetados);
-                    MedicamentoServices ms = new MedicamentoServices();
-                    //validar que los medicamentos recetados existan
-                    for (int i = 0; i < medicamentoRecetados.length; i++) {
-                        ms.getMedicamento().setId(medicamentoRecetados[i]);
-                        if (ms.get(ms.getMedicamento().getId()) == null) {
-                            res.put("msg", "Error al guardar");
-                            res.put("data", "Medicamento no encontrado");
-                            return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
-                        }
-                    }
-                    ds.getReceta().setIdDiagnostico(cms.getDiagnostico().getId());
-                    ds.save();
-
-                    res.put("msg", "OK");
-                    res.put("data", "receta creado");
-                    
-                    return Response.ok(res).build();
-                } else {
+            // Validar que el diagnóstico esté presente y exista
+            if (map.containsKey("idDiagnostico")) {
+                int idDiagnostico = Integer.parseInt(map.get("idDiagnostico").toString());
+                if (diagnosticoService.get(idDiagnostico) == null) {
                     res.put("msg", "Error al guardar");
-                    res.put("data", "Diagnostico o Receta no encontrada");
+                    res.put("data", "Diagnóstico no encontrado");
                     return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
                 }
+    
+                // Validar que la prescripción esté presente
+                if (!map.containsKey("prescripcion")) {
+                    res.put("msg", "Error al guardar");
+                    res.put("data", "Prescripción no proporcionada");
+                    return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                }
+    
+                String prescripcion = map.get("prescripcion").toString();
+    
+                // Validar que idMedicamentos sea un Array
+                if (!map.containsKey("idMedicamentos") || !(map.get("idMedicamentos") instanceof Object[])) {
+                    res.put("msg", "Error al guardar");
+                    res.put("data", "idMedicamentos no proporcionado o formato incorrecto");
+                    return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                }
+    
+                // Convertir Array a Integer[]
+                Object[] idMedicamentosObj = (Object[]) map.get("idMedicamentos");
+                Integer[] idMedicamentos = new Integer[idMedicamentosObj.length];
+    
+                for (int i = 0; i < idMedicamentosObj.length; i++) {
+                    idMedicamentos[i] = Integer.parseInt(idMedicamentosObj[i].toString());
+                    if (medicamentoService.get(idMedicamentos[i]) == null) {
+                        res.put("msg", "Error al guardar");
+                        res.put("data", "Medicamento con ID " + idMedicamentos[i] + " no encontrado");
+                        return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                    }
+                }
+    
+                // Configurar la receta y guardarla
+                recetaService.getReceta().setIdDiagnostico(idDiagnostico);
+                recetaService.getReceta().setPrescripcion(prescripcion);
+                recetaService.getReceta().setIdMedicamentos(idMedicamentos);
+                recetaService.save();
+    
+                res.put("msg", "OK");
+                res.put("data", "Receta creada exitosamente");
+                return Response.ok(res).build();
+    
             } else {
                 res.put("msg", "Error al guardar");
-                res.put("data", "Cita medica no encontrada");
+                res.put("data", "Diagnóstico no proporcionado");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
-        }  catch (Exception e) {
-            res.put("msg", "Error al guardar");
+        } catch (Exception e) {
+            res.put("msg", "Error al guardar total");
             res.put("data", e.toString());
             return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
         }
-        
     }
+    
+
 
     @Path("/get/{id}")
     @GET
