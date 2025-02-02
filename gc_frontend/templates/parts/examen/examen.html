@@ -1,0 +1,44 @@
+{% extends "base_site.html" %}
+{% block title %}Lista de Exámenes{% endblock %}
+{% block content %}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Lista de Exámenes</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Descripción</th>
+                                    <th>Tipo de Examen</th>
+                                    <th>ID Diagnóstico</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for examen in examens %}
+                                <tr>
+                                    <td>{{ examen.id }}</td>
+                                    <td>{{ examen.descripcion }}</td>
+                                    <td>{{ examen.tipoExamen }}</td>
+                                    <td>{{ examen.idDiagnostico }}</td>
+                                    <td>
+                                        <a href="{{ url_for('examen_route.examen', id=examen.id) }}" class="btn btn-info">Ver Detalle</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
