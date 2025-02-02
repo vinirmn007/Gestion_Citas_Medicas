@@ -15,14 +15,17 @@ def diagnosticoList():
 def diagnostico(id):
     r = requests.get(URL + 'diagnostico/get/' + id)
     recetas = requests.get(URL + 'receta/list')
+    examenes = requests.get(URL + 'examen/list')
     data = r.json().get('data')
     rdata = recetas.json().get('data')
+    edata = examenes.json().get('data')
     recetas_filtradas = [receta for receta in rdata if receta.get('idDiagnostico') == int(id)]
+    examenes_filtrados = [examen for examen in edata if examen.get('idDiagnostico') == int(id)]
     print("Recetas")
     print(rdata)
     print("Recetas filtradas")
     print(recetas_filtradas)
-    return render_template('parts/diagnostico/diagnosticoDetalle.html', diagnostico=data, recetas=recetas_filtradas)
+    return render_template('parts/diagnostico/diagnosticoDetalle.html', diagnostico=data, recetas=recetas_filtradas, examenes=examenes_filtrados)
 
 @diagnostico_route.route('/diagnostico/registro/<int:id>')
 def registrarDiagnostico(id):
