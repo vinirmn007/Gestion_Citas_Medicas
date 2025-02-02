@@ -32,4 +32,4 @@ def signos_vitales_save():
             flash('No se ha podido guardar: ' + str(data), category='error')
     except Exception as e:
         flash('Ocurrió un error: ' + str(e), category='error')
-    return redirect(request.referrer)
+    return redirect('/turno/espera/all')
