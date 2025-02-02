@@ -4,6 +4,7 @@ from routes.turnosRoute import turnos_route
 from routes.mainRoute import main_route
 from routes.diagnosticoRoute import diagnostico_route
 from routes.recetaRoute import receta_route
+from routes.examenRoute import examen_route
 
 
 def create_app():
@@ -15,6 +16,7 @@ def create_app():
         app.register_blueprint(main_route)
         app.register_blueprint(diagnostico_route)
         app.register_blueprint(receta_route)   
+        app.register_blueprint(examen_route)
         
 
     return app

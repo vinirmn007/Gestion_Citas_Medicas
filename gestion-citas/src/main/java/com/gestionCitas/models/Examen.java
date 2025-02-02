@@ -6,6 +6,7 @@ public class Examen {
     private int id;
     private TipoExamen tipo;
     private String descripcion;
+    private String nombreArchivo;
     private Integer idDiagnostico;
 
     public Examen() {
@@ -37,6 +38,14 @@ public class Examen {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getNombreArchivo() {
+        return nombreArchivo;
+    }
+
+    public void setNombreArchivo(String nombreArchivo) {
+        this.nombreArchivo = nombreArchivo;
     }
 
     public Integer getIdDiagnostico() {
