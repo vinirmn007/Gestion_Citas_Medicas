@@ -4,7 +4,7 @@ from routes.turnosRoute import turnos_route
 from routes.mainRoute import main_route
 from routes.diagnosticoRoute import diagnostico_route
 from routes.recetaRoute import receta_route
-from routes.medicamentoRoute import medicamento_route
+
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
@@ -15,6 +15,6 @@ def create_app():
         app.register_blueprint(main_route)
         app.register_blueprint(diagnostico_route)
         app.register_blueprint(receta_route)   
-        app.register_blueprint(medicamento_route) 
+        
 
     return app
