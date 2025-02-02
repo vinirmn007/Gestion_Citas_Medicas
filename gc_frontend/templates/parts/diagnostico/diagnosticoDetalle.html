@@ -31,7 +31,7 @@
                     <ul class="list-group">
                         {% for receta in recetas %}
                             <li class="list-group-item">
-                                <a href="#  ">
+                                <a href="{{ url_for('receta_route.receta', id=receta.id) }}">
                                     Receta ID: {{ receta.id }}
                                 </a>
                             </li>
@@ -44,9 +44,9 @@
                 <div class="form-group">
                     <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                         <!-- Botón para agregar receta -->
-                        <a href="{{ url_for('receta_route.registro', idDiagnostico=diagnostico.id) }}" class="btn btn-success">Agregar Receta</a>
+                        <a href="{{ url_for('receta_route.registro', id=diagnostico.id) }}" class="btn btn-success">Agregar Receta</a>
                     </div>
-                </div>CitaMedica
+                </div>
                 
 
             </div>

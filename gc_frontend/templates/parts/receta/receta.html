@@ -1,6 +1,6 @@
 {% extends "base_site.html" %}
 {% block title %}
-<title>Recetas</title>
+Recetas
 {% endblock %}
 {% block content %}
   <div class="right_col" role="main">
@@ -18,7 +18,7 @@
                     <tr>
                         <th>#</th>
                         <th>prescripcion</th>
-                        <th>idMedicamentos</th>
+                        <th>medicamentos</th>
                         <th>idDiagnostico</th>
                         
                     </tr>
@@ -28,7 +28,7 @@
                     <tr>
                         <th scope="row">{{receta.id}}</th>
                         <td>{{receta.prescripcion}}</td>
-                        <td>{{receta.idMedicamentos}}</td>
+                        <td>{{receta.medicamentos}}</td>
                         <td>{{receta.idDiagnostico}}</td>
                         <td>
                             <a href="#">Ver</a>
