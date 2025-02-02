@@ -1,1 +1,1 @@
-[{"id":1,"prescripcion":"Tomar2pastillasdeacetaminofeno","idMedicamentos":[1,2],"idDiagnostico":2},{"id":2,"prescripcion":"Pacientepresentasíntomasdegripe","idMedicamentos":[1,2],"idDiagnostico":1},{"id":3,"prescripcion":"Pacientepresentasíntomasdegripe","idMedicamentos":[1,2],"idDiagnostico":1},{"id":4,"prescripcion":"Tomar 2 tabletas cada 6 horas durante 2 dias","idMedicamentos":[2,1],"idDiagnostico":5}]
+[{"id":1,"medicamentos":"Paracetamol","prescripcion":"Cada 8 horas","idDiagnostico":1}]

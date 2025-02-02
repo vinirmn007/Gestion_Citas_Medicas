@@ -36,7 +36,7 @@ public class RecetaApi {
         return Response.ok(map).build();
     }
 
-    @Path("save")
+    @Path("/save")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -119,51 +119,115 @@ public class RecetaApi {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(HashMap map) throws Exception {
-        HashMap res = new HashMap();
+    public Response update(HashMap<String, Object> map) throws Exception {
+        HashMap<String, Object> res = new HashMap<>();
         try {
+            // Verificar que el ID de la receta esté presente
             if (map.get("id") == null) {
                 res.put("msg", "Error");
                 res.put("data", "El ID de la receta es requerido");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
-
+    
             RecetaServices rs = new RecetaServices();
             rs.getReceta().setId(Integer.parseInt(map.get("id").toString()));
-
+    
+            // Verificar que la receta exista
             if (rs.getReceta() == null || rs.get(rs.getReceta().getId()) == null) {
                 res.put("msg", "Error");
                 res.put("data", "No existe la receta con el ID proporcionado");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
-
+    
+            // Verificar que el diagnóstico esté presente y válido
             if (map.get("diagnosticoC") != null) {
                 DiagnosticoServices ds = new DiagnosticoServices();
                 ds.setDiagnostico(ds.get(Integer.parseInt(map.get("diagnosticoC").toString())));
                 
                 if (ds.getDiagnostico() == null) {
                     res.put("msg", "Error");
-                    res.put("data", "Diagnostico no encontrado");
+                    res.put("data", "Diagnóstico no encontrado");
                     return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
                 }
-
+    
+                // Validar que la prescripción y los medicamentos estén presentes
+                if (!map.containsKey("prescripcion")) {
+                    res.put("msg", "Error");
+                    res.put("data", "Prescripción no proporcionada");
+                    return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                }
+                if (!map.containsKey("medicamentos")) {
+                    res.put("msg", "Error");
+                    res.put("data", "Medicamentos no proporcionados");
+                    return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                }
+    
+                // Actualizar los datos de la receta
                 rs.getReceta().setIdDiagnostico(ds.getDiagnostico().getId());
                 rs.getReceta().setPrescripcion(map.get("prescripcion").toString());
-                rs.getReceta().setIdMedicamentos((Integer[]) map.get("idMedicamentos"));
+                rs.getReceta().setMedicamentos(map.get("medicamentos").toString());
                 rs.update();
-
+    
                 res.put("msg", "OK");
                 res.put("data", rs.getReceta());
                 return Response.ok(res).build();
             }
-
+    
+            // Si no se especifica el diagnóstico
             res.put("msg", "Error");
-            res.put("data", "Diagnostico no especificado");
+            res.put("data", "Diagnóstico no especificado");
             return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
-
-
-        } catch(Exception e) {
+    
+        } catch (Exception e) {
             res.put("msg", "Error al actualizar");
+            res.put("data", e.toString());
+            return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+        }
+    }
+
+    @Path("/delete")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response delete(HashMap<String, Object> map) {
+        HashMap<String, Object> res = new HashMap<>();
+        try {
+            // Verificar que el ID de la receta esté presente
+            if (map.get("id") == null) {
+                res.put("msg", "Error");
+                res.put("data", "El ID de la receta es requerido");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+    
+            RecetaServices rs = new RecetaServices();
+            rs.getReceta().setId(Integer.parseInt(map.get("id").toString()));
+    
+            // Verificar que la receta exista
+            if (rs.getReceta() == null || rs.get(rs.getReceta().getId()) == null) {
+                res.put("msg", "Error");
+                res.put("data", "No existe la receta con el ID proporcionado");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+    
+            // Verificar que el diagnóstico asociado a la receta esté presente
+            DiagnosticoServices ds = new DiagnosticoServices();
+            ds.getDiagnostico().setId(rs.getReceta().getIdDiagnostico());
+            if (ds.get(ds.getDiagnostico().getId()) == null) {
+                res.put("msg", "Error");
+                res.put("data", "No existe el diagnóstico asociado a la receta");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+    
+            // Eliminar la receta
+            rs.delete();
+    
+    
+            res.put("msg", "OK");
+            res.put("data", "Receta eliminada y diagnóstico actualizado");
+            return Response.ok(res).build();
+    
+        } catch (Exception e) {
+            e.printStackTrace();
+            res.put("msg", "Error al eliminar");
             res.put("data", e.toString());
             return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
         }

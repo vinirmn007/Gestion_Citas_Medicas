@@ -40,6 +40,14 @@
                 {% else %}
                     <p class="text-muted">No hay recetas asociadas a este diagnóstico.</p>
                 {% endif %} 
+                
+                <div class="form-group">
+                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                        <!-- Botón para agregar receta -->
+                        <a href="{{ url_for('receta_route.registro', idDiagnostico=diagnostico.id) }}" class="btn btn-success">Agregar Receta</a>
+                    </div>
+                </div>CitaMedica
+                
 
             </div>
         </div>
