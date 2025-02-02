@@ -12,17 +12,17 @@
                     </div>
                     <div class="x_content">
                         <br />
-                        <form class="form-horizontal form-label-left">
+                        <form class="form-horizontal form-label-left" action="/signosVitales/save" method="POST">
+
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Cita Medica</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Número de turno <span class="required">*</span></label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control" name="citaId" readonly
-                                        placeholder="Sin Cita">
+                                    <input type="number" class="form-control" name="turnoId" step="any" value="{{turnoId}}" disabled required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Estatura</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Estatura (cm) <span class="required">*</span></label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
                                     <input type="number" class="form-control" name="estatura" step="any"
                                      required>
@@ -30,7 +30,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Peso</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Peso (kg) <span class="required">*</span></label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
                                     <input type="number" class="form-control" name="peso" step="any"
                                      required>
@@ -38,7 +38,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Temperatura</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Temperatura (°C) <span class="required">*</span></label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
                                     <input type="number" class="form-control" name="temperatura" step="any"
                                      required>
@@ -46,7 +46,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Presion Sistolica</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Presion Sistolica (mmHg) <span class="required">*</span></label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
                                     <input type="number" class="form-control" name="presion_s" step="any"
                                      required>
@@ -54,7 +54,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Presion Diastolica</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Presion Diastolica (mmHg) <span class="required">*</span></label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
                                     <input type="number" class="form-control" name="presion_d" step="any"
                                      required>
@@ -64,6 +64,7 @@
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <input type="number" name="turnoId" value="{{turnoId}}" hidden>
                                     <button type="button" class="btn btn-primary">Cancelar</button>
                                     <button type="reset" class="btn btn-primary">Borrar</button>
                                     <button type="submit" class="btn btn-success">Guardar</button>

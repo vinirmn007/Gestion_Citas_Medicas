@@ -7,7 +7,9 @@ import javax.ws.rs.core.*;
 
 import com.gestionCitas.controls.dao.services.CitaMedicaServices;
 import com.gestionCitas.controls.dao.services.HistorialMedicoServices;
+import com.gestionCitas.controls.dao.services.PersonaServices;
 import com.gestionCitas.controls.dao.services.TurnoServices;
+import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.CitaMedica;
 import com.gestionCitas.models.Persona;
 import com.gestionCitas.models.enums.Estado;
@@ -55,7 +57,7 @@ public class CitaMedicaAPI {
             }
             if (ts.get(Integer.parseInt(map.get("turnoId").toString())).getEstado() != Estado.EN_ESPERA) {
                 res.put("msg", "Error");
-                res.put("data", "No se han asignado signos vitales");
+                res.put("data", "No se han asignado signos vitales al turno");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
 
@@ -103,6 +105,93 @@ public class CitaMedicaAPI {
         map.put("data", CitaMedica);
 
         return Response.ok(map).build();
+    }
+
+    @Path("/binarySearch/{key}/{value}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response binarySearchCitas(@PathParam("key") String key, @PathParam("value") String value) {
+        HashMap map = new HashMap<>();
+        PersonaServices ps = new PersonaServices();
+        try {
+            CitaMedica cita = (CitaMedica) ps.getListAll().binarySearch(key, value);
+            if (cita == null) {
+                map.put("msg", "OK");
+                map.put("msg", "Cita no encontrada");
+                return Response.ok(map).build();
+            }
+            map.put("msg", "OK");
+            map.put("data", cita);
+            return Response.ok(map).build();
+        } catch (Exception e) {
+            map.put("msg", "Error");
+            map.put("data", e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
+    }
+
+    @Path("/linealSearch/{key}/{value}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response linearSearchCitas(@PathParam("key") String key, @PathParam("value") String value) {
+        HashMap map = new HashMap<>();
+        PersonaServices ps = new PersonaServices();
+
+        map.put("msg", "OK");
+        try {
+            LinkedList<CitaMedica> citas = (LinkedList<CitaMedica>) ps.getListAll().linealSearch(key, value);
+            if (citas.isEmpty()) {
+                map.put("data", "Citas no encontradas");
+                return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+            }
+            map.put("data", citas.toArray());
+        } catch (Exception e) {
+            map.put("msg", "Error");
+            map.put("data", e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
+        return Response.ok(map).build();
+    }
+
+    @Path("/searchByHistId/{value}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchByHistId(@PathParam("value") String value) {
+        HashMap map = new HashMap<>();
+        PersonaServices ps = new PersonaServices();
+        try {
+            LinkedList<CitaMedica> citas = (LinkedList<CitaMedica>) ps.getListAll().linealSearch("historialMedicoId", value);
+            if (citas.isEmpty()) {
+                map.put("msg", "OK");
+                map.put("data", new Object[]{});
+                return Response.ok(map).build();
+            }
+            map.put("msg", "OK");
+            map.put("data", citas.toArray());
+            return Response.ok(map).build();
+        } catch (Exception e) {
+            map.put("msg", "Error");
+            map.put("data", e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
+    }
+
+    @Path("/orderBy/{key}/{type}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response orderByCitas(@PathParam("key") String key, @PathParam("type") Integer type) {
+        HashMap map = new HashMap<>();
+        PersonaServices ps = new PersonaServices();
+        try {
+            LinkedList<CitaMedica> citas = (LinkedList<CitaMedica>) ps.getListAll().order(key, type);
+            map.put("msg", "OK");
+            map.put("data", citas.toArray());
+            return Response.ok(map).build();
+        } catch (Exception e) {
+            map.put("msg", "Error");
+            map.put("data", e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
     }
     /* 
     @Path("/update")

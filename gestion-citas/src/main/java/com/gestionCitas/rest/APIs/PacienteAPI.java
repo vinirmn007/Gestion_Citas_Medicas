@@ -5,9 +5,11 @@ import java.util.HashMap;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import com.gestionCitas.controls.dao.services.CuentaServices;
 import com.gestionCitas.controls.dao.services.PersonaServices;
+import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Persona;
 
 @Path("pacientes")
@@ -22,10 +24,39 @@ public class PacienteAPI {
         map.put("data", ps.getListAll().toArray());
 
         if (ps.getListAll().isEmpty()) {
-            map.put("data", new Object[]{});
+            map.put("data", new Object[] {});
         }
 
         return Response.ok(map).build();
+    }
+
+    @Path("/age/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAge(@PathParam("id") Integer id) throws Exception {
+        HashMap map = new HashMap<>();
+        PersonaServices ps = new PersonaServices();
+        Persona Persona = ps.get(id);
+
+        if (Persona == null || Persona.getId() == null) {
+            map.put("msg", "Error");
+            map.put("data", "No existe esa Persona");
+            return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+        }
+
+        try {
+            Integer edad = ps.getAge(Persona.getFechaNacimiento());
+
+            map.put("msg", "OK");
+            map.put("data", edad);
+
+            return Response.ok(map).build();
+        } catch (Exception e) {
+            map.put("msg", "Error");
+            map.put("data", e.toString());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
     }
 
     @Path("/idens")
@@ -61,40 +92,41 @@ public class PacienteAPI {
             PersonaServices ps = new PersonaServices();
             CuentaServices cs = new CuentaServices();
 
-            //VALIDACIONES
+            // VALIDACIONES
             if (cs.get(Integer.parseInt(map.get("cuentaId").toString())) == null) {
                 res.put("msg", "Error");
                 res.put("data", "No existe esa Cuenta");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
-            } 
-            
+            }
+
             if (ps.getListAll().binarySearch("cuentaId", map.get("cuentaId").toString()) != null) {
                 res.put("msg", "Error");
                 res.put("data", "Ya existe una Persona con esa Cuenta");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
 
-            if (ps.getListAll().binarySearch("numeroIdentificacion", map.get("numeroIdentificacion").toString()) != null) {
+            if (ps.getListAll().binarySearch("numeroIdentificacion",
+                    map.get("numeroIdentificacion").toString()) != null) {
                 res.put("msg", "Error");
                 res.put("data", "Ya existe una Persona con ese numero de identificacion");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
-                
+
             }
 
             if (ps.getListAll().binarySearch("email", map.get("email").toString()) != null) {
                 res.put("msg", "Error");
                 res.put("data", "Ya existe una Persona con ese email");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
-                
+
             }
 
             if (ps.getListAll().binarySearch("telefono", map.get("telefono").toString()) != null) {
                 res.put("msg", "Error");
                 res.put("data", "Ya existe una Persona con ese telefono");
-                return Response.status(Response.Status.BAD_REQUEST).entity(res).build(); 
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
 
-            //GUARDADO
+            // GUARDADO
             ps.getPersona().setNombres(map.get("nombres").toString());
             ps.getPersona().setApellidos(map.get("apellidos").toString());
             ps.getPersona().setEmail(map.get("email").toString());
@@ -138,7 +170,7 @@ public class PacienteAPI {
 
         return Response.ok(map).build();
     }
-    
+
     @Path("/update")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -149,22 +181,24 @@ public class PacienteAPI {
         try {
             PersonaServices ps = new PersonaServices();
 
-            //VALIDACIONES
-            if (ps.getListAll().binarySearch("email", map.get("email").toString()) != null 
-            && !ps.get(Integer.parseInt(map.get("id").toString())).getEmail().equals(map.get("email").toString())) {
+            // VALIDACIONES
+            if (ps.getListAll().binarySearch("email", map.get("email").toString()) != null
+                    && !ps.get(Integer.parseInt(map.get("id").toString())).getEmail()
+                            .equals(map.get("email").toString())) {
                 res.put("msg", "Error");
                 res.put("data", "Ya existe una Persona con ese email");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
 
-            if (ps.getListAll().binarySearch("telefono", map.get("telefono").toString()) != null 
-            && !ps.get(Integer.parseInt(map.get("id").toString())).getTelefono().equals(map.get("telefono").toString())) {
+            if (ps.getListAll().binarySearch("telefono", map.get("telefono").toString()) != null
+                    && !ps.get(Integer.parseInt(map.get("id").toString())).getTelefono()
+                            .equals(map.get("telefono").toString())) {
                 res.put("msg", "Error");
                 res.put("data", "Ya existe una Persona con ese telefono");
-                return Response.status(Response.Status.BAD_REQUEST).entity(res).build(); 
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
 
-            //ACTUALIZACION
+            // ACTUALIZACION
             ps.setPersona(ps.get(Integer.parseInt(map.get("id").toString())));
             ps.getPersona().setEmail(map.get("email").toString());
             ps.getPersona().setDireccion(map.get("direccion").toString());
@@ -192,7 +226,7 @@ public class PacienteAPI {
 
         try {
             PersonaServices ps = new PersonaServices();
-            
+
             Integer id = Integer.parseInt(map.get("id").toString());
             Persona Persona = ps.get(id);
 
@@ -214,6 +248,79 @@ public class PacienteAPI {
             res.put("data", e.toString());
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
+        }
+    }
+
+    @Path("/binarySearch/{key}/{value}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response binarySearchPersons(@PathParam("key") String key, @PathParam("value") String value) {
+        HashMap map = new HashMap<>();
+        PersonaServices ps = new PersonaServices();
+        try {
+            Persona Persona = (Persona) ps.getListAll().binarySearch(key, value);
+            if (Persona == null) {
+                map.put("msg", "Error");
+                map.put("msg", "Persona no encontrada");
+                return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+            }
+            map.put("msg", "OK");
+            map.put("data", Persona);
+
+            ResponseBuilder responseBuilder = Response.ok(map)
+                    .header("Access-Control-Allow-Origin", "*") // Permite cualquier origen
+                    .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS") // Métodos permitidos
+                    .header("Access-Control-Allow-Headers", "Content-Type, Authorization"); // Encabezados permitidos
+
+            return responseBuilder.build();
+        } catch (Exception e) {
+            map.put("msg", "Error");
+            map.put("data", e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
+    }
+
+    @Path("/linealSearch/{key}/{value}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response linearSearchPersons(@PathParam("key") String key, @PathParam("value") String value) {
+        HashMap map = new HashMap<>();
+        PersonaServices ps = new PersonaServices();
+        try {
+            LinkedList<Persona> personas = (LinkedList<Persona>) ps.getListAll().linealSearch(key, value);
+
+            map.put("msg", "OK");
+
+            if (personas.isEmpty()) {
+                map.put("data", "Persona no encontrada");
+                return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+            } else {
+                map.put("data", personas.toArray());
+            }
+        } catch (Exception e) {
+            map.put("msg", "Error");
+            map.put("data", e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
+
+        return Response.ok(map).build();
+    }
+
+    @Path("/orderBy/{key}/{type}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response orderByPersons(@PathParam("key") String key, @PathParam("type") Integer type) {
+        HashMap map = new HashMap<>();
+        PersonaServices ps = new PersonaServices();
+        try {
+            LinkedList<Persona> personas = (LinkedList<Persona>) ps.getListAll().order(key, type);
+            map.put("msg", "OK");
+            map.put("data", personas.toArray());
+            return Response.ok(map).build();
+        } catch (Exception e) {
+            map.put("msg", "Error");
+            map.put("data", e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
         }
     }
 }

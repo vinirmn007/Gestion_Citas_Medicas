@@ -57,7 +57,7 @@ public class SignosVitalesAPI {
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
                 
             }
-            if (Float.parseFloat(map.get("altura").toString()) <= 0 || Float.parseFloat(map.get("altura").toString()) > 5) {
+            if (Float.parseFloat(map.get("altura").toString()) <= 0 || Float.parseFloat(map.get("altura").toString()) > 500) {
                 res.put("msg", "Error");
                 res.put("data", "La altura debe ser mayor a 0 o no puede ser tan elevada");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();

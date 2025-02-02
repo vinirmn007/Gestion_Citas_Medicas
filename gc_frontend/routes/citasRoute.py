@@ -17,80 +17,59 @@ def citas_medicas_all():
     data = r.json().get('data')
     return render_template('parts/citas/citas.html', citas=data)
 
-@citas_route.route('/cita/registro')
-def citas_medicas_registro():
-    return render_template('parts/citas/registrar_citas.html')
+@citas_route.route('/cita/registro/<id>')
+def citas_medicas_registro(id):
+    try:
+        print(id)
+        r = requests.get(URL + 'turno/get/' + id)
+        print(r)
+        data = r.json().get('data')
+
+        pacienteId = data.get('idPaciente')
+        r2 = requests.get(URL + 'pacientes/get/' + str(pacienteId))
+        print(r2)
+        data2 = r2.json().get('data')
+
+        r3 = requests.get(URL + 'pacientes/age/' + str(pacienteId))
+        print(r3)
+        edad = r3.json().get('data')
+
+        if r.status_code == 200 and r2.status_code == 200 and r3.status_code == 200:
+            return render_template('parts/citas/registro.html', turnoId=id, paciente=data2, edad=edad)
+        elif r.status_code != 200:
+            flash('No se ha podido cargar el turno: '+str(data), category='error')
+            return redirect(request.referrer)
+        elif r2.status_code != 200:
+            flash('No se ha podido cargar el paciente: '+str(data2), category='error')
+            return redirect(request.referrer)
+        elif r3.status_code != 200:
+            flash('No se ha podido cargar la edad: '+str(edad), category='error')
+            return redirect(request.referrer)
+    except Exception as e:
+        flash(f'Error: {str(e)}', category='error')
+        return redirect(request.referrer)
 
 @citas_route.route('/cita/save', methods=['POST'])
 def citas_medicas_save():
-    headers = {'Content-Type': 'application/json'}
-    form = request.form
-    dataForm = {"motivo": form["motivo"],
-                "observaciones": form["observaciones"],
-                "motivo": form["motivo"],
-                "turnoId": int(form["turnoId"])}
-    r = requests.post(URL + 'citasMedicas/save', data=json.dumps(dataForm), headers=headers)
-    data = r.json()
+    try:
+        headers = {'Content-Type': 'application/json'}
+        form = request.form
+        dataForm = {"motivo": form["motivo"],
+                    "observaciones": form["observaciones"],
+                    "motivo": form["motivo"],
+                    "turnoId": int(form["turnoId"])}
+        r = requests.post(URL + 'citasMedicas/save', data=json.dumps(dataForm), headers=headers)
+        data = r.json().get('data')
 
-    if r.status_code == 200:
-        flash('Se ha guardado correctamente', category='info')
-    else:
-        flash('No se ha podido guardar', category='error')
-    return redirect('/cita/registro')    
-
-#HISTORIAL MEDICO
-
-@citas_route.route('/historial/<id>')
-def historial_medico(id):
-    r = requests.get(URL + 'historialMedico/get/'+ id)
-    data = r.json().get('data')
-    return render_template('parts/citas/historial.html', historial=data)
-
-@citas_route.route('/historial/registro')
-def historial_registro():
-    s = requests.get(URL + 'historialMedico/bloodType')
-    bloodTypes = s.json().get('data')
-    return render_template('parts/citas/registrar_historial.html', tipos_sangre=bloodTypes)
-
-@citas_route.route('/historial/save', methods=['POST'])
-def historial_save():
-    headers = {'Content-Type': 'application/json'}
-    form = request.form
-    dataForm = {"motivo": form["motivo"],
-                "observaciones": form["observaciones"],
-                "motivo": form["motivo"],
-                "turnoId": int(form["turnoId"])}
-    r = requests.post(URL + 'citasMedicas/save', data=json.dumps(dataForm), headers=headers)
-    data = r.json()
-
-    if r.status_code == 200:
-        flash('Se ha guardado correctamente', category='info')
-    else:
-        flash('No se ha podido guardar', category='error')
-    return redirect('/cita/registro')    
-
-#SIGNOS VITALES
-
-@citas_route.route('/signosVitales/registro')
-def signos_vitales_registro():
-    return render_template('parts/citas/registrar_signos.html')
-
-@citas_route.route('/signosVitales/save', methods=['POST'])
-def signos_vitales_save():
-    headers = {'Content-Type': 'application/json'}
-    form = request.form
-    dataForm = {"motivo": form["motivo"],
-                "observaciones": form["observaciones"],
-                "motivo": form["motivo"],
-                "turnoId": int(form["turnoId"])}
-    r = requests.post(URL + 'citasMedicas/save', data=json.dumps(dataForm), headers=headers)
-    data = r.json()
-
-    if r.status_code == 200:
-        flash('Se ha guardado correctamente', category='info')
-    else:
-        flash('No se ha podido guardar', category='error')
-    return redirect('/cita/registro')    
+        if r.status_code == 200:
+            flash('Se ha guardado correctamente', category='info')
+            return redirect('/registrarDiagnostico/' + str(data.get('id')))
+        else:
+            flash('No se ha podido guardar: ' + str(data), category='error')
+            return redirect(request.referrer)
+    except Exception as e:
+        flash(f'Error: {str(e)}', category='error')
+        return redirect(request.referrer)        
 
 #PARA VER LOS RECURSOS DEL TEMPLATE
 @citas_route.route('/tablas')

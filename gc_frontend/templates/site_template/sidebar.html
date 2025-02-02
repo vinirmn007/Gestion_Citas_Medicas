@@ -21,6 +21,7 @@
   <!-- sidebar menu -->
   <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
     <div class="menu_section">
+      <h3>General</h3>
       <ul class="nav side-menu">
         <li>
           <a href="/home"><i class="fa fa-home"></i></i> Inicio </a>
@@ -28,16 +29,19 @@
         <li>
           <a href="/agenda"><i class="fa fa-calendar"></i> Agenda </a>
         </li>
-        <li><a><i class="fa fa-edit"></i> Turnos Médicos <span class="fa fa-chevron-down"></span></a>
+        <li><a href="/turno/registrar"><i class="fa fa-edit"></i> Agendar Turno</a></li>
+        <li><a><i class="fa fa-ticket"></i> Turnos Médicos <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
-            <li><a href="/turno/registrar">Agendar Turno</a></li>
-            <li><a href="/turno/ver">Cancelar Turno</a></li>
-            <li><a href="/turno/ver">Modificar Turnos</a></li>
+            <li><a href="/turno/reservados/all">Ver turnos reservados</a></li>
+            <li><a href="/turno/espera/all">Ver turnos en espera</a></li>
+            <li><a href="/turno/finalizados/all">Ver turnos finalizados</a></li>
           </ul>
         </li>
-        <li><a href="/pacientes"><i class="fa fa-users"></i> Pacientes </a></li>
-        <li><a href="/citas"><i class="fa fa-file-text-o"></i> Historial de Citas Medicas </a></li>
-        <li><a href="signos/registro"><i class="fa fa-heartbeat"></i> Registrar Signos Vitales </a></li>
+
+        <li><a href="/paciente/all"><i class="fa fa-users"></i> Pacientes </a></li>
+        <li><a href="/historial/registro"><i class="fa fa-floppy-o"></i> Registrar Historial Medico </a></li>
+        <li><a href="/turno/espera/all"><i class="fa fa-book"></i> Atender Turno Medico </a></li>
+        <li><a href="/turno/reservados/all"><i class="fa fa-heartbeat"></i> Registrar Signos Vitales </a></li>
       </ul>
     </div>
   </div>

@@ -17,13 +17,13 @@
                                 <strong>Nombres:</strong>
                             </div>
                             <div class="col-md-3">
-                                Juan Carlos
+                                {{paciente.nombres}}
                             </div>
                             <div class="col-md-3">
                                 <strong>Apellidos:</strong>
                             </div>
                             <div class="col-md-3">
-                                Pérez Gómez
+                                {{paciente.apellidos}}
                             </div>
                         </div>
                         <div class="row">
@@ -31,13 +31,13 @@
                                 <strong>Número de Identificación:</strong>
                             </div>
                             <div class="col-md-3">
-                                1234567890
+                                {{paciente.numeroIdentificacion}}
                             </div>
                             <div class="col-md-3">
                                 <strong>Edad:</strong>
                             </div>
                             <div class="col-md-3">
-                                34 años
+                                {{edad}} años
                             </div>
                         </div>
                     </div>
@@ -51,23 +51,17 @@
                         <br>
 
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                            <span>Ver Historial Medico</span>
-                            <a href="/historial" class="btn btn-primary">Ver</a>
-                            <span>Registrar Historial Medico</span>
-                            <a href="/historial/registro" class="btn btn-success">Registrar</a>
+                            <a href="/historial/{{paciente.historialMedicoId}}" class="btn btn-primary"><span class="fa fa-file-text-o"></span> Ver historial</a>
+                            
+                            {% if paciente.historialMedicoId == null %}
+                                <a href="/historial/registro" class="btn btn-success"><span class="fa fa-floppy-o"></span> Registrar historial</a>
+                            {% endif %}
                         </div>
                         
                         <br>
                         <div class="ln_solid"></div>
                         
                         <form class="form-horizontal form-label-left" action="/cita/save" method="post">
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Turno</label>
-                                <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <input type="number" class="form-control" name="turnoId" value="0" readonly
-                                        placeholder="Sin Turno">
-                                </div>
-                            </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Motivo</label>
@@ -87,6 +81,7 @@
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <input type="number" name="turnoId" value="{{turnoId}}" hidden>
                                     <button type="button" class="btn btn-primary">Cancelar</button>
                                     <button type="reset" class="btn btn-primary">Borrar</button>
                                     <button type="submit" class="btn btn-success">Guardar</button>
