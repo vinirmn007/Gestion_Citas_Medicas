@@ -11,7 +11,9 @@ import com.gestionCitas.controls.dao.services.PersonaServices;
 import com.gestionCitas.controls.dao.services.TurnoServices;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.CitaMedica;
+import com.gestionCitas.models.HistorialMedico;
 import com.gestionCitas.models.Persona;
+import com.gestionCitas.models.Turno;
 import com.gestionCitas.models.enums.Estado;
 
 @Path("citasMedicas")
@@ -45,17 +47,22 @@ public class CitaMedicaAPI {
             HistorialMedicoServices hms = new HistorialMedicoServices();
 
             //VALIDACIONES
-            if (ts.get(Integer.parseInt(map.get("turnoId").toString())) == null) {
+            int turnoId = Integer.parseInt(map.get("turnoId").toString());
+            Turno turno = ts.get(turnoId);
+            if (turno == null) {
                 res.put("msg", "Error");
                 res.put("data", "No existe ese Turno");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
-            if (hms.binarySearch("pacienteId", ts.get(Integer.parseInt(map.get("turnoId").toString())).getIdPaciente()) == null) {
+
+            HistorialMedico historialMedico = (HistorialMedico) hms.binarySearch("pacienteId", turno.getIdPaciente());
+            if (historialMedico == null) {
                 res.put("msg", "Error");
                 res.put("data", "No existe ese Historial Medico o no esta asociado a la persona correcta");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
-            if (ts.get(Integer.parseInt(map.get("turnoId").toString())).getEstado() != Estado.EN_ESPERA) {
+
+            if (turno.getEstado() != Estado.EN_ESPERA) {
                 res.put("msg", "Error");
                 res.put("data", "No se han asignado signos vitales al turno");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
@@ -66,8 +73,7 @@ public class CitaMedicaAPI {
             cms.getCitaMedica().setMotivo(map.get("motivo").toString());
             cms.getCitaMedica().setTurnoId(Integer.parseInt(map.get("turnoId").toString()));
             //cms.getCitaMedica().setSignosVitalesId(Integer.parseInt(map.get("signosVitalesId").toString()));
-            Persona paciente = (Persona)hms.binarySearch("pacienteId", ts.get(Integer.parseInt(map.get("turnoId").toString())).getIdPaciente());
-            cms.getCitaMedica().setHistorialMedicoId(paciente.getHistorialMedicoId());
+            cms.getCitaMedica().setHistorialMedicoId(historialMedico.getId());
             cms.save();
 
             //CAMBIAR ESTADO DEL TURNO

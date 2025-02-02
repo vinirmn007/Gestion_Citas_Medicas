@@ -1,8 +1,11 @@
 package com.gestionCitas.controls.dao;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import com.gestionCitas.controls.dao.implement.AdapterDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
-import java.util.Iterator;
 import com.gestionCitas.models.Turno;
 import com.gestionCitas.models.enums.Estado;
 public class TurnoDao extends AdapterDao<Turno> {
@@ -80,5 +83,70 @@ public class TurnoDao extends AdapterDao<Turno> {
             System.err.println("Error al eliminar el turno: " + e.getMessage());
             throw e;
         }
+    }
+
+    public LinkedList orderDate(Integer type) throws Exception {
+        LinkedList<Turno> listTurno = getListAll();
+        if (!listTurno.isEmpty()) {
+            Turno[] arrayTurno = listTurno.toArray();
+            listTurno.reset();
+            listTurno.toList(quickSort(arrayTurno, 0, arrayTurno.length-1, type));
+        }
+        return listTurno;
+    }
+
+    public LinkedList orderDate(LinkedList<Turno> list, Integer type) throws Exception {
+        if (!list.isEmpty()) {
+            Turno[] arrayTurno = list.toArray();
+            list.reset();
+            list.toList(quickSort(arrayTurno, 0, arrayTurno.length-1, type));
+        }
+        return list;
+    }
+
+    private Turno[] quickSort(Turno[] lista, int first, int last, Integer type) throws Exception {
+        if (first < last) {
+            int pivote = particionLista(lista, first, last, type);
+
+            quickSort(lista, first, pivote - 1, type);
+            quickSort(lista, pivote + 1, last, type);
+        } 
+        return lista;
+    }
+
+    private int particionLista(Turno[] lista, int first, int last, Integer type) throws Exception {
+        Turno pivote = lista[last];
+        //System.out.println((Familia) pivote);
+        int i = first - 1;
+
+        for (int j = first; j < last; j++) {
+            if (compareTurnoDates(pivote, lista[j], type)) {
+                i++;
+                Turno aux = lista[i];
+                lista[i] = lista[j];
+                lista[j] = aux;
+            }
+        }
+
+        Turno aux = lista[i + 1];
+        lista[i + 1] = lista[last];
+        lista[last] = aux;
+        
+        return i + 1;
+    }
+
+    private Boolean compareTurnoDates(Turno turnoA, Turno turnoB, Integer type) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        try {
+            LocalDate dateA = LocalDate.parse(turnoA.getFecha(), formatter);
+            LocalDate dateB = LocalDate.parse(turnoB.getFecha(), formatter);
+
+            return type == 0 ? dateA.isAfter(dateB) : dateA.isBefore(dateB);
+        } catch (DateTimeParseException e) {
+            e.printStackTrace();
+        }
+
+        return false; // En caso de error
     }
 }

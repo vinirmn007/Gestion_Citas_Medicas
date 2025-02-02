@@ -1,0 +1,88 @@
+{% extends "base_site.html" %}
+{% block title %}Registrar Turno{% endblock %}
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>Registrar Nuevo Turno Medico</h2>
+              
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+              <form class="form-horizontal form-label-left" action="/turno/pac/save" method="post">
+
+                <div class="field item form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12 label-align" for="fecha">Fecha <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="date" id="fecha" name="fecha" required="required" data-validate-length-range="8,20" class="form-control col-md-7 col-xs-12">
+                  </div>
+                </div>
+                <div class="field item form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12 label-align" for="hora">Hora <span class="required">*</span></label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                      <select id="hora" name="hora" required="required" class="form-control col-md-7 col-xs-12">
+                          <option value="">Seleccione una hora</option>
+                          <!-- Opciones de hora entre las 8:00 AM y las 6:00 PM -->
+                          <option value="08:00">08:00 AM</option>
+                          <option value="09:00">08:30 AM</option>
+                          <option value="09:00">09:00 AM</option>
+                          <option value="09:00">09:30 AM</option>
+                          <option value="10:00">10:00 AM</option>
+                          <option value="10:00">10:30 AM</option>
+                          <option value="11:00">11:00 AM</option>
+                          <option value="11:00">11:30 AM</option>
+                          <option value="12:00">12:00 PM</option>
+                          <option value="12:00">12:30 PM</option>
+                          <option value="13:00">01:00 PM</option>
+                          <option value="13:00">01:30 PM</option>
+                          <option value="14:00">02:00 PM</option>
+                          <option value="14:00">02:30 PM</option>
+                          <option value="15:00">03:00 PM</option>
+                          <option value="15:00">03:30 PM</option>
+                          <option value="16:00">04:00 PM</option>
+                          <option value="16:00">04:30 PM</option>
+                          <option value="17:00">05:00 PM</option>
+                          <option value="17:00">05:30 PM</option>
+                      </select>
+                  </div>
+              </div>
+              
+                <div class="field item form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12 label-align" for="medicoId">Medico <span class="required">*</span>
+                  </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select name="medicoId" class="form-control" required>
+                    {% for medico in medicos %}
+                      <option value="{{ medico.id }}">{{ medico.nombres }} {{ medico.apellidos }}</option>
+                    {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                  <div class="col-md-6 col-md-offset-3">
+                    <a href="javascript:history.back()" class="btn btn-primary">Cancelar</a>
+                    <button id="send" type="submit" class="btn btn-success">Registrar</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ super() }}
+  <!-- validator -->
+  <script src="{{ url_for('static', filename='vendors/validator/validator.js') }}"></script>
+{% endblock javascripts %}
