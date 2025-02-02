@@ -12,7 +12,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.gestionCitas.controls.dao.services.DiagnosticoServices;
-import com.gestionCitas.controls.dao.services.MedicamentoServices;
 import com.gestionCitas.controls.dao.services.RecetaServices;
 import com.gestionCitas.models.Receta;
 
@@ -43,7 +42,6 @@ public class RecetaApi {
     @Produces(MediaType.APPLICATION_JSON)
     public Response saveReceta(HashMap<String, Object> map) {
         HashMap<String, Object> res = new HashMap<>();
-        MedicamentoServices medicamentoService = new MedicamentoServices();
         DiagnosticoServices diagnosticoService = new DiagnosticoServices();
         RecetaServices recetaService = new RecetaServices();
     
@@ -63,33 +61,21 @@ public class RecetaApi {
                     res.put("data", "Prescripción no proporcionada");
                     return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
                 }
-    
-                String prescripcion = map.get("prescripcion").toString();
-    
-                // Validar que idMedicamentos sea un Array
-                if (!map.containsKey("idMedicamentos") || !(map.get("idMedicamentos") instanceof Object[])) {
+
+                if (!map.containsKey("medicamentos")) {
                     res.put("msg", "Error al guardar");
-                    res.put("data", "idMedicamentos no proporcionado o formato incorrecto");
+                    res.put("data", "Medicamentos no proporcionados");
                     return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
                 }
     
-                // Convertir Array a Integer[]
-                Object[] idMedicamentosObj = (Object[]) map.get("idMedicamentos");
-                Integer[] idMedicamentos = new Integer[idMedicamentosObj.length];
+                String prescripcion = map.get("prescripcion").toString();
+                String medicamentos = map.get("medicamentos").toString();
     
-                for (int i = 0; i < idMedicamentosObj.length; i++) {
-                    idMedicamentos[i] = Integer.parseInt(idMedicamentosObj[i].toString());
-                    if (medicamentoService.get(idMedicamentos[i]) == null) {
-                        res.put("msg", "Error al guardar");
-                        res.put("data", "Medicamento con ID " + idMedicamentos[i] + " no encontrado");
-                        return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
-                    }
-                }
     
                 // Configurar la receta y guardarla
                 recetaService.getReceta().setIdDiagnostico(idDiagnostico);
                 recetaService.getReceta().setPrescripcion(prescripcion);
-                recetaService.getReceta().setIdMedicamentos(idMedicamentos);
+                recetaService.getReceta().setMedicamentos(medicamentos);
                 recetaService.save();
     
                 res.put("msg", "OK");

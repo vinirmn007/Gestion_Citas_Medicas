@@ -13,9 +13,7 @@ import javax.ws.rs.core.Response;
 
 import com.gestionCitas.controls.dao.services.CitaMedicaServices;
 import com.gestionCitas.controls.dao.services.DiagnosticoServices;
-import com.gestionCitas.models.CitaMedica;
 import com.gestionCitas.models.Diagnostico;
-import com.google.gson.Gson;
 
 @Path("/diagnostico")
 public class DiagnosticoApi {
@@ -37,6 +35,62 @@ public class DiagnosticoApi {
         return Response.ok(map).build();
     }
 
+    @Path("save")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response saveDiagnostico(HashMap<String, Object> map) {
+        HashMap<String, Object> res = new HashMap<>();
+
+        try {
+            if (map.get("citaM") != null) {
+                int idCita = Integer.parseInt(map.get("citaM").toString());
+
+                CitaMedicaServices cms = new CitaMedicaServices();
+                cms.get(idCita);
+                
+                if(cms.getCitaMedica() == null) {
+                    res.put("msg", "Error");
+                    res.put("data", "Cita médica no encontrada");
+                    return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                }
+
+                if(cms.getCitaMedica().getDiagnosticoId() != 0) {
+                    res.put("msg", "Error");
+                    res.put("data", "La cita médica ya tiene un diagnóstico asignado");
+                    return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                }
+
+                DiagnosticoServices ds = new DiagnosticoServices();
+                ds.getDiagnostico().setDescripcion(map.get("descripcion").toString());
+                ds.getDiagnostico().setIdCitaMedica(idCita);
+                ds.save();
+
+                int idDiagnostico = ds.getDiagnostico().getId();
+                // Actualizar la cita médica con el ID del diagnóstico
+                
+                cms.setCitaMedica(cms.get(Integer.parseInt(map.get("citaM").toString())));
+                cms.getCitaMedica().setDiagnosticoId(idDiagnostico);
+                cms.update();
+                
+                res.put("msg", "OK");
+                res.put("data", "Diagnóstico creado y cita médica actualizada con ID del diagnóstico");
+                return Response.ok(res).build();
+            } else {
+                res.put("msg", "Error");
+                res.put("data", "Cita médica no especificada");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+        } catch (Exception e) {
+            res.put("msg", "Error al guardar");
+            res.put("data", e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
+        }
+    }
+
+
+
+    /*
     @Path("save")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -160,59 +214,74 @@ public class DiagnosticoApi {
 
     @Path("/update")
     @POST
-    @Consumes (MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateDiagnostico (HashMap map) {
+    public Response updateDiagnostico(HashMap map) {
         HashMap res = new HashMap();
         try {
+            // Validación del ID del diagnóstico
             if (map.get("id") == null) {
                 res.put("msg", "ERROR");
-                res.put("data", "El ID de la inversión es requerido");
+                res.put("data", "El ID del diagnóstico es requerido");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
-
+    
             DiagnosticoServices ds = new DiagnosticoServices();
             ds.getDiagnostico().setId(Integer.parseInt(map.get("id").toString()));
-
+    
+            // Verificar si el diagnóstico existe
             if (ds.getDiagnostico() == null || ds.get(ds.getDiagnostico().getId()) == null) {
                 res.put("msg", "ERROR");
-                res.put("data", "No existe la inversión con el ID proporcionado");
+                res.put("data", "No existe el diagnóstico con el ID proporcionado");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
-
+    
+            // Validación de la cita médica
             if (map.get("citaM") != null) {
                 CitaMedicaServices cms = new CitaMedicaServices();
-                
-                
                 cms.setCitaMedica(cms.get(Integer.parseInt(map.get("citaM").toString())));
-
+    
+                // Verificar si la cita médica existe
                 if (cms.getCitaMedica() == null) {
                     res.put("msg", "ERROR");
-                    res.put("data", "No existe la citaMedica con el ID proporcionado");
+                    res.put("data", "No existe la cita médica con el ID proporcionado");
                     return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
                 }
-
+    
+                // Validación de si ya existe un diagnóstico asignado a la cita médica
+                if (cms.getCitaMedica().getDiagnosticoId() != 0) {
+                    res.put("msg", "ERROR");
+                    res.put("data", "La cita médica ya tiene un diagnóstico asignado");
+                    return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                }
+    
+                // Actualizar el diagnóstico con los nuevos valores
                 ds.getDiagnostico().setIdCitaMedica(cms.getCitaMedica().getId());
-                ds.getDiagnostico().setDescripcion(map.get("descripcion").toString());
+                if (map.get("descripcion") != null) {
+                    ds.getDiagnostico().setDescripcion(map.get("descripcion").toString());
+                }
+    
+                // Guardar los cambios en el diagnóstico
                 ds.update();
-
+    
                 res.put("msg", "OK");
-                res.put("data", "Inversión actualizada");
+                res.put("data", "Diagnóstico actualizado correctamente");
                 return Response.ok(res).build();
             } else {
                 res.put("msg", "ERROR");
-                res.put("data", "Faltan los parámetros 'citaM'");
+                res.put("data", "Falta el parámetro 'citaM'");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             res.put("msg", "ERROR");
-            res.put("data", e.toString());
+            res.put("data", "Error al actualizar el diagnóstico: " + e.toString());
             return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
         }
     }
 
+
+    
     @Path("/delete")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -220,23 +289,58 @@ public class DiagnosticoApi {
         HashMap res = new HashMap();
 
         try {
+            // Validar que se haya proporcionado un ID de diagnóstico
+            if (map.get("id") == null) {
+                res.put("msg", "ERROR");
+                res.put("data", "El ID del diagnóstico es requerido");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
             DiagnosticoServices ds = new DiagnosticoServices();
-            ds.getDiagnostico().setId(Integer.parseInt(map.get("id").toString()));
-            Diagnostico d = ds.get(ds.getDiagnostico().getId());
+            int diagnosticoId = Integer.parseInt(map.get("id").toString());
+            
+            // Obtener el diagnóstico
+            ds.getDiagnostico().setId(diagnosticoId);
+            Diagnostico d = ds.get(diagnosticoId);
+
+            // Validar que el diagnóstico exista
+            if (d == null) {
+                res.put("msg", "ERROR");
+                res.put("data", "No existe el diagnóstico con el ID proporcionado");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
+            // Obtener la cita médica asociada al diagnóstico
+            CitaMedicaServices cms = new CitaMedicaServices();
+            cms.setCitaMedica(cms.get(d.getIdCitaMedica()));
+
+            // Validar que la cita médica exista
+            if (cms.getCitaMedica() == null) {
+                res.put("msg", "ERROR");
+                res.put("data", "No existe la cita médica asociada al diagnóstico");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
+            // Establecer el DiagnosticoId de la cita médica en 0
+            cms.getCitaMedica().setDiagnosticoId(0);
+            cms.update();  // Actualizar la cita médica
+
+            // Eliminar el diagnóstico
             ds.setDiagnostico(d);
             ds.delete();
 
             res.put("msg", "OK");
-            res.put("data", "Diagnóstico eliminado");
+            res.put("data", "Diagnóstico eliminado y Cita Médica actualizada");
             return Response.ok(res).build();
 
         } catch (Exception e) {
             e.printStackTrace();
             res.put("msg", "ERROR");
-            res.put("data", e.toString());
+            res.put("data", "Error al eliminar el diagnóstico: " + e.toString());
             return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
         }
-    }    
+    }
+
 
         
 

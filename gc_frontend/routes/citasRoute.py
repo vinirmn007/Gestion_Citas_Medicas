@@ -9,7 +9,7 @@ URL = "http://localhost:8080/myapp/"
 
 @citas_route.route('/cita/<id>')
 def citas_medicas(id):
-    return render_template('parts/citas/citaDetalle.html')
+    return render_template('parts/citas/citaDetalle.html', id=id)
 
 @citas_route.route('/cita/all')
 def citas_medicas_all():
