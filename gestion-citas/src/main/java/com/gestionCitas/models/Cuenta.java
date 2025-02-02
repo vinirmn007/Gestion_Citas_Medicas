@@ -45,21 +45,18 @@ public class Cuenta {
   public void setContrasena(String value) {
     this.contrasena = value;
   }
+    public Integer getId_rol() {
+      return this.id_rol;
+    }
+    public void setId_rol(Integer value) {
+      this.id_rol = value;
+    }
 
-  public Integer getId_rol() {
-    return this.id_rol;
-  }
-
-
-  public void setId_rol(Integer value) {
-    this.id_rol = value;
-  }
-
-  public Integer getPersonaId() {
-    return this.personaId;
-  }
-
-  public void setPersonaId(Integer personaId) {
-    this.personaId = personaId;
-  }
+    public Integer getPersonaId() {
+      return this.personaId;
+    }
+  
+    public void setPersonaId(Integer personaId) {
+      this.personaId = personaId;
+    }
 }

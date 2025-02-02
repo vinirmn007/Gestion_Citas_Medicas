@@ -2,8 +2,10 @@ package com.gestionCitas.controls.dao;
 
 import com.gestionCitas.controls.dao.implement.AdapterDao;
 import com.gestionCitas.controls.estructures.exception.ListEmptyException;
+import com.gestionCitas.controls.estructures.exception.ListEmptyException;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Cuenta;
+import java.util.Iterator;
 
 public class CuentaDao extends AdapterDao<Cuenta> {
     
@@ -44,7 +46,7 @@ public class CuentaDao extends AdapterDao<Cuenta> {
     }
 
     public Boolean update(Cuenta cuenta) throws Exception {
-        this.mergeT(cuenta);
+        this.merge(getCuenta(), getCuenta().getId());
         return true;
     }
 

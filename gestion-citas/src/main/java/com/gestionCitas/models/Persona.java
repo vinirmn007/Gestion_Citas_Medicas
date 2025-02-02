@@ -13,26 +13,10 @@ public class Persona {
     private String numeroIdentificacion;
     private Identificacion tipoIdentificacion;
     private Genero genero;
+    private Integer id_cuenta; 
     private Integer historialMedicoId;
-    private Integer cuentaId;
 
     public Persona() {
-    }
-
-    public Persona(Integer id, String nombres, String email, String direccion, String telefono, String fechaNacimiento,
-            String numeroIdentificacion, Identificacion tipoIdentificacion, Genero genero, Integer historialMedicoId,
-            Integer cuentaId) {
-        this.id = id;
-        this.nombres = nombres;
-        this.email = email;
-        this.direccion = direccion;
-        this.telefono = telefono;
-        this.fechaNacimiento = fechaNacimiento;
-        this.numeroIdentificacion = numeroIdentificacion;
-        this.tipoIdentificacion = tipoIdentificacion;
-        this.genero = genero;
-        this.historialMedicoId = historialMedicoId;
-        this.cuentaId = cuentaId;
     }
 
     public Integer getId() {
@@ -61,6 +45,14 @@ public class Persona {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getFechaNacimiento() {
+        return this.fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public void setEmail(String email) {
@@ -98,13 +90,13 @@ public class Persona {
     public void setHistorialMedicoId(Integer historialMedicoId) {
         this.historialMedicoId = historialMedicoId;
     }
-
+    
     public Integer getCuentaId() {
-        return this.cuentaId;
+        return this.id_cuenta;
     }
 
     public void setCuentaId(Integer cuentaId) {
-        this.cuentaId = cuentaId;
+        this.id_cuenta = cuentaId;
     }
 
     public String getDireccion() {
@@ -123,11 +115,17 @@ public class Persona {
         this.telefono = telefono;
     }
 
-    public String getFechaNacimiento() {
-        return this.fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(String fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    @Override
+    public String toString() {
+        return "Persona{" +
+               "id=" + id +
+               ", nombre='" + nombres + '\'' +
+               ", email='" + email + '\'' +
+               ", numeroIdentificacion='" + numeroIdentificacion + '\'' +
+               ", tipoIdentificacion=" + tipoIdentificacion +
+               ", genero=" + genero +
+               ", fechaNacimiento='" + fechaNacimiento + '\'' +
+               ", celular='" + telefono + '\'' +
+               '}';
     }
 }

@@ -10,7 +10,7 @@ public class CuentaServices {
     private CuentaDao obj;
 
     public Object[] listShowAll() throws Exception {
-        if (!obj.getListAll().isEmpty()) {
+        if(!obj.getListAll().isEmpty()) {
             Cuenta[] lista = (Cuenta[]) obj.getListAll().toArray();
             Object[] respuesta = new Object[lista.length];
             for (int i = 0; i < lista.length; i++) {
@@ -20,6 +20,7 @@ public class CuentaServices {
                 mapa.put("usuario", lista[i].getUsuario());
                 mapa.put("contrasena", lista[i].getContrasena());
                 mapa.put("rol", r);
+                
                 
                 respuesta[i] = mapa;
             }
@@ -38,12 +39,10 @@ public class CuentaServices {
     public Boolean update() throws Exception {
         return obj.update();
     }
-    
+
     public Boolean update(Cuenta cuenta) throws Exception {
-        return obj.update(cuenta); // Llama al método update de CuentaDao que usa merge
+        return obj.update();
     }
-
-
     
     public LinkedList listAll() {
         return obj.getListAll();

@@ -45,6 +45,13 @@ public class PersonaDao extends AdapterDao<Persona> {
         }
     }
 
+    public Boolean save(Persona persona) throws Exception {
+        Integer id = getListAll().getSize()+1;
+        persona.setId(id);
+        this.persist(persona);
+        return true;
+    }
+
     public Boolean update() throws Exception {
         try {
             this.mergeById(this.persona, this.persona.getId());

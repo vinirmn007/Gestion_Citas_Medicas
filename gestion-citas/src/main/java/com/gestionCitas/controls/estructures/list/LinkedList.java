@@ -3,8 +3,10 @@ package com.gestionCitas.controls.estructures.list;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 
 import com.gestionCitas.controls.estructures.exception.ListEmptyException;
+import com.gestionCitas.models.Cuenta;
 
 public class LinkedList<E> {
     private Node<E> header;
@@ -437,5 +439,23 @@ public class LinkedList<E> {
     }
 
     return false; // En caso de error
+}
+
+
+public Iterator<E> iterator(){
+    return new Iterator<E>(){
+        private Node<E> aux = header;
+        @Override
+        public boolean hasNext() {
+            return aux != null;
+        }
+
+        @Override
+        public E next() {
+            E info = aux.getInfo();
+            aux = aux.getNext();
+            return info;
+        }
+    };
 }
 }
