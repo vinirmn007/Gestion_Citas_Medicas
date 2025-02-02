@@ -52,14 +52,17 @@ def asignar_rol():
         flash('Faltan datos para asignar el rol', category='error')
         return redirect('/admin/roles')
 
+    # Construir los datos en el formato esperado por la API de Java
     data = {
-        "usuario": usuario,
-        "id_rol": int(nuevo_rol)
+        "id": usuario,  # Aquí debes enviar el 'id' de la cuenta, no el nombre de usuario
+        "rol": {
+            "id": int(nuevo_rol)  # El ID del rol que se quiere asignar
+        }
     }
 
     try:
         headers = {'Content-Type': 'application/json'}
-        r = requests.post('http://localhost:8070/myapp/cuenta/asignarRol', json=data, headers=headers)
+        r = requests.post('http://localhost:8070/myapp/cuenta/update', json=data, headers=headers)
 
         if r.status_code == 200:
             flash('Rol asignado correctamente', category='info')
@@ -70,7 +73,6 @@ def asignar_rol():
         flash(f'Error al conectar con el servidor: {str(e)}', category='error')
 
     return redirect('/admin/roles')
-
 
 @main_route.route('/login', methods=['GET', 'POST'])
 def login():

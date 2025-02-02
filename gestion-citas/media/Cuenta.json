@@ -1,8 +1,14 @@
 [
     {
         "id": 1,
-        "usuario": "MARO2",
-        "contrasena": "password1",
-        "id_rol": 3
+        "usuario": "MARO332",
+        "contrasena": "$2a$12$YVulY7/YITGbORjuUlsumOSMwxVO3X9vzpKZZmOCPuGHBs/WN3CMy",
+        "id_rol": 1
+    },
+    {
+        "id": 2,
+        "usuario": "DEVIS2012",
+        "contrasena": "$2a$12$N6/zBO4uXoN3NGRtGlmMiuqyE6PX4Tq2AJqYv0DhuUyJuWTdFQo6u",
+        "id_rol": 2
     }
 ]
