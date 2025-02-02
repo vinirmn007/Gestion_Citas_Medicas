@@ -16,6 +16,7 @@ public class Rol {
     return this.id;
   }
 
+
   public void setId(Integer value) {
     this.id = value;
   }
@@ -23,6 +24,7 @@ public class Rol {
   public String getNombre() {
     return this.nombre;
   }
+
 
   public void setNombre(String value) {
     this.nombre = value;
@@ -37,4 +39,3 @@ public class Rol {
   }
 
 }
-

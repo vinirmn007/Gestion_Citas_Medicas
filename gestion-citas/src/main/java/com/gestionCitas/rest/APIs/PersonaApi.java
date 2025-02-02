@@ -18,6 +18,7 @@ import com.gestionCitas.models.Cuenta;
 import com.gestionCitas.models.Persona;
 import com.gestionCitas.models.enums.Genero;
 import com.gestionCitas.models.enums.Identificacion;
+import com.gestionCitas.controls.PasswordUtil;
 
 @Path("persona")
 public class PersonaApi {
@@ -96,8 +97,19 @@ public class PersonaApi {
 
             String cedula = personaMap.getOrDefault("numeroIdentificacion", "").toString();
             String correo = personaMap.getOrDefault("email", "").toString(); // Obtener el correo
-            // Validar que la cédula tenga un formato válido
-            if (!esCedulaValida(cedula)) {
+            String tipoIdentificacion = personaMap.getOrDefault("tipoIdentificacion", "").toString().toUpperCase();
+
+            // Validar que el tipo de identificación sea correcto
+            try {
+                Identificacion tipo = Identificacion.valueOf(tipoIdentificacion);
+            } catch (IllegalArgumentException e) {
+                res.put("msg", "Error");
+                res.put("data", "Tipo de identificación inválido");
+                return Response.status(Status.BAD_REQUEST).entity(res).build();
+            }
+
+            // Validar cédula solo si el tipo de identificación es DNI
+            if (tipoIdentificacion.equals("DNI") && !esCedulaValida(cedula)) {
                 res.put("msg", "Error");
                 res.put("data", "Cédula inválida");
                 return Response.status(Status.BAD_REQUEST).entity(res).build();
@@ -119,13 +131,15 @@ public class PersonaApi {
                 }
             }
 
-            // Si la cuenta no existe, crearla
-            Cuenta nuevaCuenta = new Cuenta(null, usuario, contrasena, idRol);
+            // Hashear la contraseña antes de almacenarla
+            String contrasenia = PasswordUtil.hashPassword(contrasena);
+
+            // Crear la cuenta
+            Cuenta nuevaCuenta = new Cuenta(null, usuario, contrasenia, idRol);
             cuentaServices.setCuenta(nuevaCuenta);
 
+            // Procesar la fecha de nacimiento
             String fechaNacimientoStr = personaMap.getOrDefault("fechaNacimiento", "").toString();
-
-            // Validar y formatear la fecha
             String fechaFormateada = formatearFechaNacimiento(fechaNacimientoStr);
             if (fechaFormateada == null) {
                 res.put("msg", "Error");
@@ -150,23 +164,17 @@ public class PersonaApi {
 
             persona.setNumeroIdentificacion(cedula);
             try {
-                persona.setTipoIdentificacion(
-                        Identificacion.valueOf(personaMap.get("tipoIdentificacion").toString().toUpperCase()));
+                persona.setTipoIdentificacion(Identificacion.valueOf(tipoIdentificacion));
             } catch (IllegalArgumentException | NullPointerException e) {
                 res.put("msg", "Error");
                 res.put("data", "Tipo de identificación inválido");
                 return Response.status(Status.BAD_REQUEST).entity(res).build();
             }
 
-            cuentaServices.setCuenta(nuevaCuenta);
-            cuentaServices.save(); // Asegúrate de guardar la cuenta antes de asignar su ID a la persona
-
-            // Ahora asigna el id de la cuenta a la persona
+            // Guardar la cuenta y persona
+            cuentaServices.save(); // Guardar la cuenta antes de asignar su ID a la persona
             persona.setId_cuenta(nuevaCuenta.getId());
             personaServices.save(persona); // Guardar la persona después de asignar el ID de la cuenta
-
-            // Guardar la persona
-            personaServices.save(persona);
 
             res.put("msg", "OK");
             res.put("data", "Usuario y persona registrados correctamente");

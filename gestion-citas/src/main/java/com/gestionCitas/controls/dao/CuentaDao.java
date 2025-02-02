@@ -45,7 +45,7 @@ public class CuentaDao extends AdapterDao<Cuenta> {
     }
 
     public Boolean update(Cuenta cuenta) throws Exception {
-        this.merge(getCuenta(), getCuenta().getId());
+        this.mergeT(cuenta);
         return true;
     }
 

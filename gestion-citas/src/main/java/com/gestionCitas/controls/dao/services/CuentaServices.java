@@ -39,10 +39,12 @@ public class CuentaServices {
     public Boolean update() throws Exception {
         return obj.update();
     }
-
+    
     public Boolean update(Cuenta cuenta) throws Exception {
-        return obj.update();
+        return obj.update(cuenta); // Llama al método update de CuentaDao que usa merge
     }
+
+
     
     public LinkedList listAll() {
         return obj.getListAll();
