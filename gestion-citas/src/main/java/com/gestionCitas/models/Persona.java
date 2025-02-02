@@ -81,6 +81,8 @@ public class Persona {
 
     public void setGenero(Genero genero) {
         this.genero = genero;
+        this.historialMedicoId = historialMedicoId;
+        this.cuentaId = cuentaId;
     }
 
     public Integer getHistorialMedicoId() {
@@ -127,5 +129,65 @@ public class Persona {
                ", fechaNacimiento='" + fechaNacimiento + '\'' +
                ", celular='" + telefono + '\'' +
                '}';
+    }
+
+    public void setNumeroIdentificacion(String numeroIdentificacion) {
+        this.numeroIdentificacion = numeroIdentificacion;
+    }
+
+    public Identificacion getTipoIdentificacion() {
+        return tipoIdentificacion;
+    }
+
+    public void setTipoIdentificacion(Identificacion tipoIdentificacion) {
+        this.tipoIdentificacion = tipoIdentificacion;
+    }
+
+    public Genero getGenero() {
+        return genero;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
+    }
+
+    public Integer getHistorialMedicoId() {
+        return this.historialMedicoId;
+    }
+
+    public void setHistorialMedicoId(Integer historialMedicoId) {
+        this.historialMedicoId = historialMedicoId;
+    }
+
+    public Integer getCuentaId() {
+        return this.cuentaId;
+    }
+
+    public void setCuentaId(Integer cuentaId) {
+        this.cuentaId = cuentaId;
+    }
+
+    public String getDireccion() {
+        return this.direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getTelefono() {
+        return this.telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getFechaNacimiento() {
+        return this.fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 }

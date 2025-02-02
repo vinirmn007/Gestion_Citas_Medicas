@@ -14,6 +14,10 @@ def presentation():
 def load_login():
     return render_template('login/login.html')
 
+@main_route.route('/login')
+def load_login():
+    return render_template('login/login.html')  
+
 @main_route.route('/home')
 def home():
     if 'usuario' not in session:

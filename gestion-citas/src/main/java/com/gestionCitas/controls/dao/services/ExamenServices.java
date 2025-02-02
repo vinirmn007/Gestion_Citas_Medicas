@@ -1,8 +1,9 @@
 package com.gestionCitas.controls.dao.services;
 
 import com.gestionCitas.controls.dao.ExamenDao;
-import com.gestionCitas.models.Examen;
 import com.gestionCitas.controls.estructures.list.LinkedList;
+import com.gestionCitas.models.Examen;
+import com.gestionCitas.models.enums.TipoExamen;
 
 public class ExamenServices {
     private ExamenDao obj;
@@ -21,6 +22,14 @@ public class ExamenServices {
 
     public LinkedList getListAll() {
         return this.obj.getListAll();
+    }
+
+    public TipoExamen getTipoExamen(String tipo){
+        return obj.getTipoExamen(tipo);
+    }
+
+    public TipoExamen[] getTipos(){
+        return obj.getTipos();
     }
 
     public Boolean save() throws Exception {

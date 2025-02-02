@@ -5,6 +5,7 @@ public class Cuenta {
   private String usuario;
   private String contrasena;
   private Integer id_rol;
+  private Integer personaId;
 
   public Cuenta() {
   }

@@ -1,22 +1,22 @@
 package com.gestionCitas.models;
 
-import com.gestionCitas.controls.estructures.list.LinkedList;
 
 public class Receta {
     private int id;
+    private String medicamentos;
     private String prescripcion;
-    private LinkedList<Medicamento> medicamentos;
     private Integer idDiagnostico;
+    
 
 
     public Receta (){
         this.id = 0;
         this.prescripcion = "";
-        this.medicamentos = new LinkedList<Medicamento>();
+        this.medicamentos = "";
         this.idDiagnostico = null;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -24,8 +24,13 @@ public class Receta {
         return prescripcion;
     }
 
-    public LinkedList<Medicamento> getMedicamentos() {
+    
+    public String getMedicamentos() {
         return medicamentos;
+    }
+
+    public void setMedicamentos(String medicamentos) {
+        this.medicamentos = medicamentos;
     }
 
     public void setId(int id) {
@@ -34,10 +39,6 @@ public class Receta {
 
     public void setPrescripcion(String prescripcion) {
         this.prescripcion = prescripcion;
-    }
-
-    public void setMedicamentos(LinkedList<Medicamento> medicamentos) {
-        this.medicamentos = medicamentos;
     }
 
     public Integer getIdDiagnostico() {

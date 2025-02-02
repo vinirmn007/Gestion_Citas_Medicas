@@ -1,0 +1,78 @@
+{% extends "base_site.html" %}
+{% block title %}Diagnostico{% endblock %}
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Detalle del Diagnóstico</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    {% if diagnostico %}
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">Descripción</h3>
+                                <p class="card-text">{{ diagnostico.descripcion }}</p>
+
+                                <h3 class="card-title mt-3">Información de la Cita Médica</h3>
+                                <a href="{{ url_for('citas_route.citas_medicas', id=diagnostico.idCitaMedica) }}" class="btn btn-primary">
+                                    Ir a la Cita Médica
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning" role="alert">
+                            No se encontró información para este diagnóstico.
+                        </div>
+                    {% endif %}
+                </div>
+                {% if recetas %}
+                    <h3 class="card-title mt-3">Recetas Relacionadas</h3>
+                    <ul class="list-group">
+                        {% for receta in recetas %}
+                            <li class="list-group-item">
+                                <a href="{{ url_for('receta_route.receta', id=receta.id) }}">
+                                    Receta: {{ receta.id }}
+                                </a>
+                                <p class="text-muted"> 
+                                    Medicamento: {{ receta.medicamentos }}
+                                </p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">No hay recetas asociadas a este diagnóstico.</p>
+                {% endif %} 
+
+                {% if recetas %}
+                    <h3 class="card-title mt-3">Recetas Relacionadas</h3>
+                    <ul class="list-group">
+                        {% for examen in examenes %}
+                            <li class="list-group-item">
+                                <a href="{{ url_for('examen_route.examen', id=examen.id) }}">
+                                    Exámen: {{ examen.id }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">No hay recetas asociadas a este diagnóstico.</p>
+                {% endif %} 
+
+                
+                
+                <div class="form-group">
+                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                        <!-- Botón para agregar receta -->
+                        <a href="{{ url_for('receta_route.registro', id=diagnostico.id) }}" class="btn btn-success">Agregar Receta</a>
+                    </div>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+  </div>
+{% endblock content %}

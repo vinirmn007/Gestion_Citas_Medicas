@@ -1,6 +1,6 @@
 {% extends "base_site.html" %}
 {% block title %}
-Diagnosticos
+Recetas
 {% endblock %}
 {% block content %}
   <div class="right_col" role="main">
@@ -8,7 +8,7 @@ Diagnosticos
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
             <div class="x_title">
-                <h2>Diagnosticos</h2>
+                <h2>Recetas</h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -17,19 +17,21 @@ Diagnosticos
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>descripcion</th>
-                        <th>idCitaMedica</th>
+                        <th>prescripcion</th>
+                        <th>medicamentos</th>
+                        <th>idDiagnostico</th>
                         
                     </tr>
                 </thead>
                 <tbody>
-                    {% for diagnostico in diagnosticos %}
+                    {% for receta in recetas %}
                     <tr>
-                        <th scope="row">{{diagnostico.id}}</th>
-                        <td>{{diagnostico.descripcion}}</td>
-                        <td>{{diagnostico.idCitaMedica}}</td>
+                        <th scope="row">{{receta.id}}</th>
+                        <td>{{receta.prescripcion}}</td>
+                        <td>{{receta.medicamentos}}</td>
+                        <td>{{receta.idDiagnostico}}</td>
                         <td>
-                            <a href="diagnostico/{{diagnostico.id}}">Ver</a>
+                            <a href="#">Ver</a>
                         </td>
                     </tr>
                     {% endfor %}

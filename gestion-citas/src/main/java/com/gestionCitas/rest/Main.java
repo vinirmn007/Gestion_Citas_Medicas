@@ -7,7 +7,8 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import com.gestionCitas.controls.dao.services.DiagnosticoServices;
+import java.io.IOException;
+import java.net.URI;
 
 /**
  * Main class.
@@ -36,16 +37,10 @@ public class Main {
      * @param args
      * @throws IOException
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         final HttpServer server = startServer();
         System.out.println(String.format("Jersey app started with WADL available at "
                 + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
-        
-        DiagnosticoServices ds = new DiagnosticoServices();
-        ds.getDiagnostico().setDescripcion("Dolor Neurálgico");
-        ds.getDiagnostico().setIdCitaMedica(2);
-        ds.save();
-
         System.in.read();
         server.stop();
     }
