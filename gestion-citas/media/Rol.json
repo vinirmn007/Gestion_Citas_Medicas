@@ -1,11 +1,11 @@
 [
     {
         "id": 1,
-        "nombre": "Enfermero"
+        "nombre": "Administrador"
     },
     {
         "id": 2,
-        "nombre": "Doctor"
+        "nombre": "Medico"
     },
     {
         "id": 3,

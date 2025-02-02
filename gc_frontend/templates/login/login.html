@@ -1,6 +1,6 @@
 {% extends "base_site.html" %}
 
-{% block title %}Login{% endblock title %}
+{% block title %}{% endblock title %}
 
 {% block stylesheets %}
 {{ super() }}
@@ -10,7 +10,6 @@
 <link href="{{ url_for('static', filename='vendors/alertifyjs/css/alertify.min.css') }}" rel="stylesheet">
 <link href="{{ url_for('static', filename='vendors/alertifyjs/css/custom.alertify.css') }}" rel="stylesheet">
 {% endblock stylesheets %}
-
 
 {% block body_class %}login{% endblock body_class %}
 
@@ -29,6 +28,14 @@
 {% endwith %}
 
 <div>
+  <title>MedicalCenter!</title>
+  <div>
+    <!-- Regresar a página principal button con imagen -->
+    <a href="/" class="to_register">
+      <img src="{{ url_for('static', filename='build/images/imgflecha.png') }}" alt="Regresar" style="width: 30px; height: auto; vertical-align: middle; margin-right: 10px;">
+    </a>
+  </div>
+  
   <a class="hiddenanchor" id="signup"></a>
   <a class="hiddenanchor" id="signin"></a>
   <div class="login_wrapper">
@@ -53,21 +60,21 @@
           <div class="clearfix"></div>
           <div class="separator">
             <p class="change_link">¿Nuevo en el sitio?
-              <a href="/cuenta/registrar" class="to_register"> Crea una cuenta </a>
+              <a href="/cuenta/persona/registrar" class="to_register"> Crea una cuenta </a>
             </p>
             <div class="clearfix"></div>
             <br />
             <div>
-              <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-              <p>©2024 Todos los derechos reservados. Privacidad y Términos.</p>
+              <h1>
+                <img src="{{ url_for('static', filename='build/images/logo.png') }}" alt="Logo" style="width: 50px; height: auto; vertical-align: middle; margin-right: 10px;">
+                Medical Center
+              </h1>
+              <p>©2025 Todos los derechos reservados. Privacidad y Términos.</p>
             </div>
           </div>
         </form>
       </section>
     </div>
-
-
-
   </div>
 </div>
 {% endblock body %}

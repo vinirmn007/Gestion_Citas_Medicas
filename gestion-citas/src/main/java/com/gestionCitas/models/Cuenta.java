@@ -5,6 +5,7 @@ public class Cuenta {
   private String usuario;
   private String contrasena;
   private Integer id_rol;
+  
 
   public Cuenta() {
   }
@@ -14,6 +15,7 @@ public class Cuenta {
     this.usuario = usuario;
     this.contrasena = contrasena;
     this.id_rol = id_rol;
+    
   }
 
   
@@ -37,11 +39,10 @@ public class Cuenta {
   public void setContrasena(String value) {
     this.contrasena = value;
   }
-
-  public Integer getId_rol() {
-    return this.id_rol;
-  }
-  public void setId_rol(Integer value) {
-    this.id_rol = value;
-  }
+    public Integer getId_rol() {
+      return this.id_rol;
+    }
+    public void setId_rol(Integer value) {
+      this.id_rol = value;
+    }
 }

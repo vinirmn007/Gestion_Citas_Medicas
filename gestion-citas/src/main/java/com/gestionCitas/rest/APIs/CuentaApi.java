@@ -6,19 +6,17 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
 import com.gestionCitas.controls.dao.services.CuentaServices;
 import com.gestionCitas.controls.dao.services.RolServices;
-import com.gestionCitas.models.Rol;
+import com.gestionCitas.models.Cuenta;
 import com.google.gson.Gson;
 
 @Path("cuenta")
-public class CuentaApi{
+public class CuentaApi {
     @Path("/list")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -49,7 +47,7 @@ public class CuentaApi{
     public Response save(HashMap map) {
         HashMap res = new HashMap<>();
         Gson g = new Gson();
-    
+
         try {
             if (map.get("rol") != null) {
                 HashMap rolMap = (HashMap) map.get("rol"); // Acceder al objeto rol
@@ -61,7 +59,8 @@ public class CuentaApi{
                         CuentaServices cs = new CuentaServices();
                         cs.getCuenta().setUsuario(map.get("usuario").toString());
                         cs.getCuenta().setContrasena(map.get("contrasena").toString());
-                        cs.getCuenta().setId_rol(rolServices.getRol().getId());
+                        cs.getCuenta().setId_rol(rolId);
+
                         cs.save();
                         res.put("msg", "OK");
                         res.put("data", "Cuenta registrada correctamente");
@@ -88,6 +87,42 @@ public class CuentaApi{
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(res).build();
         }
     }
-    
+
+    @Path("/login")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response login(HashMap<String, String> credentials) {
+        HashMap<String, Object> response = new HashMap<>();
+        try {
+            String usuario = credentials.get("usuario");
+            String contrasena = credentials.get("contrasena");
+
+            if (usuario == null || contrasena == null) {
+                response.put("msg", "Error");
+                response.put("data", "Usuario y contraseña son requeridos");
+                return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
+            }
+
+            CuentaServices cs = new CuentaServices();
+            Cuenta cuenta = cs.findByUsuario(usuario);
+
+            if (cuenta != null && cuenta.getContrasena().equals(contrasena)) {
+                response.put("msg", "OK");
+                response.put("data", "Inicio de sesión exitoso");
+                response.put("usuario", cuenta.getUsuario());
+                response.put("rol", cuenta.getId_rol());
+                return Response.ok(response).build();
+            } else {
+                response.put("msg", "Error");
+                response.put("data", "Usuario o contraseña incorrectos");
+                return Response.status(Response.Status.UNAUTHORIZED).entity(response).build();
+            }
+        } catch (Exception e) {
+            response.put("msg", "Error");
+            response.put("data", "Error al procesar la solicitud");
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(response).build();
+        }
+    }
 
 }

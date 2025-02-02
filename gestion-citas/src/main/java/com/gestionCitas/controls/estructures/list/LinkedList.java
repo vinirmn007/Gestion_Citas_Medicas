@@ -1,6 +1,9 @@
 package com.gestionCitas.controls.estructures.list;
 
+import java.util.Iterator;
+
 import com.gestionCitas.controls.estructures.exception.ListEmptyException;
+import com.gestionCitas.models.Cuenta;
 
 public class LinkedList<E> {
     private Node<E> header;
@@ -234,5 +237,22 @@ public class LinkedList<E> {
             this.add(matrix[i]);
         }
         return this;
+    }
+
+    public Iterator<E> iterator(){
+        return new Iterator<E>(){
+            private Node<E> aux = header;
+            @Override
+            public boolean hasNext() {
+                return aux != null;
+            }
+
+            @Override
+            public E next() {
+                E info = aux.getInfo();
+                aux = aux.getNext();
+                return info;
+            }
+        };
     }
 }

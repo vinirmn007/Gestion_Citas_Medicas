@@ -10,6 +10,6 @@ package com.gestionCitas.models.enums;
  */
 
 public enum Identificacion {
-    CEDULA,
+    DNI,
     PASAPORTE
 }

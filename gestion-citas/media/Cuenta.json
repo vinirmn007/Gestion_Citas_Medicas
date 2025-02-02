@@ -1,14 +1,1 @@
-[
-    {
-        "id": 1,
-        "usuario": "CaleT",
-        "contrasena": "123456t",
-        "id_rol": 2
-    },
-    {
-        "id": 2,
-        "usuario": "ErikaC",
-        "contrasena": "amoloscoreanos123",
-        "id_rol": 2
-    }
-]
+[{"id":1,"usuario":"MARO2","contrasena":"password1","id_rol":3}]

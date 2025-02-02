@@ -18,13 +18,14 @@ public class Persona {
     private Identificacion tipoIdentificacion;
     private Genero genero;
     private String fechaNacimiento; 
-    private String celular;         
+    private String celular; 
+    private Integer id_cuenta;      
 
     public Persona() {}
 
     public Persona(int id, String nombre, String email, String numeroIdentificacion, 
                    Identificacion tipoIdentificacion, Genero genero, 
-                   String fechaNacimiento, String celular) {
+                   String fechaNacimiento, String celular, Integer id_cuenta) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
@@ -33,6 +34,8 @@ public class Persona {
         this.genero = genero;
         this.fechaNacimiento = fechaNacimiento;
         this.celular = celular;
+        this.id_cuenta = id_cuenta;
+        
     }
 
     public int getId() { return id; }
@@ -76,6 +79,14 @@ public class Persona {
                ", genero=" + genero +
                ", fechaNacimiento='" + fechaNacimiento + '\'' +
                ", celular='" + celular + '\'' +
+               
                '}';
+    }
+
+    public Integer getId_cuenta() {
+      return this.id_cuenta;
+    }
+    public void setId_cuenta(Integer value) {
+      this.id_cuenta = value;
     }
 }
