@@ -12,7 +12,7 @@ def presentation():
 
 @main_route.route('/login')
 def load_login():
-    return render_template('login/login.html')
+    return render_template('login/login.html')  
 
 @main_route.route('/login')
 def load_login():
@@ -122,6 +122,11 @@ def login():
 
     return render_template('login/login.html')
 
+@main_route.route('/logout')
+def logout():
+    session.clear()
+    flash('Has cerrado sesión correctamente', category='info')
+    return redirect('/login')
 
 @main_route.route('/logout')
 def logout():

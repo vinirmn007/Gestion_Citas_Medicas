@@ -69,18 +69,6 @@ public class PersonaServices {
         return this.obj.getAllGeneros();
     }
 
-    public LinkedList order(String attribute, Integer type) throws Exception {
-        return this.obj.getListAll().order(attribute, type);
-    }
-
-    public LinkedList linealSearch(String attribute, Object value) throws Exception {
-        return this.obj.getListAll().linealSearch(attribute, value);
-    }
-
-    public Object binarySearch(String attribute, Object value) throws Exception {
-        return this.obj.getListAll().binarySearch(attribute, value);
-    }
-
     public Integer getAge(String fechaNacimiento) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate birthDate = LocalDate.parse(fechaNacimiento, formatter);

@@ -3,20 +3,15 @@ package com.gestionCitas.models;
 import com.gestionCitas.models.enums.TipoExamen;
 
 public class Examen {
-    private int id;
+    private Integer id;
     private TipoExamen tipo;
     private String descripcion;
     private String nombreArchivo;
     private Integer idDiagnostico;
 
-    public Examen() {
-        this.id = 0;
-        this.tipo = TipoExamen.LABORATORIO;
-        this.descripcion = "";
-        this.idDiagnostico = null;
-    }
+
     
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
