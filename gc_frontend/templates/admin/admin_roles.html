@@ -83,7 +83,9 @@
                             <td>{{ usuario.rol.nombre }}</td>
                             <td>
                                 <form action="/admin/roles/asignar" method="POST">
-                                    <input type="hidden" name="usuario" value="{{ usuario }}">
+                                    <!-- Enviar solo el id del usuario -->
+                                    <input type="hidden" name="usuario" value="{{ usuario.id }}">
+                                    
                                     <select class="form-select" name="rol">
                                         <option value="1">Administrador</option>
                                         <option value="2">Médico</option>

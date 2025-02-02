@@ -6,13 +6,19 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.gestionCitas.controls.dao.services.CuentaServices;
 import com.gestionCitas.controls.dao.services.RolServices;
+import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Cuenta;
+import com.gestionCitas.models.Rol;
 import com.google.gson.Gson;
 
 @Path("cuenta")
@@ -107,7 +113,8 @@ public class CuentaApi {
             CuentaServices cs = new CuentaServices();
             Cuenta cuenta = cs.findByUsuario(usuario);
 
-            if (cuenta != null && cuenta.getContrasena().equals(contrasena)) {
+            // Verificar si la cuenta existe y comparar las contraseñas
+            if (cuenta != null && BCrypt.checkpw(contrasena, cuenta.getContrasena())) {
                 response.put("msg", "OK");
                 response.put("data", "Inicio de sesión exitoso");
                 response.put("usuario", cuenta.getUsuario());
@@ -122,6 +129,85 @@ public class CuentaApi {
             response.put("msg", "Error");
             response.put("data", "Error al procesar la solicitud");
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(response).build();
+        }
+    }
+
+    @Path("/get/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllCuenta(@PathParam("id") Integer id) {
+        HashMap<String, Object> map = new HashMap<>();
+        CuentaServices ps = new CuentaServices();
+        try {
+            ps.setCuenta(ps.get(id));
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        map.put("msg", "Ok");
+        map.put("data", ps.getCuenta());
+        if (ps.getCuenta().getId() == null) {
+            map.put("data", "Cuenta no encontrado");
+            return Response.status(Status.BAD_REQUEST).entity(map).build();
+        }
+        return Response.ok(map).build();
+    }
+
+    @Path("/update")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response update(HashMap<String, Object> map) {
+        CuentaServices ps = new CuentaServices();
+        RolServices rolServices = new RolServices();
+        HashMap<String, Object> res = new HashMap<>();
+
+        try {
+            // Obtener el ID de la cuenta
+            Integer cuentaId = Integer.parseInt(map.get("id").toString());
+            Cuenta cuenta = ps.get(cuentaId);
+
+            // Verificar si la cuenta existe
+            if (cuenta == null) {
+                res.put("msg", "Error");
+                res.put("data", "Cuenta no encontrada con id " + cuentaId);
+                return Response.status(Status.BAD_REQUEST).entity(res).build();
+            }
+
+            // Verificar si se envió un rol y actualizarlo solo si es necesario
+            if (map.containsKey("rol")) {
+                HashMap rolMap = (HashMap) map.get("rol");
+                Integer rolId = Integer.parseInt(rolMap.get("id").toString());
+
+                // Verificar si el rol existe
+                Rol rol = rolServices.get(rolId);
+                if (rol == null) {
+                    res.put("msg", "Error");
+                    res.put("data", "Rol no encontrado con id " + rolId);
+                    return Response.status(Status.BAD_REQUEST).entity(res).build();
+                }
+
+                // Actualizar el ID del rol en la cuenta
+                cuenta.setId_rol(rolId);
+            }
+
+            // Actualizar la cuenta en el archivo JSON
+            ps.update(cuenta);
+
+            System.out.println("Cuenta actualizada: " + cuenta);
+
+            res.put("msg", "OK");
+            res.put("data", "Rol actualizado correctamente");
+            return Response.ok(res).build();
+
+        } catch (NumberFormatException e) {
+            res.put("msg", "Error");
+            res.put("data", "Formato de número inválido: " + e.getMessage());
+            return Response.status(Status.BAD_REQUEST).entity(res).build();
+
+        } catch (Exception e) {
+            res.put("msg", "Error");
+            res.put("data", "Error al actualizar la cuenta: " + e.getMessage());
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(res).build();
         }
     }
 
