@@ -17,28 +17,29 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Identificacion del
                                     Paciente</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control">
-                                    <span class="input-group-btn">
+                                    <input type="text" class="form-control" id="dni" name="dni" required>
+                                     <span class="input-group-btn">
                                         <button type="submit" class="btn btn-primary">Buscar</button>
                                     </span>
                                 </div>
                             </div>
                         </form>
-                        <form class="form-horizontal form-label-left">
+                        <form class="form-horizontal form-label-left" action="/historial/save" method="post">
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Paciente</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Paciente <span class="required">*</span></label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control" name="paciente" readonly
-                                        placeholder="Sin paciente">
+                                    <input type="text" class="form-control" name="paciente" id="paciente_nombre" value="Sin paciente"
+                                        readonly>
+                                    <input type="hidden" name="paciente_id" value="0" id="paciente_id">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de Sangre</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de Sangre <span class="required">*</span></label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <select class="form-control" name="tipo_sangre">
+                                    <select class="form-control" name="tipo_sangre" required>
                                         {% for tipo_sangre in tipos_sangre %}
-                                            <option value="{{ tipo_sangre }}">{{ tipo_sangre }}</option>
+                                        <option value="{{ tipo_sangre }}">{{ tipo_sangre }}</option>
                                         {% endfor %}
 
                                     </select>
@@ -46,46 +47,56 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Discapacidad</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">¿Cuantos hijos tiene? <span class="required">*</span></label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control" name="discapacidad" placeholder="Ninguna"
+                                    <input type="number" class="form-control" name="hijos" value="0" min="0" max="20" step="1" 
+                                        required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Discapacidad <span class="required">*</span></label>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    <input type="text" class="form-control" name="discapacidad" value="Ninguna"
                                         required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Alergias</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Alergias <span class="required">*</span></label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control" name="alergias" placeholder="Ninguna" required>
+                                    <input type="text" class="form-control" name="alergias" value="Ninguna"
+                                        required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Antecedentes Familiares</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Antecedentes Familiares <span class="required">*</span></label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <textarea class="form-control" rows="3" name="antecendentes"></textarea>
+                                    <textarea class="form-control" rows="3" name="antecendentes" required></textarea>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Medicacion Actual</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Medicacion Actual <span class="required">*</span></label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control" name="medicacion" placeholder="Ninguna" required>
+                                    <input type="text" class="form-control" name="medicacion" value="Ninguna"
+                                        required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Patologias Pasadas</label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Patologias Pasadas <span class="required">*</span></label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <textarea class="form-control" rows="3" name="patologias"></textarea>
+                                    <textarea class="form-control" rows="3" name="patologias" required></textarea>
                                 </div>
                             </div>
 
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                                    <button type="button" class="btn btn-primary">Cancelar</button>
-                                    <button type="reset" class="btn btn-primary">Borrar</button>
+                                    <a type="button" class="btn btn-primary" href="javascript:history.back()">Cancelar</a>
+                                    <button type="reset" class="btn btn-warning">Borrar</button>
                                     <button type="submit" class="btn btn-success">Guardar</button>
                                 </div>
                             </div>
@@ -98,3 +109,43 @@
     </div>
 </div>
 {% endblock %}
+{% block javascripts %}
+{{ super() }}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("dni-search").addEventListener("submit", async function (event) {
+            event.preventDefault(); // Evitar que el formulario recargue la página
+
+            let dniInput = document.getElementById("dni");
+            let dni = dniInput.value.trim();
+
+            if (!dni) {
+                alert("Por favor, ingrese un número de identificación válido.");
+                return;
+            }
+            console.log(dni);
+            let url = `http://localhost:8080/myapp/pacientes/binarySearch/numeroIdentificacion/${dni}`;
+
+            try {
+                let response = await fetch(url, { method: "GET" });
+
+                if (!response.ok) {
+                    throw new Error("Paciente no encontrado.");
+                }
+
+                let json = await response.json();
+                let data = json.data;
+                console.log(data);
+
+                document.getElementById("paciente_nombre").value = `${data.nombres} ${data.apellidos}`;
+                document.getElementById("paciente_id").value = data.id;
+            } catch (error) {
+                alert(error.message);
+                console.error("Error en la búsqueda del paciente:", error);
+                document.getElementById("paciente_nombre").value = "Paciente no encontrado";
+                document.getElementById("paciente_id").value = "0";
+            }
+        });
+    });
+</script>
+{% endblock javascripts %}

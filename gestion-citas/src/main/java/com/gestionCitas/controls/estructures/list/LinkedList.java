@@ -1,6 +1,8 @@
 package com.gestionCitas.controls.estructures.list;
 
 import java.lang.reflect.Method;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import com.gestionCitas.controls.estructures.exception.ListEmptyException;
 
@@ -415,4 +417,25 @@ public class LinkedList<E> {
         }
         return clonedList;
     }
+
+    private Boolean compareDates(Object a, Object b, Integer type) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+    if (a instanceof String && b instanceof String) {
+        try {
+            LocalDate dateA = LocalDate.parse((String) a, formatter);
+            LocalDate dateB = LocalDate.parse((String) b, formatter);
+
+            if (type == 0) {
+                return dateA.isAfter(dateB); // Orden ascendente
+            } else {
+                return dateA.isBefore(dateB); // Orden descendente
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    return false; // En caso de error
+}
 }

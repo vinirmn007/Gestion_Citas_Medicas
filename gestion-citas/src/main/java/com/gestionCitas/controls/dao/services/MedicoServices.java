@@ -1,5 +1,9 @@
 package com.gestionCitas.controls.dao.services;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
 import com.gestionCitas.controls.dao.MedicoDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Medico;
@@ -67,5 +71,12 @@ public class MedicoServices {
 
     public Object binarySearch(String attribute, Object value) throws Exception {
         return this.obj.getListAll().binarySearch(attribute, value);
+    }
+
+    public Integer getAge(String fechaNacimiento) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate birthDate = LocalDate.parse(fechaNacimiento, formatter);
+        LocalDate today = LocalDate.now();
+        return (int) ChronoUnit.YEARS.between(birthDate, today);
     }
 }

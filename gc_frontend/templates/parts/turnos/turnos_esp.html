@@ -1,0 +1,47 @@
+{% extends "base_site.html" %}
+{% block title %}Historial Medico{% endblock %}
+{% block content %}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Turnos Medicos</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="table-responsive">
+
+                            <table class="table table-striped jambo_table">
+                                <thead>
+                                    <tr class="headings">
+                                        <th>Fecha</th>
+                                        <th>Hora</th>
+                                        <th>Paciente</th>
+                                        <th>Medico</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for turno in turnos %}
+                                    <tr>
+                                        <td>{{ turno.fecha }}</td>
+                                        <td>{{ turno.hora }}</td>
+                                        <td>{{ turno.nombrePaciente }}</td>
+                                        <td>{{ turno.nombreMedico }}</td>
+                                        <td>
+                                            <a href="/cita/registro/{{turno.id}}" class="btn btn-primary">Atender</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

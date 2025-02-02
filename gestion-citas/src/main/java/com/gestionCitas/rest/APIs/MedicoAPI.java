@@ -7,7 +7,9 @@ import javax.ws.rs.core.*;
 
 import com.gestionCitas.controls.dao.services.CuentaServices;
 import com.gestionCitas.controls.dao.services.MedicoServices;
+import com.gestionCitas.controls.dao.services.PersonaServices;
 import com.gestionCitas.models.Medico;
+import com.gestionCitas.models.Persona;
 
 @Path("medicos")
 public class MedicoAPI {
@@ -137,6 +139,35 @@ public class MedicoAPI {
         map.put("data", medico);
 
         return Response.ok(map).build();
+    }
+
+    @Path("/age/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAge(@PathParam("id") Integer id) throws Exception {
+        HashMap map = new HashMap<>();
+        MedicoServices ms = new MedicoServices();
+        Medico medico = ms.get(id);
+
+        if (medico == null || medico.getId() == null) {
+            map.put("msg", "Error");
+            map.put("data", "No existe ese Medico");
+            return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+        }
+
+        try {
+            Integer edad = ms.getAge(medico.getFechaNacimiento());
+
+            map.put("msg", "OK");
+            map.put("data", edad);
+
+            return Response.ok(map).build();
+        } catch (Exception e) {
+            map.put("msg", "Error");
+            map.put("data", e.toString());
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
     }
     
     @Path("/update")

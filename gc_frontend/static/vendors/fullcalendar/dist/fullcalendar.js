@@ -5644,7 +5644,7 @@ var DayTableMixin = FC.DayTableMixin = {
 		return '' +
             '<th class="' + classNames.join(' ') + '"' +
 				(this.rowCnt === 1 ?
-					' data-date="' + date.format('YYYY-MM-DD') + '"' :
+					' data-date="' + date.format('DD-MM-YYYY') + '"' :
 					'') +
 				(colspan > 1 ?
 					' colspan="' + colspan + '"' :

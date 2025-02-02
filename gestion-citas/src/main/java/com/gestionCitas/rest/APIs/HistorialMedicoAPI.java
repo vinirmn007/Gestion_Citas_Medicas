@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 
 import com.gestionCitas.controls.dao.services.HistorialMedicoServices;
 import com.gestionCitas.controls.dao.services.PersonaServices;
+import com.gestionCitas.models.CitaMedica;
 import com.gestionCitas.models.HistorialMedico;
 
 @Path("historialMedico")
@@ -61,6 +62,29 @@ public class HistorialMedicoAPI {
                 res.put("data", "No existe ese Paciente");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
+            if (hss.getListAll().binarySearch("pacienteId", map.get("pacienteId").toString()) != null) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe un Historial para ese Paciente");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (hss.getTipoSangre(map.get("tipo_sangre").toString()) == null) {
+                res.put("msg", "Error");
+                res.put("data", "Tipo de sangre no valido");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (Integer.parseInt(map.get("hijos").toString()) < 0 || Integer.parseInt(map.get("hijos").toString()) > 20) {
+                res.put("msg", "Error");
+                res.put("data", "Numero de hijos no valido");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+                
+            }
+            if (map.get("alergias").toString().isEmpty() || map.get("antecedentes").toString().isEmpty()
+                    || map.get("discapacidad").toString().isEmpty() || map.get("medicacion").toString().isEmpty()
+                    || map.get("patologias").toString().isEmpty()) {
+                res.put("msg", "Error");
+                res.put("data", "Todos los campos son obligatorios");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
 
             //GUARDADO DE DATOS
             hss.getHistorialMedico().setAlergias(map.get("alergias").toString());
@@ -68,7 +92,8 @@ public class HistorialMedicoAPI {
             hss.getHistorialMedico().setDiscapacidad(map.get("discapacidad").toString());
             hss.getHistorialMedico().setMedicacionActual(map.get("medicacion").toString());
             hss.getHistorialMedico().setPatologiasPasadas(map.get("patologias").toString());
-            hss.getHistorialMedico().setTipoSangre(hss.getTipoSangre(map.get("tipo_sangre").toString()));            
+            hss.getHistorialMedico().setTipoSangre(hss.getTipoSangre(map.get("tipo_sangre").toString()));
+            hss.getHistorialMedico().setNroHijjos(Integer.parseInt(map.get("hijos").toString()));            
             hss.getHistorialMedico().setPacienteId(Integer.parseInt(map.get("pacienteId").toString()));
             hss.save();
 
@@ -136,6 +161,30 @@ public class HistorialMedicoAPI {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
         }
     }
+
+    @Path("/search/{value}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchByPersonaId(@PathParam("value") String value) {
+        HashMap map = new HashMap<>();
+        HistorialMedicoServices hms = new HistorialMedicoServices();
+        try {
+            HistorialMedico historial = (HistorialMedico) hms.getListAll().binarySearch("personaId", value);
+            if (historial == null) {
+                map.put("msg", "OK");
+                map.put("data", "Historial no encontrado");
+                return Response.ok(map).build();
+            }
+            map.put("msg", "OK");
+            map.put("data", historial);
+            return Response.ok(map).build();
+        } catch (Exception e) {
+            map.put("msg", "Error");
+            map.put("data", e.toString());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
+    }
+
     /* 
     @Path("/delete")
     @POST

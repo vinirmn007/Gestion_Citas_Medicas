@@ -6,6 +6,7 @@ public class HistorialMedico {
     private Integer id;
     private String alergias;
     private TipoSangre tipoSangre;
+    private Integer nroHijjos;
     private String antecendentesFamiliares;
     private String medicacionActual;
     private String patologiasPasadas;
@@ -85,5 +86,13 @@ public class HistorialMedico {
 
     public void setPacienteId(Integer pacienteId) {
         this.pacienteId = pacienteId;
+    }
+
+    public Integer getNroHijjos() {
+        return this.nroHijjos;
+    }
+
+    public void setNroHijjos(Integer nroHijjos) {
+        this.nroHijjos = nroHijjos;
     }
 }

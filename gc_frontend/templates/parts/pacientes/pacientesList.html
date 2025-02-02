@@ -8,31 +8,37 @@
                 <h3>Lista de Pacientes</h3>
             </div>
         </div>
+        <div class="clearfix"></div>
 
         <div class="row">
             <!-- Buscar Paciente -->
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <form class="form-inline">
-                    <label for="search" class="mr-2">Buscar Paciente</label>
-                    <select class="form-control mr-2" name="search" id="search">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <form class="form-inline" id="search-form">
+                    <label for="atributo" class="mr-2">Buscar Paciente</label>
+                    <select class="form-control mr-2" name="atributo" id="atributo">
                         <option value="nombres">Nombres</option>
                         <option value="apellidos">Apellidos</option>
+                        <option value="numeroIdentificacion">Identificación</option>
+                        <option value="email">Email</option>
+                        <option value="telefono">Teléfono</option>
                     </select>
-                    <input type="text" class="form-control mr-2" id="name" name="name" placeholder="Nombre o Apellido"
-                        required>
+                    <input type="text" class="form-control mr-2" id="valor" name="valor"
+                        placeholder="Ingrese el parametro" required>
                     <button type="submit" class="btn btn-primary">Buscar</button>
                 </form>
             </div>
             <!-- Ordenar -->
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <form class="form-inline">
-                    <label for="order" class="mr-2">Ordenar</label>
-                    <select class="form-control mr-2" name="order" id="order">
+            <div class="col-md-6 col-sm-6 col-xs-12" id="ord-form">
+                <form class="form-inline" id="ord-form">
+                    <label for="criterio" class="mr-2">Ordenar</label>
+                    <select class="form-control mr-2" name="criterio" id="criterio">
                         <option value="nombres">Nombres</option>
                         <option value="apellidos">Apellidos</option>
+                        <option value="edad">Edad</option>
+                        <option value="fechaNacimiento">Fecha de Nacimiento</option>
                     </select>
-                    <button type="submit" class="btn btn-primary mr-1">Asc</button>
-                    <button type="submit" class="btn btn-primary">Desc</button>
+                    <button type="submit" class="btn btn-primary me-2 orden-button" id="ascendente" data-orden="0">Ascendente</button>
+                    <button type="submit" class="btn btn-primary orden-button" id="descendente" data-orden="1">Descendente</button>
                 </form>
             </div>
         </div>
@@ -65,12 +71,12 @@
                                     <tr>
                                         <td class=" ">{{paciente.nombres}}</td>
                                         <td class=" ">{{paciente.apellidos}}</td>
-                                        <td class=" "></td>
+                                        <td class=" ">{{paciente.edad}}</td>
                                         <td class=" ">{{paciente.numeroIdentificacion}}</td>
                                         <td class=" ">{{paciente.email}}</td>
                                         <td class="">{{paciente.telefono}}</td>
                                         <td class="">{{paciente.direccion}}</td>
-                                        <td class=" last"><a href="#">Ver</a>
+                                        <td class=" last"><a href="/paciente/{{paciente.id}}">Ver</a>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -86,3 +92,41 @@
     </div>
 </div>
 {% endblock %}
+{% block javascripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='vendors/jquery/src/jquery.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        var orden;
+
+        $('.orden-button').on('click', function () {
+            orden = $(this).data('orden');
+        });
+
+        $('#ord-form').on('submit', function (event) {
+            event.preventDefault();
+            var criterio = $('#criterio').val();
+
+            var url = `/paciente/all/ordenar/${criterio}/${orden}`;
+            console.log(url);
+
+            if (criterio && orden !== undefined) {
+                window.location.href = url;
+            }
+        });
+
+        $('#search-form').on('submit', function (event) {
+            event.preventDefault();
+            var atributo = $('#atributo').val();
+            var valor = $('#valor').val();
+
+            var url = `/paciente/all/buscar/${atributo}/${valor}`;
+            //console.log(url);
+
+            if (atributo && valor !== undefined) {
+                window.location.href = url;
+            }
+        });
+    });
+</script>
+{% endblock javascripts %}

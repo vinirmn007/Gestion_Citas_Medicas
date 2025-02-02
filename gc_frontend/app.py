@@ -1,5 +1,7 @@
 from flask import Flask
 from routes.citasRoute import citas_route
+from routes.historialRoute import hsto_route
+from routes.signosVitales import signos_route
 from routes.turnosRoute import turnos_route
 from routes.mainRoute import main_route
 from routes.diagnosticoRoute import diagnostico_route
@@ -14,5 +16,7 @@ def create_app():
         app.register_blueprint(main_route)
         app.register_blueprint(diagnostico_route)
         app.register_blueprint(pacientes_route)
+        app.register_blueprint(hsto_route)
+        app.register_blueprint(signos_route)
 
     return app
