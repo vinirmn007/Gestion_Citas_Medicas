@@ -9,6 +9,6 @@ package com.gestionCitas.models.enums;
  * @author david
  */
 public enum Genero {
-    HOMBRE,
-    MUJER
+    MASCULINO,
+    FEMENINO
 }

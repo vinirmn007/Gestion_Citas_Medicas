@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import com.gestionCitas.controls.estructures.exception.ListEmptyException;
+import com.gestionCitas.models.Cuenta;
 
 public class LinkedList<E> {
     private Node<E> header;

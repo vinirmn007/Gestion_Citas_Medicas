@@ -3,31 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SaludCitas</title>
+  <title>MedicalCenter!</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Colores personalizados */
+    body {
+      background-color: #ECF0F1; /* Fondo claro */
+      color: #2c3e50; /* Texto oscuro para contraste */
+    }
+
+    .navbar {
+      background-color: #34495E; /* Barra de navegación azul oscuro */
+    }
+
+    .navbar-brand, .navbar-nav .nav-link {
+      color: #fff !important; /* Texto blanco en la navbar */
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #1ABB9C !important; /* Verde menta al pasar el mouse */
+    }
+
+    .btn-primary {
+      background-color: #34495E; /* Azul oscuro */
+      border-color: #34495E;
+    }
+
+    .btn-primary:hover {
+      background-color: #213345; /* Azul más oscuro al hacer hover */
+      border-color: #1ABB9C; /* Verde menta al hacer hover */
+    }
+
+    .btn-success {
+      background-color: #1ABB9C; /* Verde menta */
+      border-color: #1ABB9C;
+    }
+
+    .btn-success:hover {
+      background-color: #1F9E8A; /* Verde menta oscuro al hacer hover */
+      border-color: #1F9E8A;
+    }
+
+    .container {
+      margin-top: 50px;
+    }
+
+    .container h1, .container h2 {
+      color: #34495E; /* Títulos en azul oscuro */
+    }
+
+    .descripcion-section {
+      display: none;
+    }
+
+    .lead {
+      font-size: 1.2rem;
+      color: #f0eded;
+    }
+
+    .btn-link {
+      color: #34495E;
+    }
+
+    .btn-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Estilos del calendario */
+    .daterangepicker.picker_1 {
+      color: #fff;
+      background: #34495E;
+    }
+
+    .daterangepicker.picker_1 .calendar-table {
+      background: #34495E;
+    }
+
+    .daterangepicker.picker_1 .calendar-table thead tr {
+      background: #213345;
+    }
+
+    .daterangepicker.picker_1 .calendar-table thead tr:first-child {
+      background: #1ABB9C;
+    }
+
+    .daterangepicker.picker_1 .calendar-table td.off {
+      background: #34495E;
+      color: #999;
+    }
+
+    .daterangepicker.picker_1 .calendar-table td.available:hover {
+      color: #34495E;
+    }
+
+    .daterangepicker.picker_2 .calendar-table thead tr {
+      color: #1ABB9C;
+    }
+
+    .daterangepicker.picker_2 .calendar-table thead tr:first-child {
+      color: #73879C;
+    }
+
+    .daterangepicker.picker_3 .calendar-table thead tr:first-child {
+      color: #fff;
+      background: #1ABB9C;
+    }
+
+    .daterangepicker.picker_4 .calendar-table thead tr:first-child {
+      color: #fff;
+      background: #34495E;
+    }
+
+    .daterangepicker.picker_4 .calendar-table td,
+    .daterangepicker.picker_4 .calendar-table td.off {
+      background: #ECF0F1;
+      border: 1px solid #fff;
+      border-radius: 0;
+    }
+
+  </style>
 </head>
 <body>
   <!-- Barra de navegación -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">SaludCitas</a>
+      <img src="static/build/images/logo.png" alt="Logo" style="width: 50px; height: auto; vertical-align: middle; margin-right: 10px;">
+      <a class="navbar-brand" href="#">MEDICAL CENTER</a>
+      
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+            <a class="nav-link active" id="inicio-link" href="#">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Acerca de</a>
+            <a class="nav-link" id="acerca-link" href="#">Acerca de</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Servicios</a>
+            <a class="nav-link" id="servicios-link" href="#">Servicios</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contacto</a>
+            <a class="nav-link" id="contacto-link" href="#">Contacto</a>
           </li>
         </ul>
         <a href="/login" class="btn btn-primary">Ingreso</a>
@@ -44,5 +163,38 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Cambiar contenido según la opción seleccionada
+    document.getElementById('inicio-link').addEventListener('click', function() {
+      document.getElementById('titulo').innerHTML = '¡Bienvenido a SaludCitas!';
+      document.getElementById('descripcion').innerHTML = 'Nuestro sistema está diseñado para facilitarte la atención en consultorios médicos. Para agendar citas y acceder a nuestros servicios, es necesario que te registres primero. Si ya tienes cuenta, puedes iniciar sesión directamente.';
+      toggleSections('inicio-desc');
+    });
+
+    document.getElementById('acerca-link').addEventListener('click', function() {
+      document.getElementById('titulo').innerHTML = 'Acerca de Nosotros';
+      document.getElementById('descripcion').innerHTML = 'SaludCitas es una plataforma innovadora que conecta a pacientes con médicos. Nuestro objetivo es proporcionar atención médica de calidad, agilizar la gestión de citas y ofrecer una experiencia fluida para todos nuestros usuarios. ¡Queremos que tu salud esté siempre en buenas manos!';
+      toggleSections('acerca-desc');
+    });
+
+    document.getElementById('servicios-link').addEventListener('click', function() {
+      document.getElementById('titulo').innerHTML = 'Servicios';
+      document.getElementById('descripcion').innerHTML = 'Ofrecemos una variedad de servicios médicos, desde consultas generales hasta atención especializada. Además, puedes gestionar tu historial médico, hacer seguimientos y agendar citas con facilidad. SaludCitas te conecta con los mejores profesionales de la salud.';
+      toggleSections('servicios-desc');
+    });
+
+    document.getElementById('contacto-link').addEventListener('click', function() {
+      document.getElementById('titulo').innerHTML = 'Contacto';
+      document.getElementById('descripcion').innerHTML = 'Si tienes alguna duda o necesitas más información, no dudes en contactarnos. Nuestro equipo de soporte está disponible para ayudarte. Puedes llamarnos al número de teléfono o escribirnos un correo electrónico.';
+      toggleSections('contacto-desc');
+    });
+
+    function toggleSections(activeSectionId) {
+      const sections = document.querySelectorAll('.descripcion-section');
+      sections.forEach(section => section.style.display = 'none');
+      document.getElementById(activeSectionId).style.display = 'block';
+    }
+  </script>
 </body>
 </html>

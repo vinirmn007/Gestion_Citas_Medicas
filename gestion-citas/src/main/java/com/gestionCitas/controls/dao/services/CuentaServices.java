@@ -10,23 +10,23 @@ public class CuentaServices {
     private CuentaDao obj;
 
     public Object[] listShowAll() throws Exception {
-        if(!obj.getListAll().isEmpty()) {
+        if (!obj.getListAll().isEmpty()) {
             Cuenta[] lista = (Cuenta[]) obj.getListAll().toArray();
             Object[] respuesta = new Object[lista.length];
-            for(int i = 0; i < lista.length; i++) {
+            for (int i = 0; i < lista.length; i++) {
                 Rol r = new RolServices().get(lista[i].getId_rol());
                 HashMap mapa = new HashMap<>();
                 mapa.put("id", lista[i].getId());
                 mapa.put("usuario", lista[i].getUsuario());
                 mapa.put("contrasena", lista[i].getContrasena());
                 mapa.put("rol", r);
+                
                 respuesta[i] = mapa;
             }
             return respuesta;
         }
-        return new Object[]{};
+        return new Object[] {};
     }
-
     public CuentaServices() {
         obj = new CuentaDao();
     }
@@ -39,6 +39,10 @@ public class CuentaServices {
         return obj.update();
     }
 
+    public Boolean update(Cuenta cuenta) throws Exception {
+        return obj.update();
+    }
+    
     public LinkedList listAll() {
         return obj.getListAll();
     }
@@ -55,5 +59,8 @@ public class CuentaServices {
         return obj.get(id);
     }
 
+    public Cuenta findByUsuario(String usuario) {
+        return obj.findByUsuario(usuario);
+    }
 }
 

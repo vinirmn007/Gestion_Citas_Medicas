@@ -1,29 +1,13 @@
 [
     {
         "id": 1,
-        "nombres": "Alexis",
-        "apellidos": "Rmn",
-        "email": "ejemplo3@gmail.com",
-        "direccion": "Operadores",
-        "telefono": "0993234264",
-        "fechaNacimiento": "26-04-2005",
-        "numeroIdentificacion": "1106013749",
-        "tipoIdentificacion": "CEDULA",
-        "genero": "HOMBRE",
-        "historialMedicoId": 1,
-        "cuentaId": 3
-    },
-    {
-        "id": 2,
-        "nombres": "ajdkjfa",
-        "apellidos": "Rmn",
-        "email": "ejemplo2@gmail.com",
-        "direccion": "Operadores",
-        "telefono": "0993234265",
-        "fechaNacimiento": "26-04-2005",
-        "numeroIdentificacion": "1106013742",
-        "tipoIdentificacion": "CEDULA",
-        "genero": "HOMBRE",
-        "cuentaId": 1
+        "nombre": "Manola Buendia",
+        "email": "manobue1233@gmail.com",
+        "numeroIdentificacion": "1104306863",
+        "tipoIdentificacion": "DNI",
+        "genero": "MASCULINO",
+        "fechaNacimiento": "19-09-1992",
+        "celular": "0986509775",
+        "id_cuenta": 1
     }
 ]
