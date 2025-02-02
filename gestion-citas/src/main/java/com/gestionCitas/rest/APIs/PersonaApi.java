@@ -30,10 +30,10 @@ public class PersonaApi {
         PersonaServices ps = new PersonaServices();
         map.put("msg", "OK");
         // TODO
-        // map.put("data", ps.listAll().toArray());
+        // map.put("data", ps.getListAll().toArray());
         try {
             map.put("data", ps.listShowAll());
-            if (ps.listAll().isEmpty()) {
+            if (ps.getListAll().isEmpty()) {
                 map.put("data", new Object[] {});
             }
 
@@ -116,7 +116,7 @@ public class PersonaApi {
             }
 
             // Verificar si la persona con esa cédula ya existe
-            LinkedList<Persona> personas = personaServices.listAll();
+            LinkedList<Persona> personas = personaServices.getListAll();
             for (int i = 0; i < personas.getSize(); i++) {
                 if (personas.get(i).getNumeroIdentificacion().equals(cedula)) {
                     res.put("msg", "Error");
@@ -149,9 +149,9 @@ public class PersonaApi {
 
             // Crear el objeto Persona
             Persona persona = new Persona();
-            persona.setNombre(personaMap.getOrDefault("nombre", "").toString());
+            persona.setNombres(personaMap.getOrDefault("nombre", "").toString());
             persona.setEmail(personaMap.getOrDefault("email", "").toString());
-            persona.setCelular(personaMap.getOrDefault("celular", "").toString());
+            persona.setTelefono(personaMap.getOrDefault("celular", "").toString());
             persona.setFechaNacimiento(fechaFormateada);
 
             try {
@@ -173,7 +173,7 @@ public class PersonaApi {
 
             // Guardar la cuenta y persona
             cuentaServices.save(); // Guardar la cuenta antes de asignar su ID a la persona
-            persona.setId_cuenta(nuevaCuenta.getId());
+            persona.setCuentaId(nuevaCuenta.getId());
             personaServices.save(persona); // Guardar la persona después de asignar el ID de la cuenta
 
             res.put("msg", "OK");

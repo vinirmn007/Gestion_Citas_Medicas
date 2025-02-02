@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.util.Scanner;
 
 import com.gestionCitas.controls.dao.implement.InterfazDao;
+import com.gestionCitas.controls.estructures.exception.ListEmptyException;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Cuenta;
 import com.google.gson.Gson;
@@ -44,24 +45,14 @@ public class AdapterDao<T> implements InterfazDao<T> {
     @Override
     public void merge(T obj, Integer index) throws Exception {
         LinkedList<T> list = listAll();
-
-        // Verifica si la lista está vacía
         if (list == null || list.isEmpty()) {
             throw new ListEmptyException("La lista está vacía, no se puede actualizar.");
         }
-
-        // Verifica si el índice está dentro del rango válido
         if (index < 0 || index >= list.getSize()) {
             throw new IndexOutOfBoundsException("Índice fuera de rango: " + index);
         }
-
-        // Actualiza el objeto en la lista
         list.update(obj, index);
-
-        // Convierte la lista actualizada a JSON
         String info = gson.toJson(list.toArray());
-
-        // Guarda los cambios en el archivo
         saveFile(info);
     }
 

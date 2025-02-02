@@ -1,6 +1,5 @@
-package com.gestionCitas.controls.dao;
+package com.gestionCitas.controls.dao.implement;
 
-import com.gestionCitas.controls.dao.implement.AdapterDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Persona;
 
