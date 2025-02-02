@@ -3,27 +3,21 @@ package com.gestionCitas.rest.APIs;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
 import com.gestionCitas.controls.dao.services.CuentaServices;
 import com.gestionCitas.controls.dao.services.PersonaServices;
-import com.gestionCitas.controls.dao.services.RolServices;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Cuenta;
 import com.gestionCitas.models.Persona;
-import com.gestionCitas.models.Rol;
 import com.gestionCitas.models.enums.Genero;
 import com.gestionCitas.models.enums.Identificacion;
-import com.google.gson.Gson;
 
 @Path("persona")
 public class PersonaApi {
@@ -48,104 +42,6 @@ public class PersonaApi {
             // TODO: handle exception
         }
         return Response.ok(map).build();
-    }
-
-    @Path("/save")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response save(HashMap<String, Object> map) {
-        HashMap<String, Object> res = new HashMap<>();
-
-        try {
-            // Verificar si los datos son válidos
-            if (map == null || !map.containsKey("cuenta") || !map.containsKey("persona")) {
-                res.put("msg", "Error");
-                res.put("data", "Faltan datos de la cuenta o de la persona");
-                return Response.status(Status.BAD_REQUEST).entity(res).build();
-            }
-
-            // Obtener y validar los datos de la cuenta
-            HashMap<String, Object> cuentaMap = (HashMap<String, Object>) map.get("cuenta");
-            if (cuentaMap == null || !cuentaMap.containsKey("usuario") || !cuentaMap.containsKey("contrasena")) {
-                res.put("msg", "Error");
-                res.put("data", "Faltan datos de la cuenta");
-                return Response.status(Status.BAD_REQUEST).entity(res).build();
-            }
-
-            String usuario = cuentaMap.get("usuario").toString();
-            String contrasena = cuentaMap.get("contrasena").toString();
-
-            // Asignar id_rol con un valor por defecto de 3 si no se proporciona
-            Integer idRol = 3; // Rol por defecto (paciente)
-            if (cuentaMap.containsKey("id_rol")) {
-                idRol = Integer.parseInt(cuentaMap.get("id_rol").toString());
-            }
-
-            // Crear servicios de cuenta
-            CuentaServices cuentaServices = new CuentaServices();
-
-            // Verificar si la cuenta ya existe por el usuario
-            LinkedList<Cuenta> cuentas = cuentaServices.listAll();
-            for (int i = 0; i < cuentas.getSize(); i++) {
-                Cuenta cuenta = cuentas.get(i); // Suponiendo que 'LinkedList' tiene el método get(i)
-                if (cuenta.getUsuario().equals(usuario)) {
-                    res.put("msg", "Error");
-                    res.put("data", "El usuario ya existe");
-                    return Response.status(Status.BAD_REQUEST).entity(res).build();
-                }
-            }
-
-            // Si la cuenta no existe, crearla
-            Cuenta nuevaCuenta = new Cuenta(null, usuario, contrasena, idRol);
-            cuentaServices.setCuenta(nuevaCuenta); // Establecer la cuenta en el servicio
-            cuentaServices.save(); // Guardar la nueva cuenta
-
-            // Crear y registrar la persona
-            HashMap<String, Object> personaMap = (HashMap<String, Object>) map.get("persona");
-            PersonaServices personaServices = new PersonaServices();
-            Persona persona = new Persona();
-
-            persona.setNombre(personaMap.getOrDefault("nombre", "").toString());
-            persona.setEmail(personaMap.getOrDefault("email", "").toString());
-            persona.setCelular(personaMap.getOrDefault("celular", "").toString());
-            persona.setFechaNacimiento(personaMap.getOrDefault("fechaNacimiento", "").toString());
-
-            try {
-                persona.setGenero(Genero.valueOf(personaMap.get("genero").toString().toUpperCase()));
-            } catch (IllegalArgumentException | NullPointerException e) {
-                res.put("msg", "Error");
-                res.put("data", "Género inválido");
-                return Response.status(Status.BAD_REQUEST).entity(res).build();
-            }
-
-            persona.setNumeroIdentificacion(personaMap.getOrDefault("numeroIdentificacion", "").toString());
-            try {
-                persona.setTipoIdentificacion(
-                        Identificacion.valueOf(personaMap.get("tipoIdentificacion").toString().toUpperCase()));
-            } catch (IllegalArgumentException | NullPointerException e) {
-                res.put("msg", "Error");
-                res.put("data", "Tipo de identificación inválido");
-                return Response.status(Status.BAD_REQUEST).entity(res).build();
-            }
-
-            // Asignar la cuenta a la persona
-            persona.setId_cuenta(nuevaCuenta.getId());
-
-            // Guardar la persona
-            personaServices.save(persona);
-
-            res.put("msg", "OK");
-            res.put("data", "Usuario y persona registrados correctamente");
-            return Response.ok(res).build();
-        } catch (Exception e) {
-            System.err.println("Error en save data: " + e.getMessage());
-            e.printStackTrace();
-
-            res.put("msg", "Error");
-            res.put("data", "Error al procesar la solicitud: " + e.getMessage());
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(res).build();
-        }
     }
 
     @Path("/saveP")
