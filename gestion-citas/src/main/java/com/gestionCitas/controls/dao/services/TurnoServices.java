@@ -1,6 +1,12 @@
 package com.gestionCitas.controls.dao.services;
 
 import com.gestionCitas.controls.estructures.list.LinkedList;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import com.gestionCitas.controls.dao.TurnoDao;
 import com.gestionCitas.models.enums.Estado;
 import com.gestionCitas.models.Turno;
@@ -49,15 +55,65 @@ public class TurnoServices {
         return this.obj.findByEstado(estado);
     }*/
 
-    public LinkedList order(String attribute, Integer type) throws Exception {
-        return this.obj.getListAll().order(attribute, type);
+    public LinkedList orderByFecha(Integer type) throws Exception {
+        return this.obj.orderDate(type);
     }
 
-    public LinkedList linealSearch(String attribute, Object value) throws Exception {
-        return this.obj.getListAll().linealSearch(attribute, value);
+    public LinkedList orderByFecha(LinkedList<Turno> list, Integer type) throws Exception {
+        return this.obj.orderDate(list, type);
     }
 
-    public Object binarySearch(String attribute, Object value) throws Exception {
-        return this.obj.getListAll().binarySearch(attribute, value);
+    public Boolean validateDateFormat(String date) {
+        if (date == null || !date.matches("\\d{2}-\\d{2}-\\d{4}")) {
+            return false;
+        }
+
+        String[] parts = date.split("-");
+        int day = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]);
+        int year = Integer.parseInt(parts[2]);
+        //System.out.println(parts.length);
+        //System.out.println("Dia: "+parts[0]);
+        //System.out.println("Mes: "+parts[1]);
+        //System.out.println("Año: "+parts[2]);
+
+        if (parts.length != 3) {
+            return false;
+        }
+
+        try {
+            LocalDate parsedDate = LocalDate.of(year, month, day);
+            LocalDate today = LocalDate.now();
+
+            return !parsedDate.isBefore(today);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public Boolean validateTimeFormat(String time) {
+        if (time == null || !time.matches("\\d{2}:\\d{2}")) {
+            return false;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        try {
+            LocalTime.parse(time, formatter);
+            return true; 
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    public Boolean validateRangeHour(String time) {
+        if (!validateTimeFormat(time)) {
+            return false;
+        }
+
+        LocalTime parsedTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
+        LocalTime startTime = LocalTime.of(8, 0);   // 08:00
+        LocalTime endTime = LocalTime.of(17, 30);   // 17:30
+
+        return !parsedTime.isBefore(startTime) && !parsedTime.isAfter(endTime);
     }
 }

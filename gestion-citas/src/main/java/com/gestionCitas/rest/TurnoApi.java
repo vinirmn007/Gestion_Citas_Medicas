@@ -49,26 +49,41 @@ public class TurnoApi {
                 res.put("data", "El médico no existe");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
-            if (turnoServices.getListAll().binarySearch("fecha", map.get("fecha").toString()) != null) {
+            if (map.get("fecha").toString().isEmpty() || map.get("hora").toString().isEmpty()) {
                 res.put("msg", "Error");
-                res.put("data", "Ya existe un turno para esa fecha");
+                res.put("data", "La fecha y la hora no pueden estar vacías");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
-            if (turnoServices.getListAll().binarySearch("hora", map.get("hora").toString()) != null) {
+            if (!turnoServices.validateDateFormat(map.get("fecha").toString())) {
                 res.put("msg", "Error");
-                res.put("data", "Ya existe un turno para esa hora");
+                res.put("data", "Formato de fecha incorrecto");
                 return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
-
+            if (!turnoServices.validateTimeFormat(map.get("hora").toString())) {
+                res.put("msg", "Error");
+                res.put("data", "Formato de hora incorrecto");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (!turnoServices.validateRangeHour(map.get("hora").toString())) {
+                res.put("msg", "Error");
+                res.put("data", "Hora fuera de rango");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (turnoServices.getListAll().binarySearch("fecha", map.get("fecha").toString()) != null &&
+                turnoServices.getListAll().binarySearch("hora", map.get("hora").toString()) != null) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe un turno para esa fecha y hora");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            
             turnoServices.getTurno().setIdMedico(Integer.parseInt(map.get("idMedico").toString()));
             turnoServices.getTurno().setIdPaciente(Integer.parseInt(map.get("idPaciente").toString()));
             turnoServices.getTurno().setFecha(map.get("fecha").toString());
             turnoServices.getTurno().setHora(map.get("hora").toString());
-            if (map.containsKey("estado")) {
-                turnoServices.getTurno().setEstado(Estado.valueOf(map.get("estado").toString().toUpperCase()));
-            }
+            turnoServices.getTurno().setEstado(Estado.RESERVADO);
             turnoServices.save();
-            res.put("msg", "Turno creado exitosamente");
+            res.put("msg", "OK");
+            res.put("data", "Turno creado exitosamente");
             return Response.ok(res).build();
         } catch (Exception e) {
             res.put("msg", "Error al crear el turno");
@@ -86,7 +101,7 @@ public class TurnoApi {
         try {
             Turno turno = turnoServices.get(id);
             if (turno != null) {
-                map.put("msg", "Turno encontrado");
+                map.put("msg", "OK");
                 map.put("data", turno);
                 return Response.ok(map).build();
             } else {
@@ -101,21 +116,55 @@ public class TurnoApi {
     }
 
     @Path("/update")
-    @PUT
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateTurno(HashMap<String, Object> map) {
         HashMap<String, Object> res = new HashMap<>();
         try {
             TurnoServices turnoServices = new TurnoServices();
-            turnoServices.getTurno().setId(Integer.parseInt(map.get("id").toString()));
-            turnoServices.getTurno().setIdMedico(Integer.parseInt(map.get("idMedico").toString()));
-            turnoServices.getTurno().setIdPaciente(Integer.parseInt(map.get("idPaciente").toString()));
-            if (map.containsKey("estado")) {
-                turnoServices.getTurno().setEstado(Estado.valueOf(map.get("estado").toString().toUpperCase()));
+            MedicoServices medicoServices = new MedicoServices();
+
+            if (medicoServices.get(Integer.parseInt(map.get("idMedico").toString())) == null) {
+                res.put("msg", "Error");
+                res.put("data", "El médico no existe");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
             }
+            if (map.get("fecha").toString().isEmpty() || map.get("hora").toString().isEmpty()) {
+                res.put("msg", "Error");
+                res.put("data", "La fecha y la hora no pueden estar vacías");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (!turnoServices.validateDateFormat(map.get("fecha").toString())) {
+                res.put("msg", "Error");
+                res.put("data", "Formato de fecha incorrecto");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (!turnoServices.validateTimeFormat(map.get("hora").toString())) {
+                res.put("msg", "Error");
+                res.put("data", "Formato de hora incorrecto");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (!turnoServices.validateRangeHour(map.get("hora").toString())) {
+                res.put("msg", "Error");
+                res.put("data", "Hora fuera de rango");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+            if (turnoServices.getListAll().binarySearch("fecha", map.get("fecha").toString()) != null &&
+                turnoServices.getListAll().binarySearch("hora", map.get("hora").toString()) != null) {
+                res.put("msg", "Error");
+                res.put("data", "Ya existe un turno para esa fecha y hora");
+                return Response.status(Response.Status.BAD_REQUEST).entity(res).build();
+            }
+
+            turnoServices.setTurno(turnoServices.get(Integer.parseInt(map.get("id").toString())));
+            turnoServices.getTurno().setFecha(map.get("fecha").toString());
+            turnoServices.getTurno().setHora(map.get("hora").toString());
+            turnoServices.getTurno().setIdMedico(Integer.parseInt(map.get("idMedico").toString()));
             turnoServices.update();
-            res.put("msg", "Turno actualizado exitosamente");
+            res.put("msg", "OK");
+            res.put("data", "Turno actualizado exitosamente");
+
             return Response.ok(res).build();
         } catch (Exception e) {
             res.put("msg", "Error al actualizar el turno");
@@ -142,21 +191,114 @@ public class TurnoApi {
         }
     }
 
-    /*@Path("/filterByEstado/{estado}")
+    @Path("/binarySearch/{key}/{value}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response filterTurnosByEstado(@PathParam("estado") String estado) {
+    public Response binarySearchTurno(@PathParam("key") String key, @PathParam("value") String value) {
         HashMap<String, Object> map = new HashMap<>();
         TurnoServices turnoServices = new TurnoServices();
         try {
-            LinkedList<Turno> turnos = turnoServices.findByEstado(Estado.valueOf(estado.toUpperCase()));
-            map.put("msg", "Turnos filtrados por estado: " + estado);
-            map.put("data", turnos.isEmpty() ? new Object[]{} : turnos.toArray());
+            Turno turno = (Turno) turnoServices.getListAll().binarySearch(key, value);
+            if (turno == null) {
+                map.put("msg", "OK");
+                map.put("data", "Turno no encontrado");
+                return Response.ok(map).build();
+            }
+            map.put("msg", "OK");
+            map.put("data", turno);
             return Response.ok(map).build();
         } catch (Exception e) {
-            map.put("msg", "Error al filtrar turnos");
+            map.put("msg", "Error");
             map.put("data", e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
         }
-    }*/
+    }
+
+    @Path("/linealSearch/{key}/{value}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response linearSearchTurno(@PathParam("key") String key, @PathParam("value") String value) {
+        HashMap<String, Object> map = new HashMap<>();
+        TurnoServices turnoServices = new TurnoServices();
+        try {
+            LinkedList<Turno> turnos = (LinkedList<Turno>) turnoServices.getListAll().linealSearch(key, value);
+            if (turnos.isEmpty()) {
+                map.put("msg", "OK");
+                map.put("data", "Turno no encontrado");
+                return Response.ok(map).build();
+            }
+            map.put("msg", "OK");
+            map.put("data", turnos.toArray());
+            return Response.ok(map).build();
+        } catch (Exception e) {
+            map.put("msg", "Error");
+            map.put("data", e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
+    }
+
+    @Path("/orderBy/{key}/{type}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response orderByTurno(@PathParam("key") String key, @PathParam("type") Integer type) {
+        HashMap<String, Object> map = new HashMap<>();
+        TurnoServices turnoServices = new TurnoServices();
+        try {
+            LinkedList<Turno> turnos = (LinkedList<Turno>) turnoServices.getListAll().order(key, type);
+            map.put("msg", "OK");
+            map.put("data", turnos.toArray());
+            return Response.ok(map).build();
+        } catch (Exception e) {
+            map.put("msg", "Error");
+            map.put("data", e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
+    }
+
+    @Path("/cancel")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response cancelTurno(HashMap<String, Object> map) {
+        HashMap<String, Object> res = new HashMap<>();
+        try {
+            TurnoServices turnoServices = new TurnoServices();
+            turnoServices.getTurno().setId(Integer.parseInt(map.get("id").toString()));
+            turnoServices.getTurno().setEstado(Estado.CANCELADO);
+            turnoServices.update();
+            res.put("msg", "OK");
+            res.put("data", "Turno cancelado exitosamente");
+
+            return Response.ok(res).build();
+        } catch (Exception e) {
+            res.put("msg", "Error");
+            res.put("data", e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(res).build();
+        }
+    }
+
+
+    @Path("/getByEstado/{estado}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getByEstado(@PathParam("estado") String estado) {
+        HashMap<String, Object> map = new HashMap<>();
+        TurnoServices turnoServices = new TurnoServices();
+        try {
+            LinkedList<Turno> turnos = (LinkedList<Turno>) turnoServices.getListAll().linealSearch("estado", Estado.valueOf(estado.toUpperCase()));
+            LinkedList<Turno> turnosOrd = turnoServices.orderByFecha(turnos, 0);
+            if (turnos.isEmpty()) {
+                map.put("msg", "OK");
+                map.put("data", "Turno no encontrado");
+                return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+            }
+            map.put("msg", "OK");
+            map.put("data", turnosOrd.toArray());
+            return Response.ok(map).build();
+        } catch (Exception e) {
+            map.put("msg", "Error");
+            map.put("data", e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
+    }
 }
