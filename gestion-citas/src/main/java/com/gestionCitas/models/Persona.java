@@ -81,8 +81,6 @@ public class Persona {
 
     public void setGenero(Genero genero) {
         this.genero = genero;
-        this.historialMedicoId = historialMedicoId;
-        this.cuentaId = cuentaId;
     }
 
     public Integer getHistorialMedicoId() {

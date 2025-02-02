@@ -81,19 +81,4 @@ public class MedicoDao extends AdapterDao<Medico> {
         return Genero.values();
     }
     
-    public Identificacion getTipoIdent(String tipo) {
-        return Identificacion.valueOf(tipo);
-    }
-
-    public Identificacion[] getAllTiposIdent() {
-        return Identificacion.values();
-    }
-
-    public Genero getGenero(String tipo) {
-        return Genero.valueOf(tipo);
-    }
-
-    public Genero[] getAllGeneros() {
-        return Genero.values();
-    }
 }
