@@ -24,9 +24,9 @@ def diagnostico(id):
     print(recetas_filtradas)
     return render_template('parts/diagnostico/diagnosticoDetalle.html', diagnostico=data, recetas=recetas_filtradas)
 
-@diagnostico_route.route('/diagnostico/registro')
-def registrarDiagnostico():
-    return render_template('parts/diagnostico/registrar_diagnostico.html')
+@diagnostico_route.route('/diagnostico/registro/<int:id>')
+def registrarDiagnostico(id):
+    return render_template('parts/diagnostico/registrar_diagnostico.html', id=id)
 
 @diagnostico_route.route('/diagnostico/save', methods=['POST'])
 def saveDiagnostico():

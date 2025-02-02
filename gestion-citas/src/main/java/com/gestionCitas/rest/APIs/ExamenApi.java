@@ -51,7 +51,6 @@ public class ExamenApi {
                     es.getExamen().setDescripcion(map.get("descripcion").toString());
                     es.getExamen().setTipo(es.getTipoExamen(map.get("tipoExamen").toString()));
                     es.getExamen().setIdDiagnostico(null);
-                    es.getExamen().setDirectorioResultado(map.get("directorioResultado").toString());
                     es.getExamen().setIdDiagnostico(cms.getDiagnostico().getId());
                     es.save();
 

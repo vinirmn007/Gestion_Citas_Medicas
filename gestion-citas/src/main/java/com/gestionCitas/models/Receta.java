@@ -3,15 +3,16 @@ package com.gestionCitas.models;
 
 public class Receta {
     private int id;
+    private String medicamentos;
     private String prescripcion;
-    private Integer[] idMedicamentos;
     private Integer idDiagnostico;
+    
 
 
     public Receta (){
         this.id = 0;
         this.prescripcion = "";
-        this.idMedicamentos = null;
+        this.medicamentos = "";
         this.idDiagnostico = null;
     }
 
@@ -24,12 +25,12 @@ public class Receta {
     }
 
     
-    public Integer[] getIdMedicamentos() {
-        return idMedicamentos;
+    public String getMedicamentos() {
+        return medicamentos;
     }
 
-    public void setIdMedicamentos(Integer[] idMedicamentos) {
-        this.idMedicamentos = idMedicamentos;
+    public void setMedicamentos(String medicamentos) {
+        this.medicamentos = medicamentos;
     }
 
     public void setId(int id) {

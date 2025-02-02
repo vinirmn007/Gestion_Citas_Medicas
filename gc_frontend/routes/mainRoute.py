@@ -11,7 +11,7 @@ def presentation():
 
 @main_route.route('/login')
 def load_login():
-    return render_template('login/login.html')
+    return render_template('login/login.html')  
 
 @main_route.route('/home')
 def home():
@@ -82,9 +82,9 @@ def saveCuenta():
     form = request.form
 
     dataF = {
-        "usuario": form["usuario"],
-        "contrasena": form["contrasena"],
-        "rol": {"id": form["id"]},
+        'usuario': form['usuario'],
+        "contrasena": form['contrasena'],
+        'rol': {'id': form['id']},
     }
 
     try:
