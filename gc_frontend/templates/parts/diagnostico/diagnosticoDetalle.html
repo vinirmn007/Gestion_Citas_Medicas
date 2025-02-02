@@ -17,7 +17,9 @@
                                 <p class="card-text">{{ diagnostico.descripcion }}</p>
 
                                 <h3 class="card-title mt-3">Información de la Cita Médica</h3>
-                                <p class="card-text">ID de la Cita Médica: {{ diagnostico.idCitaMedica }}</p>
+                                <a href="{{ url_for('citas_route.citas_medicas', id=diagnostico.idCitaMedica) }}" class="btn btn-primary">
+                                    Ir a la Cita Médica
+                                </a>
                             </div>
                         </div>
                     {% else %}
@@ -32,8 +34,11 @@
                         {% for receta in recetas %}
                             <li class="list-group-item">
                                 <a href="{{ url_for('receta_route.receta', id=receta.id) }}">
-                                    Receta ID: {{ receta.id }}
+                                    Receta: {{ receta.id }}
                                 </a>
+                                <p class="text-muted"> 
+                                    Medicamento: {{ receta.medicamentos }}
+                                </p>
                             </li>
                         {% endfor %}
                     </ul>
