@@ -4,7 +4,7 @@ from datetime import datetime
 
 turnos_route = Blueprint('turnos_route', __name__)
 
-URL = "http://localhost:8080/myapp/"
+URL = "http://localhost:8070/myapp/"
 
 @turnos_route.route('/turno/registrar')
 def registrar_turno():

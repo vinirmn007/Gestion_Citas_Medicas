@@ -3,7 +3,7 @@ import requests
 
 hsto_route = Blueprint('hsto_route', __name__)
 
-URL = "http://localhost:8080/myapp/"
+URL = "http://localhost:8070/myapp/"
 
 #HISTORIAL MEDICO
 

@@ -5,7 +5,7 @@ import requests
 
 examen_route = Blueprint('examen_route', __name__)
 
-URL = "http://localhost:8080/myapp/"
+URL = "http://localhost:8070/myapp/"
 UPLOAD_FOLDER = 'media/examenes'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True) 
 

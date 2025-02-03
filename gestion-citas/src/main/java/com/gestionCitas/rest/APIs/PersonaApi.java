@@ -135,7 +135,7 @@ public class PersonaApi {
             String contrasenia = PasswordUtil.hashPassword(contrasena);
 
             // Crear la cuenta
-            Cuenta nuevaCuenta = new Cuenta(null, usuario, contrasenia, idRol);
+            Cuenta nuevaCuenta = new Cuenta(1, usuario, contrasenia, idRol, 1);
             cuentaServices.setCuenta(nuevaCuenta);
 
             // Procesar la fecha de nacimiento

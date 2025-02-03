@@ -3,7 +3,7 @@ import requests
 
 signos_route = Blueprint('signos_route', __name__)
 
-URL = "http://localhost:8080/myapp/"
+URL = "http://localhost:8070/myapp/"
 
 #SIGNOS VITALES
 
