@@ -99,6 +99,7 @@ public class PersonaServices {
                 HashMap mapa = new HashMap<>();
                 mapa.put("id", lista[i].getId());
                 mapa.put("nombres", lista[i].getNombres());
+                mapa.put("apellidos", lista[i].getApellidos());
                 mapa.put("email", lista[i].getEmail());
                 mapa.put("telefono", lista[i].getTelefono());
                 //mapa.put("cuenta", c);

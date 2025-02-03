@@ -96,7 +96,7 @@ def turnos_reservados():
                 paciente_id = turno.get('idPaciente')
                 if paciente_id:
                     try:
-                        response = requests.get(f"{URL}pacientes/get/{paciente_id}")
+                        response = requests.get(f"{URL}persona/get/{paciente_id}")
                         if response.status_code == 200:
                             paciente_data = response.json().get('data')
                             turno['nombrePaciente'] = paciente_data.get('nombres') + " " + paciente_data.get('apellidos')
@@ -156,7 +156,7 @@ def turnos_espera():
                 paciente_id = turno.get('idPaciente')
                 if paciente_id:
                     try:
-                        response = requests.get(f"{URL}pacientes/get/{paciente_id}")
+                        response = requests.get(f"{URL}persona/get/{paciente_id}")
                         if response.status_code == 200:
                             paciente_data = response.json().get('data')
                             turno['nombrePaciente'] = paciente_data.get('nombres') + " " + paciente_data.get('apellidos')
@@ -196,7 +196,7 @@ def turnos_finalizados():
                 paciente_id = turno.get('idPaciente')
                 if paciente_id:
                     try:
-                        response = requests.get(f"{URL}pacientes/get/{paciente_id}")
+                        response = requests.get(f"{URL}persona/get/{paciente_id}")
                         if response.status_code == 200:
                             paciente_data = response.json().get('data')
                             turno['nombrePaciente'] = paciente_data.get('nombres') + " " + paciente_data.get('apellidos')

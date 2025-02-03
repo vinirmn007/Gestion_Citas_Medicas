@@ -1,1 +1,40 @@
-[{"id":1,"email":"manobue1233@gmail.com","telefono":"08","fechaNacimiento":"19-09-1992","numeroIdentificacion":"1104306863","tipoIdentificacion":"DNI","genero":"MASCULINO","id_cuenta":1},{"id":2,"email":"devishernando@gmail.com","telefono":"07","fechaNacimiento":"17-08-2012","numeroIdentificacion":"0150926221","tipoIdentificacion":"PASAPORTE","genero":"MASCULINO","id_cuenta":2},{"id":3,"nombres":"Alexis","email":"jonnataalexisroman@gmail.com","direccion":"Operadores","telefono":"0994712495","fechaNacimiento":"26-04-2005","numeroIdentificacion":"1106013749","tipoIdentificacion":"DNI","genero":"MASCULINO","id_cuenta":3,"historialMedicoId":2}]
+[
+    {
+        "id": 1,
+        "email": "manobue1233@gmail.com",
+        "telefono": "08",
+        "fechaNacimiento": "19-09-1992",
+        "numeroIdentificacion": "1104306863",
+        "tipoIdentificacion": "DNI",
+        "genero": "MASCULINO",
+        "nombres": "Manuel",
+        "apellidos": "Bueno",
+        "id_cuenta": 1
+    },
+    {
+        "id": 2,
+        "email": "devishernando@gmail.com",
+        "telefono": "07",
+        "fechaNacimiento": "17-08-2012",
+        "numeroIdentificacion": "0150926221",
+        "tipoIdentificacion": "PASAPORTE",
+        "genero": "MASCULINO",
+        "nombres": "Devis",
+        "apellidos": "Hernando",
+        "id_cuenta": 2
+    },
+    {
+        "id": 3,
+        "nombres": "Alexis",
+        "apellidos": "Roman",
+        "email": "jonnataalexisroman@gmail.com",
+        "direccion": "Operadores",
+        "telefono": "0994712495",
+        "fechaNacimiento": "26-04-2005",
+        "numeroIdentificacion": "1106013749",
+        "tipoIdentificacion": "DNI",
+        "genero": "MASCULINO",
+        "id_cuenta": 3,
+        "historialMedicoId": 2
+    }
+]
