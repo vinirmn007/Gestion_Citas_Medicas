@@ -26,11 +26,11 @@ def citas_medicas_registro(id):
         data = r.json().get('data')
 
         pacienteId = data.get('idPaciente')
-        r2 = requests.get(URL + 'pacientes/get/' + str(pacienteId))
+        r2 = requests.get(URL + 'persona/get/' + str(pacienteId))
         print(r2)
         data2 = r2.json().get('data')
 
-        r3 = requests.get(URL + 'pacientes/age/' + str(pacienteId))
+        r3 = requests.get(URL + 'persona/age/' + str(pacienteId))
         print(r3)
         edad = r3.json().get('data')
 

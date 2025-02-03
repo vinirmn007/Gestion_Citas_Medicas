@@ -133,10 +133,10 @@
                         <tbody>
                             {% for cita in citas %}
                             <tr>
-                                <td></td>
-                                <td></td>
+                                <td>{{cita.turno.fecha}}</td>
+                                <td>{{cita.turno.hora}}</td>
                                 <td>{{cita.motivo}}</td>
-                                <td>{{cita.observaciones}}</td>
+                                <td></td>
                                 <td></td>
                                 <td>
                                     <a href="#">Ver</a>

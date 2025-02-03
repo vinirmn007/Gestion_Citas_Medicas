@@ -168,18 +168,12 @@ public class CitaMedicaAPI {
     @Path("/searchByHistId/{value}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response searchByHistId(@PathParam("value") String value) {
+    public Response searchByHistId(@PathParam("value") Integer value) {
         HashMap map = new HashMap<>();
-        PersonaServices ps = new PersonaServices();
+        CitaMedicaServices cms = new CitaMedicaServices();
         try {
-            LinkedList<CitaMedica> citas = (LinkedList<CitaMedica>) ps.getListAll().linealSearch("historialMedicoId", value);
-            if (citas.isEmpty()) {
-                map.put("msg", "OK");
-                map.put("data", new Object[]{});
-                return Response.ok(map).build();
-            }
             map.put("msg", "OK");
-            map.put("data", citas.toArray());
+            map.put("data", cms.searchByHistId(value));
             return Response.ok(map).build();
         } catch (Exception e) {
             map.put("msg", "Error");

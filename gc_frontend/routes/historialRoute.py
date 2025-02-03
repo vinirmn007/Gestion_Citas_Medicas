@@ -1,14 +1,20 @@
 from flask import Blueprint, json, render_template, request, redirect, url_for, flash
 import requests
+from . import mainRoute
 
 hsto_route = Blueprint('hsto_route', __name__)
 
 URL = "http://localhost:8070/myapp/"
 
+sesion = mainRoute.get_session()
+
 #HISTORIAL MEDICO
 
 @hsto_route.route('/historial/<id>')
 def historial_medico(id):
+    if 'usuario' not in sesion:
+        flash('Debes iniciar sesión para acceder a esta página', category='error')
+        return redirect('/login')
     try:
         r = requests.get(URL + 'historialMedico/get/'+ id)
         if r.status_code != 200:
@@ -17,6 +23,8 @@ def historial_medico(id):
             return redirect(request.referrer)
         data = r.json().get('data')
 
+        print("PASEEEEEEEEEEE LA BUSQUEDA DE HISTORIAL")
+
         pacienteId = data.get('pacienteId')
         r2 = requests.get(URL + 'persona/get/'+ str(pacienteId))
         if r2.status_code != 200:
@@ -24,9 +32,9 @@ def historial_medico(id):
             flash('No se ha podido cargar el paciente: '+str(data2), category='error')
             return redirect(request.referrer)
         data2 = r2.json().get('data')
+        print("PASEEEEEEEEEEE LA BUSQUEDA DE PACIENTE")
 
         rAge = requests.get(URL + 'persona/age/'+ str(pacienteId))
-
         edad = rAge.json().get('data')
 
         historialId = data.get('id')
@@ -45,12 +53,25 @@ def historial_medico(id):
 
 @hsto_route.route('/historial/registro')
 def historial_registro():
+    print("SESIOOOOOOOOOOOON: ", sesion)
+    if 'usuario' not in sesion:
+        flash('Debes iniciar sesión para acceder a esta página', category='error')
+        return redirect('/login')
+    if sesion['rol'].get('nombre') != 'Medico' and sesion['rol'].get('nombre') != 'Administrador':
+        flash('No tienes permisos para acceder a esta página', category='error')
+        return redirect('/home')
     s = requests.get(URL + 'historialMedico/bloodType')
     bloodTypes = s.json().get('data')
     return render_template('parts/historial/registro.html', tipos_sangre=bloodTypes)
 
 @hsto_route.route('/historial/save', methods=['POST'])
 def historial_save():
+    if 'usuario' not in sesion:
+        flash('Debes iniciar sesión para acceder a esta página', category='error')
+        return redirect('/login')
+    if sesion.get('rol').get('nombre') != 'Medico' or sesion.get('rol').get('nombre') != 'Administrador':
+        flash('No tienes permisos para acceder a esta página', category='error')
+        return redirect('/home')
     try:
         headers = {'Content-Type': 'application/json'}
         form = request.form
