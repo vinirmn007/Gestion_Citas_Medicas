@@ -1,8 +1,12 @@
 from flask import Blueprint, json, render_template, request, redirect, url_for, flash, session
 import requests
 from datetime import datetime
+from flask import session as flask_session
 
 main_route = Blueprint('main_route', __name__)
+
+def get_session():
+    return flask_session
 
 URL = "http://localhost:8070/myapp/"
 
