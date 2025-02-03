@@ -115,39 +115,4 @@ public class TurnoDao extends AdapterDao<Turno> {
         return lista;
     }
 
-    private int particionLista(Turno[] lista, int first, int last, Integer type) throws Exception {
-        Turno pivote = lista[last];
-        //System.out.println((Familia) pivote);
-        int i = first - 1;
 
-        for (int j = first; j < last; j++) {
-            if (compareTurnoDates(pivote, lista[j], type)) {
-                i++;
-                Turno aux = lista[i];
-                lista[i] = lista[j];
-                lista[j] = aux;
-            }
-        }
-
-        Turno aux = lista[i + 1];
-        lista[i + 1] = lista[last];
-        lista[last] = aux;
-        
-        return i + 1;
-    }
-
-    private Boolean compareTurnoDates(Turno turnoA, Turno turnoB, Integer type) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-        try {
-            LocalDate dateA = LocalDate.parse(turnoA.getFecha(), formatter);
-            LocalDate dateB = LocalDate.parse(turnoB.getFecha(), formatter);
-
-            return type == 0 ? dateA.isAfter(dateB) : dateA.isBefore(dateB);
-        } catch (DateTimeParseException e) {
-            e.printStackTrace();
-        }
-
-        return false; // En caso de error
-    }
-}
