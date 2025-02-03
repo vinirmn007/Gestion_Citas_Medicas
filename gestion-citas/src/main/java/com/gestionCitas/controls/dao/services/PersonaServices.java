@@ -6,7 +6,7 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 
-import com.gestionCitas.controls.dao.PersonaDao;
+import com.gestionCitas.controls.dao.PersonaDAO;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Cuenta;
 import com.gestionCitas.models.Persona;
@@ -14,10 +14,10 @@ import com.gestionCitas.models.enums.Genero;
 import com.gestionCitas.models.enums.Identificacion;
 
 public class PersonaServices {
-    private PersonaDao obj;
+    private PersonaDAO obj;
 
     public PersonaServices() {
-        this.obj = new PersonaDao();
+        this.obj = new PersonaDAO();
     }
 
     public Persona getPersona() {

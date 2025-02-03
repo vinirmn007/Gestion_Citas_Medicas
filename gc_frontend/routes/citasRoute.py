@@ -16,7 +16,21 @@ def inject_session():
 
 @citas_route.route('/cita/<id>')
 def citas_medicas(id):
-    return render_template('parts/citas/citaDetalle.html', id=id)
+    if 'rol' not in sesion:
+        flash('Debes iniciar sesion para acceder a esta página', category='error')
+        return redirect('/login')
+    try:
+        r = requests.get(URL + 'citasMedicas/binarySearch/turnoId' + id)
+        print("CITAAAAAAAAAA: ", r)
+        if r.status_code == 200:
+            data = r.json().get('data')
+            return render_template('parts/citas/citaDetalle.html', cita=data)
+        else:
+            flash('No se ha encontrado la cita', category='error')
+            return redirect(request.referrer)
+    except Exception as e:
+        flash(f'Error: {str(e)}', category='error')
+        return redirect(request.referrer)
 
 @citas_route.route('/cita/all')
 def citas_medicas_all():

@@ -177,39 +177,63 @@ def turnos_espera():
         flash("Debes iniciar sesión", "danger")
         return redirect('/login')
     try:
-        r = requests.get(URL + 'turno/getByEstado/EN_ESPERA')
-        data = r.json().get('data')
+        if sesion['rol'] == 3:
+            r = requests.get(URL + 'turno/getByEstado/pac/' + sesion['persona'].get() +'/EN_ESPERA')
+            if r.status_code == 200:
+                data = r.json().get('data')
 
-        if r.status_code == 200:
-            for turno in data:
-                paciente_id = turno.get('idPaciente')
-                if paciente_id:
-                    try:
-                        response = requests.get(f"{URL}persona/get/{paciente_id}")
-                        if response.status_code == 200:
-                            paciente_data = response.json().get('data')
-                            turno['nombrePaciente'] = paciente_data.get('nombres') + " " + paciente_data.get('apellidos')
-                        else:
-                            turno['nombrePaciente'] = "No encontrado"
-                    except requests.RequestException:
-                        turno['nombrePaciente'] = "Error en la consulta"
-            for turno in data:
-                medico_id = turno.get('idMedico')
-                if medico_id: 
-                    try:
-                        response = requests.get(f"{URL}medicos/get/{medico_id}")
-                        if response.status_code == 200:
-                            medico_data = response.json().get('data')
-                            turno['nombreMedico'] = medico_data.get('nombres') + " " + medico_data.get('apellidos')
-                        else:
-                            turno['nombreMedico'] = "No encontrado"
-                    except requests.RequestException:
-                        turno['nombreMedico'] = "Error en la consulta"
-
-            return render_template('parts/turnos/turnos_esp.html', turnos=data)
+                for turno in data:
+                    turno['nombrePaciente'] = sesion['persona'].get('nombres') + " " + sesion['persona'].get('apellidos')
+                for turno in data:
+                    medico_id = turno.get('idMedico')
+                    if medico_id: 
+                        try:
+                            response = requests.get(f"{URL}medicos/get/{medico_id}")
+                            if response.status_code == 200:
+                                medico_data = response.json().get('data')
+                                turno['nombreMedico'] = medico_data.get('nombres') + " " + medico_data.get('apellidos')
+                            else:
+                                turno['nombreMedico'] = "No encontrado"
+                        except requests.RequestException:
+                            turno['nombreMedico'] = "Error en la consulta"
+                return render_template('parts/turnos/turnos_res.html', turnos=data)
+            else:
+                flash('No se encontraron turnos', category='error')
+                return redirect(request.referrer)
         else:
-            flash('No se encontraron turnos', category='error')
-            return redirect(request.referrer)
+            r = requests.get(URL + 'turno/getByEstado/EN_ESPERA')
+            data = r.json().get('data')
+
+            if r.status_code == 200:
+                for turno in data:
+                    paciente_id = turno.get('idPaciente')
+                    if paciente_id:
+                        try:
+                            response = requests.get(f"{URL}persona/get/{paciente_id}")
+                            if response.status_code == 200:
+                                paciente_data = response.json().get('data')
+                                turno['nombrePaciente'] = paciente_data.get('nombres') + " " + paciente_data.get('apellidos')
+                            else:
+                                turno['nombrePaciente'] = "No encontrado"
+                        except requests.RequestException:
+                            turno['nombrePaciente'] = "Error en la consulta"
+                for turno in data:
+                    medico_id = turno.get('idMedico')
+                    if medico_id: 
+                        try:
+                            response = requests.get(f"{URL}medicos/get/{medico_id}")
+                            if response.status_code == 200:
+                                medico_data = response.json().get('data')
+                                turno['nombreMedico'] = medico_data.get('nombres') + " " + medico_data.get('apellidos')
+                            else:
+                                turno['nombreMedico'] = "No encontrado"
+                        except requests.RequestException:
+                            turno['nombreMedico'] = "Error en la consulta"
+
+                return render_template('parts/turnos/turnos_esp.html', turnos=data)
+            else:
+                flash('No se encontraron turnos', category='error')
+                return redirect(request.referrer)
     except Exception as e:
         flash(f'Error: {str(e)}', category='error')
         return redirect(request.referrer)
@@ -220,38 +244,62 @@ def turnos_finalizados():
         flash("Debes iniciar sesión", "danger")
         return redirect('/login')
     try:
-        r = requests.get(URL + 'turno/getByEstado/FINALIZADO')
-        data = r.json().get('data')
+        if sesion['rol'] == 3:
+            r = requests.get(URL + 'turno/getByEstado/pac/' + sesion['persona'].get() +'/FINALIZADO')
+            if r.status_code == 200:
+                data = r.json().get('data')
 
-        if r.status_code == 200:
-            for turno in data:
-                paciente_id = turno.get('idPaciente')
-                if paciente_id:
-                    try:
-                        response = requests.get(f"{URL}persona/get/{paciente_id}")
-                        if response.status_code == 200:
-                            paciente_data = response.json().get('data')
-                            turno['nombrePaciente'] = paciente_data.get('nombres') + " " + paciente_data.get('apellidos')
-                        else:
-                            turno['nombrePaciente'] = "No encontrado"
-                    except requests.RequestException:
-                        turno['nombrePaciente'] = "Error en la consulta"
-            for turno in data:
-                medico_id = turno.get('idMedico')
-                if medico_id: 
-                    try:
-                        response = requests.get(f"{URL}medicos/get/{medico_id}")
-                        if response.status_code == 200:
-                            medico_data = response.json().get('data')
-                            turno['nombreMedico'] = medico_data.get('nombres') + " " + medico_data.get('apellidos')
-                        else:
-                            turno['nombreMedico'] = "No encontrado"
-                    except requests.RequestException:
-                        turno['nombreMedico'] = "Error en la consulta"
-            return render_template('parts/turnos/turnos_fin.html', turnos=data)
+                for turno in data:
+                    turno['nombrePaciente'] = sesion['persona'].get('nombres') + " " + sesion['persona'].get('apellidos')
+                for turno in data:
+                    medico_id = turno.get('idMedico')
+                    if medico_id: 
+                        try:
+                            response = requests.get(f"{URL}medicos/get/{medico_id}")
+                            if response.status_code == 200:
+                                medico_data = response.json().get('data')
+                                turno['nombreMedico'] = medico_data.get('nombres') + " " + medico_data.get('apellidos')
+                            else:
+                                turno['nombreMedico'] = "No encontrado"
+                        except requests.RequestException:
+                            turno['nombreMedico'] = "Error en la consulta"
+                return render_template('parts/turnos/turnos_res.html', turnos=data)
+            else:
+                flash('No se encontraron turnos', category='error')
+                return redirect(request.referrer)
         else:
-            flash('No se encontraron turnos', category='error')
-            return redirect(request.referrer)
+            r = requests.get(URL + 'turno/getByEstado/FINALIZADO')
+            data = r.json().get('data')
+
+            if r.status_code == 200:
+                for turno in data:
+                    paciente_id = turno.get('idPaciente')
+                    if paciente_id:
+                        try:
+                            response = requests.get(f"{URL}persona/get/{paciente_id}")
+                            if response.status_code == 200:
+                                paciente_data = response.json().get('data')
+                                turno['nombrePaciente'] = paciente_data.get('nombres') + " " + paciente_data.get('apellidos')
+                            else:
+                                turno['nombrePaciente'] = "No encontrado"
+                        except requests.RequestException:
+                            turno['nombrePaciente'] = "Error en la consulta"
+                for turno in data:
+                    medico_id = turno.get('idMedico')
+                    if medico_id: 
+                        try:
+                            response = requests.get(f"{URL}medicos/get/{medico_id}")
+                            if response.status_code == 200:
+                                medico_data = response.json().get('data')
+                                turno['nombreMedico'] = medico_data.get('nombres') + " " + medico_data.get('apellidos')
+                            else:
+                                turno['nombreMedico'] = "No encontrado"
+                        except requests.RequestException:
+                            turno['nombreMedico'] = "Error en la consulta"
+                return render_template('parts/turnos/turnos_fin.html', turnos=data)
+            else:
+                flash('No se encontraron turnos', category='error')
+                return redirect(request.referrer)
     except Exception as e:
         flash(f'Error: {str(e)}', category='error')
         return redirect(request.referrer)

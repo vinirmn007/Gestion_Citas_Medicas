@@ -128,9 +128,9 @@ public class CitaMedicaAPI {
         try {
             CitaMedica cita = (CitaMedica) ps.getListAll().binarySearch(key, value);
             if (cita == null) {
-                map.put("msg", "OK");
+                map.put("msg", "Error");
                 map.put("msg", "Cita no encontrada");
-                return Response.ok(map).build();
+                return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
             }
             map.put("msg", "OK");
             map.put("data", cita);

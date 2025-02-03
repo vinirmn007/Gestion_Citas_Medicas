@@ -3,6 +3,8 @@ package com.gestionCitas.controls.dao;
 import com.gestionCitas.controls.dao.implement.AdapterDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Persona;
+import com.gestionCitas.models.enums.Genero;
+import com.gestionCitas.models.enums.Identificacion;
 
 public class PersonaDAO extends AdapterDao<Persona> {
     private Persona persona;
@@ -25,6 +27,13 @@ public class PersonaDAO extends AdapterDao<Persona> {
             this.listAll = listAll();
         }
         return this.listAll;
+    }
+
+    public Boolean save(Persona persona) throws Exception {
+        Integer id = getListAll().getSize()+1;
+        persona.setId(id);
+        this.persist(persona);
+        return true;
     }
 
     public Boolean save() throws Exception {
@@ -57,6 +66,22 @@ public class PersonaDAO extends AdapterDao<Persona> {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    public Identificacion getTipoIdent(String tipo) {
+        return Identificacion.valueOf(tipo);
+    }
+
+    public Identificacion[] getAllTiposIdent() {
+        return Identificacion.values();
+    }
+
+    public Genero getGenero(String tipo) {
+        return Genero.valueOf(tipo);
+    }
+
+    public Genero[] getAllGeneros() {
+        return Genero.values();
     }
     
 }

@@ -54,6 +54,7 @@
                             {% if paciente.historialMedicoId is not none %}
                                 <a href="/historial/{{paciente.historialMedicoId}}" class="btn btn-primary"><span class="fa fa-file-text-o"></span> Ver historial</a>
                             {% else %}
+                                <span style="background-color: rgb(222, 102, 102); border-radius: 5px; padding: 5px; color: white;">El paciente no tiene historial registrado:</span>
                                 <a href="/historial/registro" class="btn btn-success"><span class="fa fa-floppy-o"></span> Registrar historial</a>
                             {% endif %}
                         </div>
@@ -84,7 +85,9 @@
                                     <input type="number" name="turnoId" value="{{turnoId}}" hidden>
                                     <a href="javascript:history.back()" type="button" class="btn btn-primary">Cancelar</a>
                                     <button type="reset" class="btn btn-primary">Borrar</button>
-                                    <button type="submit" class="btn btn-success">Guardar</button>
+                                    <a href="/cita/{{turnoId}}">
+                                        <button type="submit" class="btn btn-success">Guardar</button>
+                                    </a>
                                 </div>
                             </div>
 
