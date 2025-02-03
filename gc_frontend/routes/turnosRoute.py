@@ -1,26 +1,29 @@
 from flask import Blueprint, json, render_template, request, redirect, session, url_for, flash
 import requests
 from datetime import datetime
+from . import mainRoute
 
 turnos_route = Blueprint('turnos_route', __name__)
 
 URL = "http://localhost:8070/myapp/"
 
+sesion = mainRoute.get_session()
+
 @turnos_route.route('/turno/registrar')
 def registrar_turno():
-    r = requests.get(URL + 'medicos')
-    data = r.json().get('data')
-    return render_template('parts/turnos/registrar_med.html', medicos=data)
-"""def registrar_turno():
-    r = requests.get(URL + 'medicos')
-    data = r.json().get('data')
-    if session['rol'] == 'Medico':
+    if 'rol' not in sesion:
+        flash("Debes iniciar sesión", "danger")
+        return redirect('/login')
+    if sesion['rol'].get('nombre') == 'Paciente':
+        paciente = sesion['persona']
+        r = requests.get(URL + 'medicos')
+        data = r.json().get('data')
+        return render_template('parts/turnos/registrar_pac.html', medicos=data, paciente=paciente)
+    elif sesion['rol'].get('nombre') == 'Medico' or sesion['rol'].get('nombre') == 'Administrador':
+        r = requests.get(URL + 'medicos')
+        data = r.json().get('data')
         return render_template('parts/turnos/registrar_med.html', medicos=data)
-    elif session['rol'] == 'Paciente':
-        return render_template('parts/turnos/registrar_pac.html', medicos=data)
-    else:
-        flash("Rol no válido", "danger")
-        return redirect('/login')"""
+    return redirect('/login')
 
 @turnos_route.route('/agenda')
 def ver_agenda():

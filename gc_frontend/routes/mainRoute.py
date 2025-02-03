@@ -1,12 +1,10 @@
 from flask import Blueprint, json, render_template, request, redirect, url_for, flash, session
 import requests
 from datetime import datetime
-from flask import session as flask_session
-
 main_route = Blueprint('main_route', __name__)
 
 def get_session():
-    return flask_session
+    return session
 
 URL = "http://localhost:8070/myapp/"
 
@@ -100,9 +98,19 @@ def login():
                 (user for user in usuarios_data.get('data', []) if user['usuario'] == usuario), None
             )
 
+            print("ID USUARIOOOOOO: " + str(usuario_encontrado["id"]))
+            r2 = requests.get(f'{URL}persona/binarySearch/cuentaId/{usuario_encontrado["id"]}', headers=headers)
+            persona_data = r2.json().get('data', None)
+            print(persona_data)
+
             if usuario_encontrado and usuario_encontrado['contrasena'] == contrasena:
                 session['usuario'] = usuario_encontrado['usuario']
                 session['rol'] = usuario_encontrado.get('rol')
+                session['persona'] = persona_data
+
+                print("ROL: " + str(session['rol']))
+                print("ID PERSONA: " + str(session['personaId']))
+
                 flash('Login exitoso', category='info')
 
                 # Redirigir según el rol del usuario
