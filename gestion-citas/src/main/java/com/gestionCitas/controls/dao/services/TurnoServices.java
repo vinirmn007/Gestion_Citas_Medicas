@@ -91,29 +91,3 @@ public class TurnoServices {
         }
     }
 
-    public Boolean validateTimeFormat(String time) {
-        if (time == null || !time.matches("\\d{2}:\\d{2}")) {
-            return false;
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        try {
-            LocalTime.parse(time, formatter);
-            return true; 
-        } catch (DateTimeParseException e) {
-            return false;
-        }
-    }
-
-    public Boolean validateRangeHour(String time) {
-        if (!validateTimeFormat(time)) {
-            return false;
-        }
-
-        LocalTime parsedTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
-        LocalTime startTime = LocalTime.of(8, 0);   // 08:00
-        LocalTime endTime = LocalTime.of(17, 30);   // 17:30
-
-        return !parsedTime.isBefore(startTime) && !parsedTime.isAfter(endTime);
-    }
-}
