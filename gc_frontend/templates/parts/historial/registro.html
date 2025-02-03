@@ -124,7 +124,7 @@
                 return;
             }
             console.log(dni);
-            let url = `http://localhost:8080/myapp/pacientes/binarySearch/numeroIdentificacion/${dni}`;
+            let url = `http://localhost:8070/myapp/persona/binarySearch/numeroIdentificacion/${dni}`;
 
             try {
                 let response = await fetch(url, { method: "GET" });

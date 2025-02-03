@@ -11,30 +11,34 @@ URL = "http://localhost:8070/myapp/"
 def historial_medico(id):
     try:
         r = requests.get(URL + 'historialMedico/get/'+ id)
+        if r.status_code != 200:
+            data = r.json().get('data')
+            flash('No se ha podido cargar el historial: ' + str(data), category='error')
+            return redirect(request.referrer)
         data = r.json().get('data')
 
         pacienteId = data.get('pacienteId')
-        r2 = requests.get(URL + 'pacientes/get/'+ str(pacienteId))
+        r2 = requests.get(URL + 'persona/get/'+ str(pacienteId))
+        if r2.status_code != 200:
+            data2 = r2.json().get('data')
+            flash('No se ha podido cargar el paciente: '+str(data2), category='error')
+            return redirect(request.referrer)
         data2 = r2.json().get('data')
 
-        rAge = requests.get(URL + 'pacientes/age/'+ str(pacienteId))
+        rAge = requests.get(URL + 'persona/age/'+ str(pacienteId))
+
         edad = rAge.json().get('data')
 
         historialId = data.get('id')
         r3 = requests.get(URL + 'citasMedicas/searchByHistId/'+ str(historialId))
+        if r3.status_code != 200:
+            data3 = r3.json().get('data')
+            flash('No se ha podido cargar las citas: '+str(data3), category='error')
+            return redirect(request.referrer)
         data3 = r3.json().get('data')
 
         if r.status_code == 200 and r2.status_code == 200 and r3.status_code == 200:
             return render_template('parts/historial/historial.html', historial=data, paciente=data2, citas=data3, edad=edad)
-        elif r.status_code != 200:
-            flash('No se ha podido cargar el historial: ' + str(data), category='error')
-            return redirect(request.referrer)
-        elif r2.status_code != 200:
-            flash('No se ha podido cargar el paciente: '+str(data2), category='error')
-            return redirect(request.referrer)
-        elif r3.status_code != 200:
-            flash('No se ha podido cargar las citas: '+str(data3), category='error')
-            return redirect(request.referrer)
     except Exception as e:
         flash(f'Error: {str(e)}', category='error')
         return redirect(request.referrer)

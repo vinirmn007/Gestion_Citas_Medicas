@@ -1,14 +1,1 @@
-[
-    {
-        "id": 1,
-        "usuario": "MARO332",
-        "contrasena": "$2a$12$YVulY7/YITGbORjuUlsumOSMwxVO3X9vzpKZZmOCPuGHBs/WN3CMy",
-        "id_rol": 1
-    },
-    {
-        "id": 2,
-        "usuario": "DEVIS2012",
-        "contrasena": "$2a$12$N6/zBO4uXoN3NGRtGlmMiuqyE6PX4Tq2AJqYv0DhuUyJuWTdFQo6u",
-        "id_rol": 2
-    }
-]
+[{"id":1,"usuario":"MARO332","contrasena":"$2a$12$YVulY7/YITGbORjuUlsumOSMwxVO3X9vzpKZZmOCPuGHBs/WN3CMy","id_rol":1},{"id":2,"usuario":"DEVIS2012","contrasena":"$2a$12$N6/zBO4uXoN3NGRtGlmMiuqyE6PX4Tq2AJqYv0DhuUyJuWTdFQo6u","id_rol":2},{"id":3,"usuario":"alexis","contrasena":"$2a$12$a4vgWgP6Y9CYMg2SAAdAzuhN/eRAGD6PJs4VrDX.ZGc9Q9yvqkqPy","id_rol":3}]

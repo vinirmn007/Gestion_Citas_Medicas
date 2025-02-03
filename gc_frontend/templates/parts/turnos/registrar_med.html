@@ -24,6 +24,14 @@
               </form>
               <form class="form-horizontal form-label-left" action="/turno/med/save" method="post">
                 <div class="field item form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12 label-align">Paciente <span class="required">*</span></label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input type="text" class="form-control" name="paciente" id="paciente_nombre" value="Sin paciente" readonly>
+                    <input type="hidden" name="paciente_id" id="paciente_id" value="0">
+                  </div>
+                </div>
+                
+                <div class="field item form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12 label-align" for="fecha">Fecha <span class="required">*</span></label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="date" id="fecha" name="fecha" required="required" class="form-control col-md-7 col-xs-12">
@@ -56,14 +64,6 @@
                       <option value="17:00">05:00 PM</option>
                       <option value="17:30">05:30 PM</option>
                     </select>
-                  </div>
-                </div>
-
-                <div class="field item form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12 label-align">Paciente <span class="required">*</span></label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input type="text" class="form-control" name="paciente" id="paciente_nombre" value="Sin paciente" readonly>
-                    <input type="hidden" name="paciente_id" id="paciente_id" value="0">
                   </div>
                 </div>
                 

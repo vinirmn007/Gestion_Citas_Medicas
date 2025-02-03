@@ -98,10 +98,10 @@ public class PersonaServices {
                 Cuenta c = new CuentaServices().get(lista[i].getCuentaId());
                 HashMap mapa = new HashMap<>();
                 mapa.put("id", lista[i].getId());
-                mapa.put("nombre", lista[i].getNombres());
+                mapa.put("nombres", lista[i].getNombres());
                 mapa.put("email", lista[i].getEmail());
-                mapa.put("celular", lista[i].getTelefono());
-                mapa.put("cuenta", c);
+                mapa.put("telefono", lista[i].getTelefono());
+                //mapa.put("cuenta", c);
                 mapa.put("tipoIdentificacion", lista[i].getTipoIdentificacion());
                 mapa.put("numeroIdentificacion", lista[i].getNumeroIdentificacion());
                 mapa.put("genero", lista[i].getGenero());
