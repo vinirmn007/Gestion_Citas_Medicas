@@ -20,7 +20,9 @@
                                         <th>Hora</th>
                                         <th>Paciente</th>
                                         <th>Medico</th>
-                                        <th>Acciones</th>
+                                        {% if sesion_templates['rol'] == 2 %}
+                                            <th>Acciones</th>
+                                        {% endif %}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -30,9 +32,11 @@
                                         <td>{{ turno.hora }}</td>
                                         <td>{{ turno.nombrePaciente }}</td>
                                         <td>{{ turno.nombreMedico }}</td>
-                                        <td>
-                                            <a href="/cita/registro/{{turno.id}}" class="btn btn-primary">Atender</a>
-                                        </td>
+                                        {% if sesion_templates['rol'] == 2 %}
+                                            <td>
+                                                <a href="/cita/registro/{{turno.id}}" class="btn btn-primary">Atender</a>
+                                            </td>
+                                        {% endif %}
                                     </tr>
                                     {% endfor %}
                                 </tbody>

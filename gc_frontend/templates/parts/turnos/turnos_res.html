@@ -31,7 +31,9 @@
                                         <td>{{ turno.nombrePaciente }}</td>
                                         <td>{{ turno.nombreMedico }}</td>
                                         <td>
-                                            <a href="/signosVitales/registro/{{turno.id}}" class="btn btn-primary">Agregar Signos Vitales</a>
+                                            {% if sesion_templates['rol'] != 3 %}
+                                                <a href="/signosVitales/registro/{{turno.id}}" class="btn btn-primary">Agregar Signos Vitales</a>
+                                            {% endif %}
                                             <a href="/turno/edit/{{turno.id}}" class="btn btn-warning">Editar</a>
                                             <form action="/turno/cancel" method="post" style="display: inline;">
                                                 <input type="number" name="id" value="{{turno.id}}" hidden>

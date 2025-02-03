@@ -50,10 +50,10 @@
                     <div class="x_content">
                         <br>
 
-                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                            <a href="/historial/{{paciente.historialMedicoId}}" class="btn btn-primary"><span class="fa fa-file-text-o"></span> Ver historial</a>
-                            
-                            {% if paciente.historialMedicoId == null %}
+                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">                            
+                            {% if paciente.historialMedicoId is not none %}
+                                <a href="/historial/{{paciente.historialMedicoId}}" class="btn btn-primary"><span class="fa fa-file-text-o"></span> Ver historial</a>
+                            {% else %}
                                 <a href="/historial/registro" class="btn btn-success"><span class="fa fa-floppy-o"></span> Registrar historial</a>
                             {% endif %}
                         </div>

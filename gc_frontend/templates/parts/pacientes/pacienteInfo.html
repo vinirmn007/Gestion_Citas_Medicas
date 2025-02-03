@@ -69,8 +69,9 @@
                             <a href="/historial/{{ paciente.historialMedicoId }}" class="btn btn-info btn-lg">
                                 <span class="fa fa-file-text-o"></span> Ver Historial Médico
                             </a>
+                        {% else %}
+                            <a href="/historial/registro" class="btn btn-warning btn-lg"><span class="fa fa-floppy-o"></span> Registrar Historial Médico</a>
                         {% endif %}
-                        <a href="/historial/registro" class="btn btn-warning btn-lg"><span class="fa fa-floppy-o"></span> Registrar Historial Médico</a>
                     </div>
                 </div>
             </div>
