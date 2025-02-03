@@ -1,4 +1,4 @@
-from flask import Blueprint, json, render_template, request, redirect, session, url_for, flash
+from flask import Blueprint, json, render_template, request, redirect, url_for, flash
 import requests
 from datetime import datetime
 from . import mainRoute
@@ -9,17 +9,21 @@ URL = "http://localhost:8070/myapp/"
 
 sesion = mainRoute.get_session()
 
+@turnos_route.context_processor
+def inject_session():
+    return dict(sesion_templates=sesion)
+
 @turnos_route.route('/turno/registrar')
 def registrar_turno():
     if 'rol' not in sesion:
         flash("Debes iniciar sesión", "danger")
         return redirect('/login')
-    if sesion['rol'].get('nombre') == 'Paciente':
+    if sesion['rol'] == 3:
         paciente = sesion['persona']
         r = requests.get(URL + 'medicos')
         data = r.json().get('data')
         return render_template('parts/turnos/registrar_pac.html', medicos=data, paciente=paciente)
-    elif sesion['rol'].get('nombre') == 'Medico' or sesion['rol'].get('nombre') == 'Administrador':
+    elif sesion['rol'] == 2 or sesion['rol'] == 1:
         r = requests.get(URL + 'medicos')
         data = r.json().get('data')
         return render_template('parts/turnos/registrar_med.html', medicos=data)
@@ -27,11 +31,17 @@ def registrar_turno():
 
 @turnos_route.route('/agenda')
 def ver_agenda():
+    if 'rol' not in sesion:
+        flash("Debes iniciar sesión", "danger")
+        return redirect('/login')
     return render_template('parts/turnos/agenda.html')
 
 #PARA PACIENTE
 @turnos_route.route('/turno/pac/save', methods=['POST'])
 def guardar_turno_pac():
+    if 'rol' not in sesion:
+        flash("Debes iniciar sesión", "danger")
+        return redirect('/login')
     try:
         headers = {'Content-Type': 'application/json'}
         form = request.form
@@ -42,8 +52,7 @@ def guardar_turno_pac():
 
         dataForm = {"fecha": fecha_format,
                     "hora": form["hora"],
-                    #"idPaciente": session['id'],
-                    "idPaciente": 1,
+                    "idPaciente": sesion['persona'].get('id'),
                     "idMedico": int(form["medicoId"])}
         r = requests.post(URL + 'turno/create', data=json.dumps(dataForm), headers=headers)
         data = r.json().get('data')
@@ -61,6 +70,12 @@ def guardar_turno_pac():
 #PARA MEDICO
 @turnos_route.route('/turno/med/save', methods=['POST'])
 def guardar_turno_med():
+    if 'rol' not in sesion:
+        flash("Debes iniciar sesión", "danger")
+        return redirect('/login')
+    if sesion['rol'] != 2:
+        flash("No tienes permisos para acceder a esta página", "danger")
+        return redirect('/home')
     try:
         headers = {'Content-Type': 'application/json'}
         form = request.form
@@ -89,67 +104,78 @@ def guardar_turno_med():
 
 @turnos_route.route('/turno/reservados/all')
 def turnos_reservados():
+    if 'rol' not in sesion:
+        flash("Debes iniciar sesión", "danger")
+        return redirect('/login')
     try:
-        r = requests.get(URL + 'turno/getByEstado/RESERVADO')
-        
-        data = r.json().get('data')
+        if sesion['rol'] == 3:
+            r = requests.get(URL + 'turno/getByEstado/pac/' + sesion['persona'].get() +'/RESERVADO')
+            if r.status_code == 200:
+                data = r.json().get('data')
 
-        if r.status_code == 200:
-            for turno in data:
-                paciente_id = turno.get('idPaciente')
-                if paciente_id:
-                    try:
-                        response = requests.get(f"{URL}persona/get/{paciente_id}")
-                        if response.status_code == 200:
-                            paciente_data = response.json().get('data')
-                            turno['nombrePaciente'] = paciente_data.get('nombres') + " " + paciente_data.get('apellidos')
-                        else:
-                            turno['nombrePaciente'] = "No encontrado"
-                    except requests.RequestException:
-                        turno['nombrePaciente'] = "Error en la consulta"
-            for turno in data:
-                medico_id = turno.get('idMedico')
-                if medico_id: 
-                    try:
-                        response = requests.get(f"{URL}medicos/get/{medico_id}")
-                        if response.status_code == 200:
-                            medico_data = response.json().get('data')
-                            turno['nombreMedico'] = medico_data.get('nombres') + " " + medico_data.get('apellidos')
-                        else:
-                            turno['nombreMedico'] = "No encontrado"
-                    except requests.RequestException:
-                        turno['nombreMedico'] = "Error en la consulta"
-
-            return render_template('parts/turnos/turnos_res.html', turnos=data)
+                for turno in data:
+                    turno['nombrePaciente'] = sesion['persona'].get('nombres') + " " + sesion['persona'].get('apellidos')
+                for turno in data:
+                    medico_id = turno.get('idMedico')
+                    if medico_id: 
+                        try:
+                            response = requests.get(f"{URL}medicos/get/{medico_id}")
+                            if response.status_code == 200:
+                                medico_data = response.json().get('data')
+                                turno['nombreMedico'] = medico_data.get('nombres') + " " + medico_data.get('apellidos')
+                            else:
+                                turno['nombreMedico'] = "No encontrado"
+                        except requests.RequestException:
+                            turno['nombreMedico'] = "Error en la consulta"
+                return render_template('parts/turnos/turnos_res.html', turnos=data)
+            else:
+                flash('No se encontraron turnos', category='error')
+                return redirect(request.referrer)
         else:
-            flash('No se encontraron turnos', category='error')
-            return redirect(request.referrer)
+            print("ENTREEEEEEEEEEEEEEEEEEEEEEEE")
+            print(URL + 'turno/getByEstado/RESERVADO')
+            r = requests.get(URL + 'turno/getByEstado/RESERVADO')
+
+            if r.status_code == 200:
+                data = r.json().get('data')
+                for turno in data:
+                    paciente_id = turno.get('idPaciente')
+                    if paciente_id:
+                        try:
+                            response = requests.get(f"{URL}persona/get/{paciente_id}")
+                            if response.status_code == 200:
+                                paciente_data = response.json().get('data')
+                                turno['nombrePaciente'] = paciente_data.get('nombres') + " " + paciente_data.get('apellidos')
+                            else:
+                                turno['nombrePaciente'] = "No encontrado"
+                        except requests.RequestException:
+                            turno['nombrePaciente'] = "Error en la consulta"
+                for turno in data:
+                    medico_id = turno.get('idMedico')
+                    if medico_id: 
+                        try:
+                            response = requests.get(f"{URL}medicos/get/{medico_id}")
+                            if response.status_code == 200:
+                                medico_data = response.json().get('data')
+                                turno['nombreMedico'] = medico_data.get('nombres') + " " + medico_data.get('apellidos')
+                            else:
+                                turno['nombreMedico'] = "No encontrado"
+                        except requests.RequestException:
+                            turno['nombreMedico'] = "Error en la consulta"
+
+                return render_template('parts/turnos/turnos_res.html', turnos=data)
+            else:
+                flash('No se encontraron turnos', category='error')
+                return redirect(request.referrer)
     except Exception as e:
         flash(f'Error: {str(e)}', category='error')
         return redirect(request.referrer)
-"""
-def ver_turnos():
-    if 'id' not in session or 'rol' not in session:
-        flash("Debes iniciar sesión", "danger")
-        return redirect('/login')  # Redirigir al login si no hay sesión
-
-    id_usuario = session['id']
-    rol = session['rol']
-
-    if rol == 'paciente':
-        r = requests.get(URL + 'linealSearch/idPaciente/' + str(id_usuario))
-    elif rol == 'medico':
-        r = requests.get(URL + 'linealSearch/idMedico/' + str(id_usuario))
-    else:
-        flash("Rol no válido", "danger")
-        return redirect(url_for('index'))  # Redirigir a la página principal
-
-    data = r.json().get('data', [])
-    return render_template('parts/turnos/turnos.html', turnos=data)
-"""
 
 @turnos_route.route('/turno/espera/all')
 def turnos_espera():
+    if 'rol' not in sesion:
+        flash("Debes iniciar sesión", "danger")
+        return redirect('/login')
     try:
         r = requests.get(URL + 'turno/getByEstado/EN_ESPERA')
         data = r.json().get('data')
@@ -190,6 +216,9 @@ def turnos_espera():
 
 @turnos_route.route('/turno/finalizados/all')
 def turnos_finalizados():
+    if 'rol' not in sesion:
+        flash("Debes iniciar sesión", "danger")
+        return redirect('/login')
     try:
         r = requests.get(URL + 'turno/getByEstado/FINALIZADO')
         data = r.json().get('data')
@@ -229,6 +258,9 @@ def turnos_finalizados():
 
 @turnos_route.route('/turno/edit/<id>')
 def edit_turno(id):
+    if 'rol' not in sesion:
+        flash("Debes iniciar sesión", "danger")
+        return redirect('/login')
     try:
         print("IDDDD: "+id)
         r = requests.get(URL + 'turno/get/'+ id)
@@ -248,6 +280,9 @@ def edit_turno(id):
     
 @turnos_route.route('/turno/update', methods=["POST"])
 def update_turno():
+    if 'rol' not in sesion:
+        flash("Debes iniciar sesión", "danger")
+        return redirect('/login')
     try:
         headers = {'Content-Type': 'application/json'}
         form = request.form
@@ -276,6 +311,9 @@ def update_turno():
 
 @turnos_route.route('/turno/cancel', methods=["POST"])
 def cancel():
+    if 'rol' not in sesion:
+        flash("Debes iniciar sesión", "danger")
+        return redirect('/login')
     try:
         headers = {'Content-Type': 'application/json'}
         form = request.form

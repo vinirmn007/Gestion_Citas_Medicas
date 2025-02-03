@@ -301,4 +301,29 @@ public class TurnoApi {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
         }
     }
+
+    @Path("/pac/getByEstado/{pacienteId}/{estado}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getByEstadoPaciente(@PathParam("pacienteId") Integer pacienteId, @PathParam("estado") String estado) {
+        HashMap<String, Object> map = new HashMap<>();
+        TurnoServices turnoServices = new TurnoServices();
+        try {
+            LinkedList<Turno> turnos = (LinkedList<Turno>) turnoServices.getListAll().linealSearch("idPaciente", pacienteId);
+            LinkedList<Turno> turnosEstado = (LinkedList<Turno>) turnos.linealSearch("estado", Estado.valueOf(estado.toUpperCase()));
+            LinkedList<Turno> turnosOrd = turnoServices.orderByFecha(turnosEstado, 0);
+            if (turnos.isEmpty()) {
+                map.put("msg", "OK");
+                map.put("data", "Turno no encontrado");
+                return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+            }
+            map.put("msg", "OK");
+            map.put("data", turnosOrd.toArray());
+            return Response.ok(map).build();
+        } catch (Exception e) {
+            map.put("msg", "Error");
+            map.put("data", e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
+    }
 }

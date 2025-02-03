@@ -118,6 +118,7 @@ public class CuentaApi {
                 response.put("msg", "OK");
                 response.put("data", "Inicio de sesión exitoso");
                 response.put("usuario", cuenta.getUsuario());
+                response.put("id", cuenta.getId());
                 response.put("rol", cuenta.getId_rol());
                 return Response.ok(response).build();
             } else {

@@ -8,11 +8,15 @@ URL = "http://localhost:8070/myapp/"
 
 sesion = mainRoute.get_session()
 
+@hsto_route.context_processor
+def inject_session():
+    return dict(sesion_templates=sesion)
+
 #HISTORIAL MEDICO
 
 @hsto_route.route('/historial/<id>')
 def historial_medico(id):
-    if 'usuario' not in sesion:
+    if 'rol' not in sesion:
         flash('Debes iniciar sesión para acceder a esta página', category='error')
         return redirect('/login')
     try:
@@ -53,11 +57,10 @@ def historial_medico(id):
 
 @hsto_route.route('/historial/registro')
 def historial_registro():
-    print("SESIOOOOOOOOOOOON: ", sesion)
-    if 'usuario' not in sesion:
+    if 'rol' not in sesion:
         flash('Debes iniciar sesión para acceder a esta página', category='error')
         return redirect('/login')
-    if sesion['rol'].get('nombre') != 'Medico' and sesion['rol'].get('nombre') != 'Administrador':
+    if sesion['rol'] != 2 and sesion['rol'] != 1:
         flash('No tienes permisos para acceder a esta página', category='error')
         return redirect('/home')
     s = requests.get(URL + 'historialMedico/bloodType')
@@ -69,7 +72,7 @@ def historial_save():
     if 'usuario' not in sesion:
         flash('Debes iniciar sesión para acceder a esta página', category='error')
         return redirect('/login')
-    if sesion.get('rol').get('nombre') != 'Medico' or sesion.get('rol').get('nombre') != 'Administrador':
+    if sesion.get('rol') != 2 or sesion.get('rol') != 1:
         flash('No tienes permisos para acceder a esta página', category='error')
         return redirect('/home')
     try:

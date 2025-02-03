@@ -1,10 +1,14 @@
-from flask import Blueprint, json, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, app, json, render_template, request, redirect, url_for, flash, session
 import requests
 from datetime import datetime
 main_route = Blueprint('main_route', __name__)
 
 def get_session():
     return session
+
+@main_route.context_processor
+def inject_session():
+    return dict(sesion_templates=session)
 
 URL = "http://localhost:8070/myapp/"
 
@@ -92,32 +96,36 @@ def login():
             return redirect('/login')
 
         try:
-            r = requests.get(f'{URL}cuenta/list', headers=headers)
-            usuarios_data = r.json()
-            usuario_encontrado = next(
-                (user for user in usuarios_data.get('data', []) if user['usuario'] == usuario), None
-            )
+            # Realiza la solicitud POST al backend de Java
+            url = 'http://localhost:8070/myapp/cuenta/login'  # Asegúrate de que la URL sea la correcta
+            data = {
+                "usuario": usuario,
+                "contrasena": contrasena
+            }
+            response = requests.post(url, json=data, headers=headers)
 
-            print("ID USUARIOOOOOO: " + str(usuario_encontrado["id"]))
-            r2 = requests.get(f'{URL}persona/binarySearch/cuentaId/{usuario_encontrado["id"]}', headers=headers)
-            persona_data = r2.json().get('data', None)
-            print(persona_data)
-
-            if usuario_encontrado and usuario_encontrado['contrasena'] == contrasena:
-                session['usuario'] = usuario_encontrado['usuario']
-                session['rol'] = usuario_encontrado.get('rol')
+            if response.status_code == 200:
+                # Si el login es exitoso, recibe los datos de respuesta
+                response_data = response.json()
+                session['usuario'] = response_data['usuario']
+                session['rol'] = response_data['rol']
+                
+                cuenta_id = response_data['id']
+                r2 = requests.get(f'{URL}persona/binarySearch/cuentaId/{cuenta_id}')
+                persona_data = r2.json().get('data', None)
                 session['persona'] = persona_data
-
+                
                 flash('Login exitoso', category='info')
 
                 # Redirigir según el rol del usuario
                 if session['rol'] == 1:
                     return redirect('/admin/roles')  # Admin va a la página de administración
+                print("SESIOOOOOOOOOOOON: ", session)
                 return redirect('/home')  # Otros usuarios van a home
             
             else:
                 # Si la respuesta no es 200, muestra el mensaje de error
-                response_data = r.json()
+                response_data = response.json()
                 flash(f"Error: {response_data.get('data', 'Usuario o contraseña incorrectos')}", category='error')
                 return redirect('/login')
 

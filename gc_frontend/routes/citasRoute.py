@@ -1,9 +1,16 @@
 from flask import Blueprint, json, render_template, request, redirect, url_for, flash
 import requests
+from . import mainRoute
 
 citas_route = Blueprint('citas_route', __name__)
 
 URL = "http://localhost:8070/myapp/"
+
+sesion = mainRoute.get_session()
+
+@citas_route.context_processor
+def inject_session():
+    return dict(sesion_templates=sesion)
 
 #CITAS MEDICAS
 
@@ -19,6 +26,9 @@ def citas_medicas_all():
 
 @citas_route.route('/cita/registro/<id>')
 def citas_medicas_registro(id):
+    if 'rol' not in sesion or sesion.get('rol') != 2: 
+        flash('No tienes permisos para acceder a esta página', category='error')
+        return redirect('/home')
     try:
         print(id)
         r = requests.get(URL + 'turno/get/' + id)
@@ -51,6 +61,9 @@ def citas_medicas_registro(id):
 
 @citas_route.route('/cita/save', methods=['POST'])
 def citas_medicas_save():
+    if 'rol' not in sesion or sesion.get('rol') != 2: 
+        flash('No tienes permisos para acceder a esta página', category='error')
+        return redirect('/home')
     try:
         headers = {'Content-Type': 'application/json'}
         form = request.form
