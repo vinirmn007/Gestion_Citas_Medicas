@@ -3,21 +3,16 @@ package com.gestionCitas.controls.dao;
 import com.gestionCitas.controls.dao.implement.AdapterDao;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.Persona;
-import com.gestionCitas.models.enums.Genero;
-import com.gestionCitas.models.enums.Identificacion;
 
-public class PersonaDao extends AdapterDao<Persona> {
+public class PersonaDAO extends AdapterDao<Persona> {
     private Persona persona;
-    private LinkedList listAll;
+    private LinkedList<Persona> listAll;
 
-    public PersonaDao() {
+    public PersonaDAO() {
         super(Persona.class);
     }
 
     public Persona getPersona() {
-        if (persona == null) {
-            this.persona = new Persona();
-        }
         return this.persona;
     }
 
@@ -25,14 +20,13 @@ public class PersonaDao extends AdapterDao<Persona> {
         this.persona = persona;
     }
 
-    public LinkedList getListAll() {
-        if (listAll == null) {
+    public LinkedList<Persona> getListAll() {
+        if (this.listAll == null) {
             this.listAll = listAll();
         }
         return this.listAll;
     }
 
-    // OPERACIONES
     public Boolean save() throws Exception {
         Integer id = getListAll().getSize() + 1;
         try {
@@ -43,13 +37,6 @@ public class PersonaDao extends AdapterDao<Persona> {
             e.printStackTrace();
             return false;
         }
-    }
-
-    public Boolean save(Persona persona) throws Exception {
-        Integer id = getListAll().getSize()+1;
-        persona.setId(id);
-        this.persist(persona);
-        return true;
     }
 
     public Boolean update() throws Exception {
@@ -72,19 +59,4 @@ public class PersonaDao extends AdapterDao<Persona> {
         }
     }
     
-    public Identificacion getTipoIdent(String tipo) {
-        return Identificacion.valueOf(tipo);
-    }
-
-    public Identificacion[] getAllTiposIdent() {
-        return Identificacion.values();
-    }
-
-    public Genero getGenero(String tipo) {
-        return Genero.valueOf(tipo);
-    }
-
-    public Genero[] getAllGeneros() {
-        return Genero.values();
-    }
 }
