@@ -108,9 +108,6 @@ def login():
                 session['rol'] = usuario_encontrado.get('rol')
                 session['persona'] = persona_data
 
-                print("ROL: " + str(session['rol']))
-                print("ID PERSONA: " + str(session['personaId']))
-
                 flash('Login exitoso', category='info')
 
                 # Redirigir según el rol del usuario
