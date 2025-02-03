@@ -7,7 +7,7 @@ URL = "http://localhost:8070/myapp/"
 
 @pacientes_route.route('/paciente/all')
 def pacientes():
-    r = requests.get(URL + 'pacientes')
+    r = requests.get(URL + 'paciente/list')
     data = r.json().get('data')
     for paciente in data:
         paciente["edad"] = requests.get(URL + 'pacientes/age/' + str(paciente["id"])).json().get('data')

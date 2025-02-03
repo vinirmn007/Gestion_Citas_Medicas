@@ -7,6 +7,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -42,6 +43,48 @@ public class PersonaApi {
             System.out.println("Error " + e);
             // TODO: handle exception
         }
+        return Response.ok(map).build();
+    }
+
+    @Path("/idens")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getIden() {
+        HashMap map = new HashMap<>();
+        PersonaServices ps = new PersonaServices();
+        map.put("msg", "OK");
+        map.put("data", ps.getAllIdentificaciones());
+        return Response.ok(map).build();
+    }
+
+    @Path("/generos")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getGenre() {
+        HashMap map = new HashMap<>();
+        PersonaServices ps = new PersonaServices();
+        map.put("msg", "OK");
+        map.put("data", ps.getAllGeneros());
+        return Response.ok(map).build();
+    }
+
+    @Path("/get/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCita(@PathParam("id") Integer id) throws Exception {
+        HashMap map = new HashMap<>();
+        PersonaServices ps = new PersonaServices();
+        Persona Persona = ps.get(id);
+
+        if (Persona == null || Persona.getId() == null) {
+            map.put("msg", "Error");
+            map.put("data", "No existe esa Persona");
+            return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+        }
+
+        map.put("msg", "OK");
+        map.put("data", Persona);
+
         return Response.ok(map).build();
     }
 
@@ -151,7 +194,7 @@ public class PersonaApi {
             Persona persona = new Persona();
             persona.setNombres(personaMap.getOrDefault("nombre", "").toString());
             persona.setEmail(personaMap.getOrDefault("email", "").toString());
-            persona.setTelefono(personaMap.getOrDefault("celular", "").toString());
+            persona.setTelefono(personaMap.getOrDefault("telefono", "").toString());
             persona.setFechaNacimiento(fechaFormateada);
 
             try {
