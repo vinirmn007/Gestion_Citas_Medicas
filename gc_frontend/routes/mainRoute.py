@@ -14,10 +14,6 @@ def presentation():
 def load_login():
     return render_template('login/login.html')  
 
-@main_route.route('/login')
-def load_login():
-    return render_template('login/login.html')  
-
 @main_route.route('/home')
 def home():
     if 'usuario' not in session:
@@ -112,7 +108,7 @@ def login():
             
             else:
                 # Si la respuesta no es 200, muestra el mensaje de error
-                response_data = response.json()
+                response_data = r.json()
                 flash(f"Error: {response_data.get('data', 'Usuario o contraseña incorrectos')}", category='error')
                 return redirect('/login')
 
@@ -121,12 +117,6 @@ def login():
             return redirect('/login')
 
     return render_template('login/login.html')
-
-@main_route.route('/logout')
-def logout():
-    session.clear()
-    flash('Has cerrado sesión correctamente', category='info')
-    return redirect('/login')
 
 @main_route.route('/logout')
 def logout():
