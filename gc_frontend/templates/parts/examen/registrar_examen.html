@@ -49,7 +49,9 @@
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                                    <button type="button" class="btn btn-primary">Cancelar</button>
+                                    <a href="{{ url_for('diagnostico_route.diagnostico', id=id) }}" class="btn btn-primary">
+                                        Cancelar
+                                    </a>
                                     <button type="reset" class="btn btn-primary">Borrar</button>
                                     <button type="submit" class="btn btn-success">Guardar Examen</button>
                                 </div>
