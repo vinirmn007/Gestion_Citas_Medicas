@@ -168,9 +168,10 @@ def savePersona():
             "id_rol": 3  # Por defecto, paciente
         },
         "persona": {
-            "nombre": form["nombre"],
+            "nombres": form["nombres"],
+            "apellidos": form["apellidos"],
             "email": form["email"],
-            "celular": form["celular"],
+            "telefono": form["telefono"],
             "fechaNacimiento": fecha_nacimiento_str,  # Usar la fecha formateada
             "genero": form["genero"],
             "numeroIdentificacion": form["numeroIdentificacion"],

@@ -372,7 +372,8 @@ public class PersonaApi {
 
             // Crear el objeto Persona
             Persona persona = new Persona();
-            persona.setNombres(personaMap.getOrDefault("nombre", "").toString());
+            persona.setNombres(personaMap.getOrDefault("nombres", "").toString());
+            persona.setApellidos(personaMap.getOrDefault("apellidos", "").toString());
             persona.setEmail(personaMap.getOrDefault("email", "").toString());
             persona.setTelefono(personaMap.getOrDefault("telefono", "").toString());
             persona.setFechaNacimiento(fechaFormateada);

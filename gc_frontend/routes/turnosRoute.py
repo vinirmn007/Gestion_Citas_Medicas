@@ -109,7 +109,10 @@ def turnos_reservados():
         return redirect('/login')
     try:
         if sesion['rol'] == 3:
-            r = requests.get(URL + 'turno/getByEstado/pac/' + sesion['persona'].get() +'/RESERVADO')
+            print("ENTREEEEEEEEEEEEEEEEEEEEEEEE")
+            print(sesion)
+            print(URL + 'turno/pac/getByEstado/' + str(sesion['persona']['id']) +'/RESERVADO')
+            r = requests.get(URL + 'turno/pac/getByEstado/' + str(sesion['persona']['id']) +'/RESERVADO')
             if r.status_code == 200:
                 data = r.json().get('data')
 
@@ -178,7 +181,7 @@ def turnos_espera():
         return redirect('/login')
     try:
         if sesion['rol'] == 3:
-            r = requests.get(URL + 'turno/getByEstado/pac/' + sesion['persona'].get() +'/EN_ESPERA')
+            r = requests.get(URL + 'turno/pac/getByEstado/' + str(sesion['persona']['id']) +'/EN_ESPERA')
             if r.status_code == 200:
                 data = r.json().get('data')
 
@@ -245,7 +248,7 @@ def turnos_finalizados():
         return redirect('/login')
     try:
         if sesion['rol'] == 3:
-            r = requests.get(URL + 'turno/getByEstado/pac/' + sesion['persona'].get() +'/FINALIZADO')
+            r = requests.get(URL + 'turno/pac/getByEstado/' + str(sesion['persona']['id']) +'/FINALIZADO')
             if r.status_code == 200:
                 data = r.json().get('data')
 

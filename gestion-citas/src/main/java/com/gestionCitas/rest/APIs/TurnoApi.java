@@ -286,12 +286,12 @@ public class TurnoApi {
         TurnoServices turnoServices = new TurnoServices();
         try {
             LinkedList<Turno> turnos = (LinkedList<Turno>) turnoServices.getListAll().linealSearch("estado", Estado.valueOf(estado.toUpperCase()));
-            LinkedList<Turno> turnosOrd = turnoServices.orderByFecha(turnos, 0);
             if (turnos.isEmpty()) {
                 map.put("msg", "OK");
                 map.put("data", "Turno no encontrado");
                 return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
             }
+            LinkedList<Turno> turnosOrd = turnoServices.orderByFecha(turnos, 0);
             map.put("msg", "OK");
             map.put("data", turnosOrd.toArray());
             return Response.ok(map).build();
@@ -310,13 +310,19 @@ public class TurnoApi {
         TurnoServices turnoServices = new TurnoServices();
         try {
             LinkedList<Turno> turnos = (LinkedList<Turno>) turnoServices.getListAll().linealSearch("idPaciente", pacienteId);
-            LinkedList<Turno> turnosEstado = (LinkedList<Turno>) turnos.linealSearch("estado", Estado.valueOf(estado.toUpperCase()));
-            LinkedList<Turno> turnosOrd = turnoServices.orderByFecha(turnosEstado, 0);
             if (turnos.isEmpty()) {
                 map.put("msg", "OK");
                 map.put("data", "Turno no encontrado");
                 return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
             }
+            LinkedList<Turno> turnosEstado = (LinkedList<Turno>) turnos.linealSearch("estado", Estado.valueOf(estado.toUpperCase()));
+            if (turnosEstado.isEmpty()) {
+                map.put("msg", "OK");
+                map.put("data", "Turno no encontrado");
+                return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
+
+            }
+            LinkedList<Turno> turnosOrd = turnoServices.orderByFecha(turnosEstado, 0);
             map.put("msg", "OK");
             map.put("data", turnosOrd.toArray());
             return Response.ok(map).build();
