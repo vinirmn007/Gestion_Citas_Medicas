@@ -9,8 +9,9 @@
                     <h2>Detalle del Examen</h2>
                     <div class="clearfix"></div>
                 </div>
+                {% if examen %}
                 <div class="x_content">
-                    {% if examen %}
+                    
                         <div class="card">
                             <div class="card-body">
                                 <h3 class="card-title">Descripción</h3>
@@ -29,19 +30,20 @@
                                 {% endif %}
                             </div>
                         </div>
-                    {% else %}
-                        <div class="alert alert-warning" role="alert">
-                            No se encontró información para este examen.
-                        </div>
-                    {% endif %}
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                         <!-- Botón para volver a la lista de exámenes -->
-                        <a href="{{ url_for('examen_route.examens') }}" class="btn btn-secondary">Volver a la lista de exámenes</a>
+                        <a href="{{ url_for('diagnostico_route.diagnostico', id=examen.idDiagnostico) }}" class="btn btn-primary">Ir al diagnsotico</a>
                     </div>
                 </div>
+
+                {% else %}
+                    <div class="alert alert-warning" role="alert">
+                        No se encontró información para este examen.
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
