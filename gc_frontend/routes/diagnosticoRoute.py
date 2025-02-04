@@ -43,7 +43,9 @@ def diagnostico(id):
         print(rdata)
         print("Recetas filtradas")
         print(recetas_filtradas)
-        return render_template('parts/diagnostico/diagnosticoDetalle.html', diagnostico=data, recetas=recetas_filtradas, examenes=examenes_filtrados)
+        cita = requests.get(URL + 'citasMedicas/get/' + str(data.get('idCitaMedica'))).json().get('data')
+        turno = requests.get(URL + 'turno/get/' + str(cita.get('turnoId'))).json().get('data')
+        return render_template('parts/diagnostico/diagnosticoDetalle.html', diagnostico=data, recetas=recetas_filtradas, examenes=examenes_filtrados, turno=turno)
     except Exception as e:
         flash(f'Error: {str(e)}', category='error')
         return redirect(request.referrer)
