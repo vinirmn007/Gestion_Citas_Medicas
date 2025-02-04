@@ -52,17 +52,18 @@ def save():
         return redirect('/login')
     try:
         form = request.form
+        idDiagnostico = form["idDiagnostico"]
         data = {
             "prescripcion": form["prescripcion"],
             "medicamentos": form["medicamentos"],
-            "idDiagnostico": int(form["idDiagnostico"])
+            "idDiagnostico": int(idDiagnostico)
         }
         headers = {'Content-Type': 'application/json'}
         r = requests.post(URL + 'receta/save', headers=headers, data=json.dumps(data))
         print(r)
         if r.status_code == 200:
             flash('Receta registrada exitosamente', category='info')
-            return redirect(url_for('receta_route.recetas'))
+            return redirect(url_for('diagnostico_route.diagnostico', id=idDiagnostico))
         else:
             flash('Error al registrar receta', category='error')
             return redirect(url_for('receta_route.registro', id=data['idDiagnostico']))

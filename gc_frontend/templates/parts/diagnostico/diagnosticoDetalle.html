@@ -33,12 +33,12 @@
                     <ul class="list-group">
                         {% for receta in recetas %}
                             <li class="list-group-item">
-                                <a href="{{ url_for('receta_route.receta', id=receta.id) }}">
-                                    Receta: {{ receta.id }}
-                                </a>
-                                <p class="text-muted"> 
+                                <p href="{{ url_for('receta_route.receta', id=receta.id) }}"></p> 
                                     Medicamento: {{ receta.medicamentos }}
                                 </p>
+                                <a class="text-muted">
+                                    Prescripcion: {{ receta.prescripcion }}
+                                </a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -52,7 +52,7 @@
                         {% for examen in examenes %}
                             <li class="list-group-item">
                                 <a href="{{ url_for('examen_route.examen', id=examen.id) }}">
-                                    Exámen: {{ examen.id }}
+                                    Exámen: {{ examen.descripcion}}
                                 </a>
                             </li>
                         {% endfor %}

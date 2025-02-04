@@ -89,7 +89,7 @@ def save_examen():
         if r.status_code == 200:
             file.save(file_path)
             flash('Examen guardado correctamente', category='success')
-            return redirect(url_for('examen_route.examens', id=idDiagnostico))
+            return redirect(url_for('examen_route.examen', id=idDiagnostico))
         else:
             flash('Error al guardar el examen', category='error')
             return redirect(url_for('examen_route.registro_examen', id=idDiagnostico))
