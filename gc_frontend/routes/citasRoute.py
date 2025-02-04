@@ -21,10 +21,37 @@ def citas_medicas(id):
         return redirect('/login')
     try:
         r = requests.get(URL + 'citasMedicas/binarySearch/turnoId/' + id)
-        print("CITAAAAAAAAAA: ", r)
         if r.status_code == 200:
+            print("Cita encontrada")
             data = r.json().get('data')
-            return render_template('parts/citas/citaDetalle.html', cita=data)
+
+            r4 = requests.get(URL + 'turno/get/' + str(data.get('turnoId')))
+            turno = r4.json().get('data')
+            print("Turno encontrado")
+
+            print(data)
+            print("URL: " + URL + 'persona/get/' + str(turno.get('idPaciente')))
+            r2 = requests.get(URL + 'persona/get/' + str(turno.get('idPaciente')))
+            if r2.status_code != 200:
+                data2 = r2.json().get('data')
+                flash('No se ha podido cargar el paciente: '+str(data2), category='error')
+                return redirect(request.referrer)
+            data2 = r2.json().get('data')
+            print("Paciente encontrado")
+
+            r3 = requests.get(URL + 'persona/age/' + str(turno.get('idPaciente')))
+            edad = r3.json().get('data')
+            print("Edad encontrada")
+
+            r5 = requests.get(URL + 'medicos/get/' + str(turno.get('idMedico')))
+            medico = r5.json().get('data')
+            print("Medico encontrado")
+
+            r6 = requests.get(URL + 'signosVitales/get/' + str(turno.get('idSignosVitales')))
+            signos = r6.json().get('data')
+            print("Signos encontrados")
+
+            return render_template('parts/citas/citaDetalle.html', cita=data, paciente=data2, edad=edad, turno=turno, medico=medico, signos=signos)
         else:
             flash('No se ha encontrado la cita', category='error')
             return redirect(request.referrer)
