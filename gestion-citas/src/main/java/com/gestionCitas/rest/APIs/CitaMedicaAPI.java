@@ -13,12 +13,10 @@ import javax.ws.rs.core.Response;
 
 import com.gestionCitas.controls.dao.services.CitaMedicaServices;
 import com.gestionCitas.controls.dao.services.HistorialMedicoServices;
-import com.gestionCitas.controls.dao.services.PersonaServices;
 import com.gestionCitas.controls.dao.services.TurnoServices;
 import com.gestionCitas.controls.estructures.list.LinkedList;
 import com.gestionCitas.models.CitaMedica;
 import com.gestionCitas.models.HistorialMedico;
-import com.gestionCitas.models.Persona;
 import com.gestionCitas.models.Turno;
 import com.gestionCitas.models.enums.Estado;
 
@@ -124,14 +122,17 @@ public class CitaMedicaAPI {
     @Produces(MediaType.APPLICATION_JSON)
     public Response binarySearchCitas(@PathParam("key") String key, @PathParam("value") String value) {
         HashMap map = new HashMap<>();
-        PersonaServices ps = new PersonaServices();
+        CitaMedicaServices cms = new CitaMedicaServices();
         try {
-            CitaMedica cita = (CitaMedica) ps.getListAll().binarySearch(key, value);
+            CitaMedica cita = (CitaMedica) cms.getListAll().binarySearch(key, value);
+            System.out.println("PASE LA BUSQUEDA");
             if (cita == null) {
+                System.out.println("Cita no encontrada");
                 map.put("msg", "Error");
                 map.put("msg", "Cita no encontrada");
                 return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
             }
+            System.out.println("Cita encontrada");
             map.put("msg", "OK");
             map.put("data", cita);
             return Response.ok(map).build();
@@ -147,11 +148,11 @@ public class CitaMedicaAPI {
     @Produces(MediaType.APPLICATION_JSON)
     public Response linearSearchCitas(@PathParam("key") String key, @PathParam("value") String value) {
         HashMap map = new HashMap<>();
-        PersonaServices ps = new PersonaServices();
+        CitaMedicaServices cms = new CitaMedicaServices();
 
         map.put("msg", "OK");
         try {
-            LinkedList<CitaMedica> citas = (LinkedList<CitaMedica>) ps.getListAll().linealSearch(key, value);
+            LinkedList<CitaMedica> citas = (LinkedList<CitaMedica>) cms.getListAll().linealSearch(key, value);
             if (citas.isEmpty()) {
                 map.put("data", "Citas no encontradas");
                 return Response.status(Response.Status.BAD_REQUEST).entity(map).build();
@@ -187,9 +188,9 @@ public class CitaMedicaAPI {
     @Produces(MediaType.APPLICATION_JSON)
     public Response orderByCitas(@PathParam("key") String key, @PathParam("type") Integer type) {
         HashMap map = new HashMap<>();
-        PersonaServices ps = new PersonaServices();
+        CitaMedicaServices cms = new CitaMedicaServices();
         try {
-            LinkedList<CitaMedica> citas = (LinkedList<CitaMedica>) ps.getListAll().order(key, type);
+            LinkedList<CitaMedica> citas = (LinkedList<CitaMedica>) cms.getListAll().order(key, type);
             map.put("msg", "OK");
             map.put("data", citas.toArray());
             return Response.ok(map).build();
