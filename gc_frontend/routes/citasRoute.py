@@ -20,7 +20,7 @@ def citas_medicas(id):
         flash('Debes iniciar sesion para acceder a esta página', category='error')
         return redirect('/login')
     try:
-        r = requests.get(URL + 'citasMedicas/binarySearch/turnoId' + id)
+        r = requests.get(URL + 'citasMedicas/binarySearch/turnoId/' + id)
         print("CITAAAAAAAAAA: ", r)
         if r.status_code == 200:
             data = r.json().get('data')
