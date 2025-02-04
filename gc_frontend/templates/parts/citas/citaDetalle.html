@@ -4,22 +4,135 @@
   <div class="right_col" role="main">
     <div class="">
         <div class="col-md-12 col-sm-12 col-xs-12">
+            <h2>Detalle de la Cita</h2>
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Detalle de la Cita</h2>
+                    <h2>Datos del Paciente</h2>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <a href="/diagnostico/registro/{{cita.id}}" class="btn btn-primary">
-                        Registrar Diagnóstico
-                    </a>
-                    
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Nombres:</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{paciente.nombres}}
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Apellidos:</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{paciente.apellidos}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Número de Identificación:</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{paciente.numeroIdentificacion}}
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Edad:</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{edad}} años
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Medico que atendio:</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{medico.nombres}} {{medico.apellidos}}
+                        </div>
+                    </div>
                 </div>
+            </div>
 
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Datos de la Cita Médica</h2>
+                    <div class="clearfix"></div>
+                </div>
                 <div class="x_content">
-                    <a href="#" class="btn btn-primary">
-                        Ver Diagnóstico
-                    </a>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Fecha del Turno:</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{turno.fecha}}
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Hora del Turno:</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{turno.hora}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Estatura:</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{signos.altura}} cm
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Peso:</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{signos.peso}} kg
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Temperatura:</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{signos.temperatura}} °C
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Presión Arterial:</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{signos.presionSistolica}} / {{signos.presionDiastolica}} mmHg
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Motivo de la Cita:</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{cita.motivo}}
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Observaciones:</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{cita.observaciones}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Diagnostico de la Cita</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    {% if cita.diagnosticoId is none or cita.diagnosticoId == 0 %}
+                        <a href="/diagnostico/registro/{{cita.id}}" class="btn btn-warning">
+                            Registrar Diagnóstico
+                        </a>
+                    {% else %}
+                        <a href="/diagnostico/{{cita.diagnosticoId}}" class="btn btn-primary">
+                            Ver Diagnóstico
+                        </a>
+                    {% endif %}
                     
                 </div>
                 
